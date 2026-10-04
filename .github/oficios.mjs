@@ -13,7 +13,7 @@
 // Si la API no responde, el build falla a propósito: mejor que quede publicado
 // el sitio anterior que uno sin las webs de los oficios.
 
-import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { basename, join } from 'node:path';
 
 const SALIDA = process.argv[2] || '_sitio';
@@ -55,10 +55,12 @@ function pagina(plantilla, f) {
 }
 
 await rm(SALIDA, { recursive: true, force: true });
-await cp('.', SALIDA, {
-  recursive: true,
-  filter: (p) => !FUERA.has(basename(p)) && !(p !== '.' && p.endsWith('.md')),
-});
+// Entrada por entrada y no cp('.') entero: la salida suele estar adentro del
+// repo, y cp se niega a copiar una carpeta dentro de sí misma.
+const sinMd = (p) => !FUERA.has(basename(p)) && !p.endsWith('.md');
+for (const e of await readdir('.')) {
+  if (sinMd(e)) await cp(e, join(SALIDA, e), { recursive: true, filter: sinMd });
+}
 
 const plantilla = await readFile('oficios/sitio/index.html', 'utf8');
 const { lista } = await pedir('/directorio');
