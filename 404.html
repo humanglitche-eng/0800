@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>0800webs</title>
+<!--
+  GitHub Pages sirve este archivo para cualquier dirección que no existe.
+  Las webs de oficios (/o/<slug>) se generan como carpetas en cada build
+  (.github/oficios.mjs); si una no está todavía —vista previa con ?llave= o
+  publicada después del último build— acá se carga la misma plantilla y se
+  ve igual. Cualquier otra dirección muestra el «no existe».
+-->
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#F4F5F1;color:#141414;
+  font:16px/1.5 system-ui,-apple-system,sans-serif;text-align:center;padding:16px}
+h1{font-size:28px;margin:0 0 8px}
+a{color:inherit}
+</style>
+</head>
+<body>
+<main id="nf" hidden>
+  <h1>Esta página no existe</h1>
+  <p><a href="/">Ir a 0800webs.com</a></p>
+</main>
+<script>
+(function () {
+  var nf = document.getElementById('nf');
+  if (!/^\/o\/[a-z0-9-]+\/?$/.test(location.pathname)) { nf.hidden = false; return; }
+  fetch('/oficios/sitio/index.html')
+    .then(function (r) { if (!r.ok) throw 0; return r.text(); })
+    .then(function (html) { document.open(); document.write(html); document.close(); })
+    .catch(function () { nf.hidden = false; });
+})();
+</script>
+</body>
+</html>
