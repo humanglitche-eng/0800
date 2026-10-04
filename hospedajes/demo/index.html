@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ÚLTIMO FARO — Hospedaje en Ushuaia</title>
+<meta name="description" content="Dormí en el fin del mundo. Hospedaje en Ushuaia frente al Canal Beagle: disponibilidad en vivo, planificador por temporada, clima y horas de luz de hoy.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#06101c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2306101c'/%3E%3Cpath d='M28 50h8l-1.5-26h-5z' fill='%23e8f4ff'/%3E%3Cpath d='M29.2 40h5.6l-.4-6h-4.8z' fill='%23e0453a'/%3E%3Ccircle cx='32' cy='20' r='4' fill='%23ffc46b'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#06101c; --bg2:#0a1828; --card:#0e1f33; --line:#1a3150; --line2:#27466b;
+  --ink:#e8f4ff; --mute:#9fb6cc; --dim:#5f7a93;
+  --ice:#bfe6ff; --aurora:#7cf2b0; --violet:#a597ff; --lamp:#ffc46b; --red:#e0453a; --ok:#7cf2b0;
+  --serif:'Fraunces',Georgia,serif; --sans:'Manrope',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  --r:20px; --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input,select{font:inherit;color:inherit}
+.wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--aurora);font-weight:700}
+h1,h2,h3{font-family:var(--serif);font-weight:300;letter-spacing:-.015em;line-height:1}
+h2{font-size:clamp(38px,5.6vw,68px)}
+h1 em,h2 em{font-style:italic;color:var(--ice)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 24px;border-radius:999px;font-weight:700;font-size:15px;transition:transform .25s var(--ease),background .25s,box-shadow .25s,border-color .25s}
+.btn-lamp{background:linear-gradient(180deg,#ffd58f,var(--lamp));color:#241503;box-shadow:0 10px 34px -10px rgba(255,196,107,.65),inset 0 1px 0 rgba(255,255,255,.5)}
+.btn-lamp:hover{transform:translateY(-2px);box-shadow:0 16px 44px -12px rgba(255,196,107,.85),inset 0 1px 0 rgba(255,255,255,.5)}
+.btn-ghost{border:1px solid var(--line2)}
+.btn-ghost:hover{border-color:var(--ice);color:var(--ice)}
+.btn:disabled{opacity:.35;pointer-events:none}
+.mono{font-family:var(--mono)}
+[hidden]{display:none!important}
+
+/* nav */
+nav.top{position:fixed;inset:0 0 auto 0;z-index:50;border-bottom:1px solid transparent;transition:background .3s,border-color .3s}
+nav.top.solid{background:rgba(6,16,28,.8);backdrop-filter:blur(14px);border-color:var(--line)}
+nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:14px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:23px;white-space:nowrap}
+.logo i{font-style:italic;color:var(--lamp)}
+.logo svg{flex:none}
+nav .links{display:flex;gap:22px;align-items:center;font-size:14px;color:var(--mute);font-weight:600}
+nav .links a:hover{color:var(--ink)}
+.tog{display:inline-flex;border:1px solid var(--line2);border-radius:999px;padding:3px;font-size:12px;font-weight:700}
+.tog button{padding:5px 10px;border-radius:999px;color:var(--mute)}
+.tog button.on{background:var(--ice);color:var(--bg)}
+nav .links .btn{padding:10px 18px;font-size:14px}
+@media(max-width:900px){nav .links a:not(.btn){display:none}}
+@media(max-width:520px){nav .links .btn{display:none}.logo{font-size:19px}}
+
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:110px 0 84px;overflow:hidden}
+#cielo{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,16,28,.35),transparent 30%,transparent 55%,rgba(6,16,28,.92));pointer-events:none}
+.hero .wrap{position:relative;z-index:2}
+.hero h1{font-size:clamp(56px,10vw,150px);line-height:.9;margin:16px 0 20px;text-shadow:0 4px 40px rgba(0,0,0,.35)}
+.hero p.lead{font-size:clamp(17px,1.6vw,20px);color:#d3e6f5;max-width:560px;margin-bottom:28px}
+.vivo{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:14px;background:rgba(10,24,40,.6);border:1px solid rgba(191,230,255,.16);backdrop-filter:blur(10px);font-size:13px;color:var(--mute)}
+.chip b{color:var(--ink);font-weight:700}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--aurora);box-shadow:0 0 0 4px rgba(124,242,176,.18);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(124,242,176,0)}}
+.coords{position:absolute;right:16px;top:90px;z-index:2;font-family:var(--mono);font-size:11px;color:rgba(191,230,255,.55);text-align:right;line-height:1.7}
+
+/* buscador */
+.buscar{position:relative;z-index:5;margin-top:-4px}
+.buscar form{display:grid;grid-template-columns:1fr 1fr .8fr auto;gap:10px;background:var(--card);border:1px solid var(--line2);border-radius:24px;padding:10px;box-shadow:0 30px 70px -30px rgba(0,0,0,.8)}
+.fld{display:flex;flex-direction:column;padding:8px 14px;border-radius:16px;background:var(--bg2);border:1px solid transparent}
+.fld:focus-within{border-color:var(--line2)}
+.fld label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.fld input,.fld select{background:none;border:0;outline:0;font-size:16px;padding:4px 0;color-scheme:dark}
+.fld select option{background:var(--bg2)}
+.buscar .res{font-size:13px;color:var(--mute);padding:10px 6px 0}
+.buscar .res b{color:var(--ink)}
+@media(max-width:760px){.buscar form{grid-template-columns:1fr 1fr}.buscar form .btn{grid-column:1/-1}}
+
+section{padding:100px 0}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:46px;flex-wrap:wrap}
+.sec-head p{color:var(--mute);max-width:430px}
+
+/* habitaciones */
+.rooms{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.room{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .4s var(--ease),border-color .3s}
+.room:hover{transform:translateY(-4px);border-color:var(--line2)}
+.ventana{position:relative;aspect-ratio:16/9;background:#0b1a2c;overflow:hidden}
+.ventana canvas{width:100%;height:100%;display:block}
+.ventana::after{content:"";position:absolute;inset:0;border:10px solid #1c140d;border-radius:4px;box-shadow:inset 0 0 0 2px #3a2a1a,inset 0 0 60px rgba(0,0,0,.45);pointer-events:none;
+  background:linear-gradient(90deg,transparent calc(50% - 4px),#1c140d calc(50% - 4px),#1c140d calc(50% + 4px),transparent calc(50% + 4px))}
+.ventana .vista{position:absolute;left:18px;bottom:18px;z-index:2;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;background:rgba(6,16,28,.75);padding:6px 10px;border-radius:8px}
+.ventana .temp{position:absolute;right:18px;top:18px;z-index:2;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;border-radius:8px;background:var(--lamp);color:#241503}
+.room .body{padding:22px 24px 24px;display:flex;flex-direction:column;gap:14px;flex:1}
+.room h3{font-size:32px}
+.room .desc{color:var(--mute);font-size:14.5px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--line2);color:var(--mute)}
+.room .pie{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-top:auto;padding-top:14px;border-top:1px solid var(--line)}
+.precio b{font-family:var(--serif);font-size:34px;font-weight:300;display:block;line-height:1}
+.precio small{font-size:12px;color:var(--mute)}
+.estado{font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:7px;margin-top:6px}
+.estado i{width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.estado.no{color:#ff9d8f}.estado.no i{background:var(--red)}
+.noches{display:flex;gap:3px;margin-top:8px}
+.noches i{width:14px;height:6px;border-radius:3px;background:var(--ok);opacity:.8}
+.noches i.x{background:var(--red)}
+@media(max-width:820px){.rooms{grid-template-columns:1fr}}
+
+/* luz + planificador */
+.plan{display:grid;grid-template-columns:1fr 1.1fr;gap:26px;align-items:start}
+.meses{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:22px}
+.meses button{padding:10px 0;border-radius:12px;border:1px solid var(--line);font-size:13px;font-weight:700;color:var(--mute);transition:.2s}
+.meses button:hover{border-color:var(--line2);color:var(--ink)}
+.meses button.on{background:var(--ice);border-color:var(--ice);color:var(--bg)}
+.luzchart{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.luzchart svg{width:100%;height:auto;display:block}
+.luzchart .ttl{display:flex;justify-content:space-between;font-size:13px;color:var(--mute);margin-bottom:10px;gap:10px;flex-wrap:wrap}
+.datos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.dato{background:var(--bg2);border-radius:14px;padding:14px}
+.dato small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.dato b{display:block;font-family:var(--serif);font-weight:300;font-size:30px;line-height:1.1;margin-top:4px}
+.acts{display:grid;gap:10px}
+.act{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;padding:14px 16px;border-radius:16px;border:1px solid var(--line);background:var(--card);transition:opacity .3s,filter .3s}
+.act.off{opacity:.35;filter:grayscale(1)}
+.act .ic{width:44px;height:44px;border-radius:12px;background:var(--bg2);display:grid;place-items:center;font-size:22px}
+.act h4{font-size:15px}
+.act p{font-size:13px;color:var(--mute)}
+.act .when{font-size:11px;font-family:var(--mono);color:var(--dim);text-align:right;white-space:nowrap}
+.act.on .when{color:var(--aurora)}
+@media(max-width:900px){.plan{grid-template-columns:1fr}}
+
+/* qué llevar */
+.valija{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-top:10px}
+.item{display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:14px;border:1px solid var(--line);background:var(--card);text-align:left;transition:.2s}
+.item:hover{border-color:var(--line2)}
+.item .bx{width:22px;height:22px;border-radius:7px;border:2px solid var(--line2);flex:none;display:grid;place-items:center;font-size:13px;color:var(--bg)}
+.item.ok{border-color:rgba(124,242,176,.4)}
+.item.ok .bx{background:var(--aurora);border-color:var(--aurora)}
+.item.ok span{text-decoration:line-through;color:var(--mute)}
+.prog{height:6px;border-radius:3px;background:var(--bg2);overflow:hidden;margin-top:18px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--aurora),var(--ice));transition:width .4s var(--ease)}
+
+/* cartel */
+.cartel-sec{background:linear-gradient(180deg,var(--bg),#081523)}
+.cartel-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:center}
+.poste{position:relative;padding:20px 0 0;display:flex;flex-direction:column;align-items:center;gap:10px}
+.poste::before{content:"";position:absolute;top:0;bottom:-30px;left:50%;width:18px;margin-left:-9px;border-radius:4px;background:linear-gradient(90deg,#3b2a1a,#6d4c2d 40%,#3b2a1a)}
+.flecha{position:relative;z-index:1;min-width:260px;padding:10px 22px;font-weight:800;font-size:15px;letter-spacing:.04em;background:#f2ead8;color:#1d2a38;display:flex;justify-content:space-between;gap:20px;box-shadow:0 6px 16px rgba(0,0,0,.4);transition:transform .5s var(--ease)}
+.flecha small{font-family:var(--mono);font-weight:600;color:#a03226}
+.flecha.der{clip-path:polygon(0 0,calc(100% - 18px) 0,100% 50%,calc(100% - 18px) 100%,0 100%);transform:translateX(40px) rotate(var(--rot,0deg));padding-right:34px}
+.flecha.izq{clip-path:polygon(18px 0,100% 0,100% 100%,18px 100%,0 50%);transform:translateX(-40px) rotate(var(--rot,0deg));padding-left:34px}
+.flecha.casa{background:var(--lamp)}
+.poste .cap{position:relative;z-index:1;font-family:var(--serif);font-style:italic;font-size:22px;background:var(--red);color:#fff;padding:6px 18px;border-radius:6px}
+@media(max-width:860px){.cartel-grid{grid-template-columns:1fr}.flecha{min-width:0;width:78%}.flecha.der,.flecha.izq{transform:rotate(var(--rot,0deg))}}
+
+/* postal */
+.postal-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center}
+#postal{width:100%;height:auto;border-radius:10px;box-shadow:0 40px 80px -30px rgba(0,0,0,.9),0 0 0 1px var(--line2);transform:rotate(-1.5deg);background:#0b1a2c}
+.postal-form{display:flex;flex-direction:column;gap:12px}
+.postal-form .fld{background:var(--card);border:1px solid var(--line)}
+.postal-form .row{display:flex;gap:10px;flex-wrap:wrap}
+@media(max-width:860px){.postal-grid{grid-template-columns:1fr}}
+
+/* llegar + faq */
+.info{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.info div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.info small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.info b{display:block;font-family:var(--serif);font-weight:300;font-size:26px;margin:6px 0 4px}
+.info p{font-size:13.5px;color:var(--mute)}
+@media(max-width:860px){.info{grid-template-columns:1fr 1fr}}
+.resenas{margin-top:14px;border:1px dashed var(--line2);border-radius:16px;padding:22px;color:var(--mute);font-size:14px;text-align:center}
+details{border-bottom:1px solid var(--line);padding:18px 4px}
+details summary{cursor:pointer;font-family:var(--serif);font-size:22px;list-style:none;display:flex;justify-content:space-between;gap:20px}
+details summary::after{content:"+";color:var(--aurora);font-family:var(--sans)}
+details[open] summary::after{content:"–"}
+details p{color:var(--mute);margin-top:10px;max-width:760px}
+
+footer{padding:50px 0 110px;border-top:1px solid var(--line);color:var(--dim);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+/* flotantes */
+.wa{position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 12px 30px -8px rgba(37,211,102,.6);transition:transform .25s var(--ease)}
+.wa:hover{transform:scale(1.07)}
+.modo{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:60;display:flex;align-items:center;gap:8px;background:rgba(14,31,51,.92);backdrop-filter:blur(12px);border:1px solid var(--line2);border-radius:999px;padding:5px 5px 5px 14px;font-size:12px;color:var(--mute);font-weight:700;max-width:calc(100% - 100px)}
+.modo .tog{border:0;padding:0}
+@media(max-width:560px){.modo>span{display:none}.modo{left:16px;transform:none}}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:16px;background:rgba(3,8,15,.72);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s}
+.modal.on{opacity:1;pointer-events:auto}
+.sheet{width:min(520px,100%);max-height:calc(100svh - 32px);overflow:auto;background:var(--card);border:1px solid var(--line2);border-radius:24px;padding:26px;transform:translateY(16px);transition:transform .35s var(--ease)}
+.modal.on .sheet{transform:none}
+.sheet h3{font-size:30px;margin-bottom:4px}
+.sheet .x{float:right;font-size:22px;color:var(--mute);width:36px;height:36px;border-radius:50%}
+.sheet .x:hover{background:var(--bg2)}
+.lin{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.lin span{color:var(--mute)}
+.lin.tot{font-size:17px;font-weight:800;border:0}
+.nota{font-size:13px;color:var(--mute);background:var(--bg2);border-radius:14px;padding:12px 14px;margin:14px 0}
+.nota b{color:var(--lamp)}
+.sheet .fld{margin-bottom:10px;border:1px solid var(--line)}
+.sheet .acc{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.sheet .acc .btn{flex:1}
+.codigo{font-family:var(--mono);font-size:26px;letter-spacing:.12em;color:var(--aurora);text-align:center;padding:18px;border:1px dashed var(--line2);border-radius:14px;margin:16px 0}
+.sim{display:inline-block;font-size:10px;letter-spacing:.14em;font-weight:800;text-transform:uppercase;color:var(--lamp);border:1px solid var(--lamp);border-radius:6px;padding:2px 6px;margin-left:6px;vertical-align:middle}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<nav class="top" id="nav">
+  <div class="wrap">
+    <a href="#" class="logo" id="logo">
+      <svg width="22" height="30" viewBox="0 0 22 30"><path d="M7 29h8l-1.6-19H8.6z" fill="#e8f4ff"/><path d="M7.9 22h6.2l-.4-5H8.3z" fill="#e0453a"/><rect x="7.5" y="6" width="7" height="4" rx="1" fill="#1c2d42"/><circle cx="11" cy="8" r="2.4" fill="#ffc46b"/><path d="M8 6l3-4 3 4z" fill="#e0453a"/></svg>
+      <span id="logoTxt">Último <i>Faro</i></span>
+    </a>
+    <div class="links">
+      <a href="#habitaciones" data-t="nav_rooms">Habitaciones</a>
+      <a href="#cuando" data-t="nav_when">¿Cuándo venir?</a>
+      <a href="#postal-sec" data-t="nav_card">Postal</a>
+      <a href="#llegar" data-t="nav_arrive">Cómo llegar</a>
+      <div class="tog" id="tLang"><button data-v="es" class="on">ES</button><button data-v="en">EN</button></div>
+      <div class="tog" id="tMon"><button data-v="usd" class="on">USD</button><button data-v="ars">ARS</button></div>
+      <a href="#habitaciones" class="btn btn-lamp" data-t="book">Reservar</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="cielo" aria-hidden="true"></canvas>
+  <div class="coords">54°48′S · 68°18′W<br><span id="faseTxt"></span></div>
+  <div class="wrap">
+    <div class="eyebrow" id="heroEyebrow">Ushuaia · Tierra del Fuego</div>
+    <h1 id="heroH1">Dormí en el<br><em>fin del mundo.</em></h1>
+    <p class="lead" id="heroLead"></p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="#habitaciones" class="btn btn-lamp" data-t="see_av">Ver disponibilidad</a>
+      <a href="#cuando" class="btn btn-ghost" data-t="plan_trip">Planear el viaje</a>
+    </div>
+    <div class="vivo" id="vivo">
+      <div class="chip"><i class="dot"></i><span data-t="now_in">Ahora en Ushuaia</span> <b id="hora">--:--</b></div>
+      <div class="chip" id="chipClima" hidden>🌡 <b id="clima"></b></div>
+      <div class="chip">☀ <span id="solTxt"></span></div>
+      <div class="chip">⏳ <b id="luzHoy"></b> <span data-t="of_light">de luz hoy</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="buscar wrap">
+  <form id="fBuscar" onsubmit="return false">
+    <div class="fld"><label for="fIn" data-t="checkin">Llegada</label><input type="date" id="fIn" required></div>
+    <div class="fld"><label for="fOut" data-t="checkout">Salida</label><input type="date" id="fOut" required></div>
+    <div class="fld"><label for="fPax" data-t="guests">Huéspedes</label><select id="fPax"></select></div>
+    <button class="btn btn-lamp" id="bBuscar" data-t="search">Buscar</button>
+  </form>
+  <div class="res" id="resBuscar"></div>
+</div>
+
+<section id="habitaciones">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="eyebrow" data-t="rooms_eb">Dónde vas a dormir</div><h2 id="roomsH2"></h2></div>
+      <p id="roomsP"></p>
+    </div>
+    <div class="rooms" id="rooms"></div>
+  </div>
+</section>
+
+<section id="cuando" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="eyebrow" data-t="when_eb">Planificador</div><h2 data-t="when_h2" data-html>¿Cuándo <em>venir?</em></h2></div>
+      <p data-t="when_p">En Ushuaia el año cambia todo: en junio hay 7 horas de luz y nieve para esquiar; en diciembre, 17 horas y pingüinos. Elegí un mes.</p>
+    </div>
+    <div class="plan">
+      <div class="reveal">
+        <div class="meses" id="meses"></div>
+        <div class="luzchart">
+          <div class="ttl"><span data-t="light_year">Horas de luz a lo largo del año</span><span class="mono" id="luzSel"></span></div>
+          <svg id="luzSvg" viewBox="0 0 600 220" role="img" aria-label="Horas de luz por mes en Ushuaia"></svg>
+          <div class="datos">
+            <div class="dato"><small data-t="d_temp">Temp. media</small><b id="dTemp"></b></div>
+            <div class="dato"><small data-t="d_light">Luz por día</small><b id="dLuz"></b></div>
+            <div class="dato"><small data-t="d_season">Temporada</small><b id="dTemp2"></b></div>
+          </div>
+        </div>
+      </div>
+      <div class="acts reveal" id="acts"></div>
+    </div>
+
+    <div style="margin-top:70px" class="reveal">
+      <div class="sec-head" style="margin-bottom:10px">
+        <div><div class="eyebrow" data-t="pack_eb">Qué llevar</div><h3 style="font-size:40px" id="packH3"></h3></div>
+        <p data-t="pack_p">La regla fueguina: capas. Tildá lo que ya tenés — queda guardado en tu teléfono.</p>
+      </div>
+      <div class="valija" id="valija"></div>
+      <div class="prog"><i id="progBar" style="width:0"></i></div>
+    </div>
+  </div>
+</section>
+
+<section class="cartel-sec">
+  <div class="wrap cartel-grid">
+    <div class="reveal">
+      <div class="eyebrow" data-t="sign_eb">Estás acá</div>
+      <h2 data-t="sign_h2" data-html>Más cerca de la <em>Antártida</em> que de Buenos Aires.</h2>
+      <p style="color:var(--mute);margin:18px 0 24px;max-width:440px" data-t="sign_p">Distancias en línea recta desde la puerta del hospedaje. Probá con la tuya.</p>
+      <button class="btn btn-ghost" id="bCasa" data-t="from_home">📍 ¿Y desde tu casa?</button>
+      <p id="casaMsg" style="color:var(--dim);font-size:13px;margin-top:10px"></p>
+    </div>
+    <div class="poste reveal" id="poste"></div>
+  </div>
+</section>
+
+<section id="postal-sec">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="eyebrow" data-t="card_eb">Recuerdo</div><h2 data-t="card_h2" data-html>Tu postal del <em>fin del mundo</em></h2></div>
+      <p data-t="card_p">Cada huésped se lleva la suya, con el sello de la casa. Poné tu nombre y compartila.</p>
+    </div>
+    <div class="postal-grid">
+      <canvas id="postal" width="1200" height="800" class="reveal"></canvas>
+      <div class="postal-form reveal">
+        <div class="fld"><label for="pNom" data-t="card_name">Tu nombre</label><input id="pNom" maxlength="28" placeholder="Ana & Tomi"></div>
+        <div class="fld"><label for="pMsg" data-t="card_msg">Una línea</label><input id="pMsg" maxlength="48"></div>
+        <div class="fld"><label for="pCielo" data-t="card_sky">Cielo</label>
+          <select id="pCielo"><option value="aurora" data-t="sky_a">Noche con aurora</option><option value="atardecer" data-t="sky_s">Atardecer sobre el canal</option><option value="dia" data-t="sky_d">Día de nieve</option></select></div>
+        <div class="row">
+          <button class="btn btn-lamp" id="bBajar" data-t="download">Descargar</button>
+          <button class="btn btn-ghost" id="bCompartir" data-t="share">Compartir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="llegar" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><div class="eyebrow" data-t="arr_eb">Cómo llegar</div><h2 data-t="arr_h2" data-html>Del avión a la <em>ventana</em>.</h2></div>
+      <p id="dirTxt"></p>
+    </div>
+    <div class="info reveal" id="info"></div>
+    <div class="resenas reveal" data-t="reviews">★ Acá van las reseñas reales de Google del hospedaje (se conectan al cerrar). En la demo no inventamos ninguna.</div>
+    <div style="margin-top:60px" class="reveal" id="faq"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span id="footName"></span>
+    <span data-t="foot">Demo · hospedaje ficticio · el pago de la seña es simulado.</span>
+  </div>
+</footer>
+
+<a class="wa" id="waBtn" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5 0a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></svg>
+</a>
+<div class="modo"><span data-t="demo_as">Ver demo como</span><div class="tog" id="tModo"><button data-v="hosteria" class="on">Hostería</button><button data-v="cabanas">Cabañas</button><button data-v="hostel">Hostel</button></div></div>
+
+<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+
+<script>
+/* ═══════════ DATOS DEL NEGOCIO (cambiar al cerrar con uno real) ═══════════ */
+const NEGOCIO = { wa:'5492215632444', dir:'Av. Costanera 1234 (ficticia), Ushuaia', checkin:'14:00', checkout:'10:00', lat:-54.806, lon:-68.307, sena:0.30 };
+const COTIZ = 1450; // ARS por USD, referencia editable
+const L = (es,en)=>({es,en});
+const PRESETS = {
+  hosteria:{
+    nombre:'Último <i>Faro</i>', plano:'Último Faro', tipo:L('Hostería','Guesthouse'),
+    lead:L('Una hostería chica frente al Canal Beagle. Desayuno con vista al faro, calefacción de verdad y alguien que te explica cómo llegar a la Laguna Esmeralda.','A small guesthouse facing the Beagle Channel. Breakfast with a lighthouse view, proper heating and someone who tells you how to reach Laguna Esmeralda.'),
+    h2:L('Cuatro <em>ventanas</em>.','Four <em>windows</em>.'),
+    p:L('Cada habitación tiene su vista. El precio se ajusta solo por temporada y ves al toque si tus noches están libres.','Every room has its own view. Prices adjust by season and you instantly see if your nights are free.'),
+    rooms:[
+      {id:'canal',n:L('Doble Canal','Channel Double'),vista:'canal',v:L('Vista al Canal Beagle','Beagle Channel view'),pax:2,usd:120,d:L('Cama queen frente al ventanal. De noche se ve girar la luz del faro.','Queen bed facing the big window. At night you can see the lighthouse beam turning.'),t:[L('22 m²','22 m²'),L('Desayuno','Breakfast'),L('Calefacción por losa','Floor heating')]},
+      {id:'martial',n:L('Doble Martial','Martial Double'),vista:'montana',v:L('Vista al Glaciar Martial','Martial Glacier view'),pax:2,usd:105,d:L('Mira a la montaña: nieve casi todo el año en las cumbres.','Faces the mountains: snow on the peaks most of the year.'),t:[L('20 m²','20 m²'),L('Desayuno','Breakfast'),L('Escritorio','Desk')]},
+      {id:'faro',n:L('Suite Faro','Lighthouse Suite'),vista:'canal',v:L('Bañera frente al canal','Tub facing the channel'),pax:2,usd:185,d:L('La mejor ventana de la casa, con bañera mirando al agua y bata para después.','The best window in the house, with a tub looking at the water and a robe for after.'),t:[L('34 m²','34 m²'),L('Bañera','Bathtub'),L('Late check-out','Late check-out')]},
+      {id:'familiar',n:L('Familiar Lenga','Lenga Family'),vista:'bosque',v:L('Vista al bosque','Forest view'),pax:4,usd:170,d:L('Dos ambientes, cuatro camas y un bosque de lengas del otro lado del vidrio.','Two rooms, four beds and a lenga forest on the other side of the glass.'),t:[L('40 m²','40 m²'),L('2 ambientes','2 rooms'),L('Cuna a pedido','Crib on request')]},
+    ]},
+  cabanas:{
+    nombre:'Bosque <i>Andino</i>', plano:'Bosque Andino', tipo:L('Cabañas','Cabins'),
+    lead:L('Cabañas de madera entre lengas, a 10 minutos del centro. Leña, hot tub bajo las estrellas y la montaña en la puerta.','Wooden cabins among lenga trees, 10 minutes from downtown. Firewood, a hot tub under the stars and the mountain at your door.'),
+    h2:L('Cuatro <em>cabañas</em>.','Four <em>cabins</em>.'),
+    p:L('Todas con cocina equipada y estacionamiento. En invierno te dejamos la leña cortada.','All with a full kitchen and parking. In winter the firewood is already chopped.'),
+    rooms:[
+      {id:'lenga',n:L('Cabaña Lenga','Lenga Cabin'),vista:'bosque',v:L('Entre los árboles','Among the trees'),pax:2,usd:110,d:L('Para dos, con salamandra y un deck mirando al bosque.','For two, with a wood stove and a deck facing the woods.'),t:[L('Salamandra','Wood stove'),L('Cocina','Kitchen'),L('Deck','Deck')]},
+      {id:'nire',n:L('Cabaña Ñire','Ñire Cabin'),vista:'montana',v:L('Vista a la montaña','Mountain view'),pax:4,usd:160,d:L('Dos dormitorios y un ventanal a la cordillera nevada.','Two bedrooms and a big window to the snowy range.'),t:[L('2 dormitorios','2 bedrooms'),L('Parrilla','Grill'),L('Cochera','Parking')]},
+      {id:'canelo',n:L('Cabaña Canelo','Canelo Cabin'),vista:'bosque',v:L('Hot tub bajo las estrellas','Hot tub under the stars'),pax:2,usd:190,d:L('Hot tub de leña en el deck. A 38° mientras afuera nieva.','Wood-fired hot tub on the deck. 38° inside while it snows outside.'),t:[L('Hot tub','Hot tub'),L('Salamandra','Wood stove'),L('Vista al valle','Valley view')]},
+      {id:'loft',n:L('Loft Alto','High Loft'),vista:'canal',v:L('El canal desde arriba','The channel from above'),pax:5,usd:210,d:L('Doble altura, entrepiso con dos camas y el Beagle a lo lejos.','Double height, a mezzanine with two beds and the Beagle in the distance.'),t:[L('Entrepiso','Mezzanine'),L('5 personas','Sleeps 5'),L('Cocina','Kitchen')]},
+    ]},
+  hostel:{
+    nombre:'Pingüino <i>Hostel</i>', plano:'Pingüino Hostel', tipo:L('Hostel','Hostel'),
+    lead:L('Base para mochileros en el centro de Ushuaia. Cocina compartida, lockers, mapas de trekking en la pared y gente que viene o vuelve de la Antártida.','A backpacker base in downtown Ushuaia. Shared kitchen, lockers, trekking maps on the wall and people coming back from Antarctica.'),
+    h2:L('Camas y <em>privadas</em>.','Beds and <em>privates</em>.'),
+    p:L('Precio por cama o por habitación. Desayuno incluido y guardado de equipaje gratis si vas y volvés de un trekking.','Price per bed or per room. Breakfast included and free luggage storage while you trek.'),
+    rooms:[
+      {id:'c6',n:L('Cama en compartida (6)','Bed in 6-bed dorm'),vista:'ciudad',v:L('Vista a la ciudad','Town view'),pax:1,usd:28,d:L('Cuchetas con cortina, enchufe y luz propia.','Bunks with curtain, own plug and reading light.'),t:[L('Locker','Locker'),L('Desayuno','Breakfast'),L('Ropa de cama','Linen')]},
+      {id:'c4m',n:L('Compartida mujeres (4)','Female dorm (4)'),vista:'montana',v:L('Vista a la montaña','Mountain view'),pax:1,usd:32,d:L('Habitación solo para mujeres, con baño en el piso.','Women-only room, bathroom on the same floor.'),t:[L('Locker','Locker'),L('Desayuno','Breakfast'),L('Secador','Hair dryer')]},
+      {id:'pdc',n:L('Privada, baño compartido','Private, shared bath'),vista:'ciudad',v:L('Vista a la ciudad','Town view'),pax:2,usd:65,d:L('Cama doble, todo el hostel de living.','Double bed, the whole hostel as your living room.'),t:[L('Cama doble','Double bed'),L('Desayuno','Breakfast')]},
+      {id:'ppb',n:L('Privada con baño','Private with bath'),vista:'canal',v:L('Asoma el canal','Peek of the channel'),pax:2,usd:80,d:L('Baño propio y un pedacito de canal entre los techos.','Own bathroom and a slice of channel between the roofs.'),t:[L('Baño propio','Private bath'),L('Desayuno','Breakfast'),L('Toallas','Towels')]},
+    ]},
+};
+
+/* ═══════════ TEXTOS ═══════════ */
+const T = {
+  nav_rooms:L('Habitaciones','Rooms'), nav_when:L('¿Cuándo venir?','When to come'), nav_card:L('Postal','Postcard'), nav_arrive:L('Cómo llegar','Getting here'),
+  book:L('Reservar','Book'), see_av:L('Ver disponibilidad','Check availability'), plan_trip:L('Planear el viaje','Plan the trip'),
+  now_in:L('Ahora en Ushuaia','Now in Ushuaia'), of_light:L('de luz hoy','of daylight today'),
+  checkin:L('Llegada','Check-in'), checkout:L('Salida','Check-out'), guests:L('Huéspedes','Guests'), search:L('Buscar','Search'),
+  rooms_eb:L('Dónde vas a dormir','Where you will sleep'),
+  when_eb:L('Planificador','Planner'), when_h2:L('¿Cuándo <em>venir?</em>','When to <em>come?</em>'),
+  when_p:L('En Ushuaia el año cambia todo: en junio hay 7 horas de luz y nieve para esquiar; en diciembre, 17 horas y pingüinos. Elegí un mes.','In Ushuaia the year changes everything: June has 7 hours of light and snow for skiing; December has 17 hours and penguins. Pick a month.'),
+  light_year:L('Horas de luz a lo largo del año','Daylight hours through the year'),
+  d_temp:L('Temp. media','Avg. temp'), d_light:L('Luz por día','Daylight'), d_season:L('Temporada','Season'),
+  pack_eb:L('Qué llevar','What to pack'), pack_p:L('La regla fueguina: capas. Tildá lo que ya tenés — queda guardado en tu teléfono.','The Fuegian rule: layers. Tick what you already have — it stays saved on your phone.'),
+  sign_eb:L('Estás acá','You are here'), sign_h2:L('Más cerca de la <em>Antártida</em> que de Buenos Aires.','Closer to <em>Antarctica</em> than to Buenos Aires.'),
+  sign_p:L('Distancias en línea recta desde la puerta del hospedaje. Probá con la tuya.','Straight-line distances from our front door. Try yours.'),
+  from_home:L('📍 ¿Y desde tu casa?','📍 And from your home?'),
+  card_eb:L('Recuerdo','Keepsake'), card_h2:L('Tu postal del <em>fin del mundo</em>','Your postcard from the <em>end of the world</em>'),
+  card_p:L('Cada huésped se lleva la suya, con el sello de la casa. Poné tu nombre y compartila.','Every guest takes one home, with the house stamp. Add your name and share it.'),
+  card_name:L('Tu nombre','Your name'), card_msg:L('Una línea','One line'), card_sky:L('Cielo','Sky'),
+  sky_a:L('Noche con aurora','Night with aurora'), sky_s:L('Atardecer sobre el canal','Sunset over the channel'), sky_d:L('Día de nieve','Snowy day'),
+  download:L('Descargar','Download'), share:L('Compartir','Share'),
+  arr_eb:L('Cómo llegar','Getting here'), arr_h2:L('Del avión a la <em>ventana</em>.','From the plane to the <em>window</em>.'),
+  reviews:L('★ Acá van las reseñas reales de Google del hospedaje (se conectan al cerrar). En la demo no inventamos ninguna.','★ The property\'s real Google reviews go here (connected at launch). This demo doesn\'t make any up.'),
+  foot:L('Demo · hospedaje ficticio · el pago de la seña es simulado.','Demo · fictional property · the deposit payment is simulated.'),
+  demo_as:L('Ver demo como','View demo as'),
+};
+const MESES = L(['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']);
+const TEMP = [9.6,9.2,7.8,5.7,3.2,1.7,1.3,2.2,4.1,6.2,7.8,8.8]; // medias aprox. °C
+const ACTS = [
+  {ic:'⛴',n:L('Navegación por el Canal Beagle','Beagle Channel boat trip'),p:L('Faro Les Eclaireurs, lobos marinos y cormoranes.','Les Eclaireurs lighthouse, sea lions and cormorants.'),m:[1,2,3,4,5,6,7,8,9,10,11,12]},
+  {ic:'🐧',n:L('Pingüinera de Isla Martillo','Martillo Island penguin colony'),p:L('Pingüinos de Magallanes y papúa, en temporada de cría.','Magellanic and gentoo penguins, during breeding season.'),m:[10,11,12,1,2,3]},
+  {ic:'⛷',n:L('Esquí en Cerro Castor','Skiing at Cerro Castor'),p:L('El centro de esquí más austral del mundo.','The southernmost ski resort in the world.'),m:[6,7,8,9]},
+  {ic:'🐕',n:L('Trineo con perros','Dog sledding'),p:L('En los valles de nieve camino al Paso Garibaldi.','In the snowy valleys on the way to Garibaldi Pass.'),m:[6,7,8,9]},
+  {ic:'🌲',n:L('Parque Nacional Tierra del Fuego','Tierra del Fuego National Park'),p:L('Senderos, Bahía Lapataia y el final de la Ruta 3.','Trails, Lapataia Bay and the end of Route 3.'),m:[1,2,3,4,5,6,7,8,9,10,11,12]},
+  {ic:'🚂',n:L('Tren del Fin del Mundo','End of the World Train'),p:L('El trencito que entra al parque por el valle del Pipo.','The little train into the park along the Pipo valley.'),m:[1,2,3,4,5,6,7,8,9,10,11,12]},
+  {ic:'💧',n:L('Laguna Esmeralda','Laguna Esmeralda'),p:L('Trekking de medio día. En invierno, con raquetas.','Half-day trek. In winter, on snowshoes.'),m:[1,2,3,4,5,6,7,8,9,10,11,12]},
+  {ic:'🧊',n:L('Cruceros a la Antártida','Antarctic cruises'),p:L('Salen de este puerto. Si vas, guardamos tu valija.','They leave from this port. If you go, we keep your bag.'),m:[11,12,1,2,3]},
+  {ic:'✨',n:L('Cielos oscuros (y aurora, con suerte)','Dark skies (and aurora, with luck)'),p:L('Noches largas. La aurora austral es rara acá: si pasa, te despertamos.','Long nights. The southern aurora is rare here: if it happens, we wake you up.'),m:[4,5,6,7,8]},
+  {ic:'🦀',n:L('Centolla fresca','Fresh king crab'),p:L('La del canal. Te pasamos dónde comerla bien.','From the channel. We\'ll tell you where to get it right.'),m:[1,2,3,4,5,6,7,8,9,10,11,12]},
+];
+const VALIJA = {
+  invierno:[L('Campera impermeable','Waterproof jacket'),L('Primera piel térmica','Thermal base layer'),L('Polar o micropolar','Fleece mid layer'),L('Pantalón de nieve','Snow pants'),L('Botas impermeables','Waterproof boots'),L('Guantes y gorro','Gloves & beanie'),L('Cuello / buff','Neck gaiter'),L('Anteojos de sol','Sunglasses'),L('Protector solar','Sunscreen'),L('Linterna frontal','Headlamp')],
+  verano:[L('Campera rompevientos','Windbreaker'),L('Capa de lluvia','Rain shell'),L('Polar liviano','Light fleece'),L('Calzado de trekking','Hiking shoes'),L('Gorro y guantes finos','Light hat & gloves'),L('Protector solar (el viento engaña)','Sunscreen (the wind fools you)'),L('Antifaz para dormir','Sleep mask'),L('Botella reutilizable','Reusable bottle'),L('Mochila de día','Daypack'),L('Anteojos de sol','Sunglasses')],
+};
+const LUGARES = [
+  {n:L('Buenos Aires','Buenos Aires'),lat:-34.60,lon:-58.38},
+  {n:L('Base Esperanza · Antártida','Esperanza Base · Antarctica'),lat:-63.40,lon:-56.99},
+  {n:L('Polo Sur','South Pole'),lat:-90,lon:0},
+  {n:L('Madrid','Madrid'),lat:40.42,lon:-3.70},
+  {n:L('Nueva York','New York'),lat:40.71,lon:-74.01},
+  {n:L('Tokio','Tokyo'),lat:35.68,lon:139.69},
+  {n:L('Islas Malvinas','Falkland Islands (Malvinas)'),lat:-51.69,lon:-57.86},
+];
+
+/* ═══════════ ESTADO ═══════════ */
+const ls = { get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}}, set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}} };
+let lang = ls.get('uf_lang', (navigator.language||'es').startsWith('es')?'es':'en');
+let mon = ls.get('uf_mon','usd');
+let modo = ls.get('uf_modo','hosteria');
+if(!PRESETS[modo]) modo='hosteria';
+const tx = o => o[lang] ?? o.es;
+const $ = s => document.querySelector(s);
+const P = () => PRESETS[modo];
+
+/* ═══════════ SOL Y HORA DE USHUAIA ═══════════ */
+const rad = Math.PI/180;
+function doy(d){ return Math.floor((Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()) - Date.UTC(d.getUTCFullYear(),0,0))/864e5); }
+// Devuelve amanecer/atardecer en hora local de Ushuaia (UTC-3) y horas de luz
+function sol(N, lat=NEGOCIO.lat, lon=NEGOCIO.lon){
+  const decl = 23.44*Math.sin(rad*360/365*(N-81));
+  const c = (Math.sin(-0.833*rad) - Math.sin(lat*rad)*Math.sin(decl*rad)) / (Math.cos(lat*rad)*Math.cos(decl*rad));
+  const w = Math.acos(Math.max(-1,Math.min(1,c)))/rad;
+  const B = rad*360/365*(N-81);
+  const eot = 9.87*Math.sin(2*B) - 7.53*Math.cos(B) - 1.5*Math.sin(B);
+  const noon = 12 + (-45 - lon)*4/60 - eot/60;
+  const len = 2*w/15;
+  return { sr: noon - len/2, ss: noon + len/2, len };
+}
+const HORA_FIJA = (()=>{ const q=new URLSearchParams(location.search).get('hora'); return q==null?null:+q; })(); // ?hora=23 para mostrar la noche
+function horaUsh(){ const n=new Date(); if(HORA_FIJA!=null){ const u=new Date(n.getTime()-3*3600e3); return { h:HORA_FIJA, d:u }; } const u=new Date(n.getTime() - 3*3600e3); return { h:u.getUTCHours()+u.getUTCMinutes()/60+u.getUTCSeconds()/3600, d:u }; }
+const hhmm = h => { h=((h%24)+24)%24; const m=Math.round(h*60); return String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); };
+const dur = h => Math.floor(h)+' h '+String(Math.round((h%1)*60)).padStart(2,'0')+' m';
+function luzDe(h, s){ // 0 noche … 1 día, g = dorado
+  const tw=1.1;
+  let l;
+  if(h>=s.sr && h<=s.ss) l=Math.min(1,(h-s.sr)/tw+.35,(s.ss-h)/tw+.35);
+  else { const d=h<s.sr? s.sr-h : h-s.ss; l=Math.max(0,.35-d/1.4); }
+  const g = Math.max(0,1-Math.min(Math.abs(h-s.sr),Math.abs(h-s.ss))/1.3);
+  return { l:Math.max(0,Math.min(1,l)), g };
+}
+
+/* ═══════════ PINTOR DE PAISAJE FUEGUINO ═══════════ */
+function rng(seed){ let s=seed>>>0||1; return ()=>((s=Math.imul(s^s>>>15,s|1)^(s+Math.imul(s^s>>>7,s|61)),((s^s>>>14)>>>0)/4294967296)); }
+function hash(str){ let h=2166136261; for(const c of str){h^=c.charCodeAt(0);h=Math.imul(h,16777619)} return h>>>0; }
+const mix=(a,b,t)=>a+(b-a)*t;
+function mixC(a,b,t){ return 'rgb('+[0,1,2].map(i=>Math.round(mix(a[i],b[i],t))).join(',')+')'; }
+const hx = h => [1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+function ridge(x,ph,amp,f){ return amp*(0.55*Math.sin(x*f+ph)+0.28*Math.sin(x*f*2.3+ph*1.7)+0.17*Math.sin(x*f*5.1+ph*2.9)); }
+const estrellasCache = {};
+function pintar(ctx,W,H,o){
+  const {l=0,g=0,t=0,vista='canal',seed=7,aurora=0,nieve=0} = o;
+  const R = rng(seed);
+  // cielo
+  const top = mixC(hx('#030814'),hx('#4f93cf'),l), bot = mixC(hx('#0e2344'),hx('#d4ebf7'),l);
+  let sky = ctx.createLinearGradient(0,0,0,H*.72);
+  sky.addColorStop(0,top); sky.addColorStop(1,bot); ctx.fillStyle=sky; ctx.fillRect(0,0,W,H);
+  if(g>0){ const gg=ctx.createLinearGradient(0,H*.25,0,H*.7); gg.addColorStop(0,'rgba(255,150,110,0)'); gg.addColorStop(1,`rgba(255,${Math.round(mix(120,170,l))},90,${.55*g})`); ctx.fillStyle=gg; ctx.fillRect(0,0,W,H); }
+  // estrellas
+  const sa = Math.max(0,1-l*2.2);
+  if(sa>0){
+    const key=W+'x'+H; if(!estrellasCache[key]){ const r=rng(99); estrellasCache[key]=Array.from({length:Math.round(W*H/2600)},()=>[r()*W,r()*H*.62,r()*1.3+.2,r()*6]); }
+    for(const [x,y,s,p] of estrellasCache[key]){ ctx.globalAlpha=sa*(.5+.5*Math.sin(t*1.5+p)); ctx.fillStyle='#fff'; ctx.fillRect(x,y,s,s); }
+    ctx.globalAlpha=1;
+  }
+  // aurora
+  if(aurora>0 && sa>0){
+    ctx.save(); ctx.globalCompositeOperation='lighter';
+    for(let k=0;k<3;k++){
+      const base=H*(.22+k*.07), cols=k===1?[165,151,255]:[124,242,176];
+      for(let x=0;x<W;x+=3){
+        const y = base + Math.sin(x*.004+t*.25+k*2)*H*.05 + Math.sin(x*.011-t*.4+k)*H*.02;
+        const hgt = H*(.12+.08*Math.sin(x*.007+t*.3+k*3));
+        const a = aurora*sa*.10*(.6+.4*Math.sin(x*.02+t*.8+k));
+        const gr=ctx.createLinearGradient(0,y-hgt,0,y);
+        gr.addColorStop(0,`rgba(${cols},0)`); gr.addColorStop(.75,`rgba(${cols},${a})`); gr.addColorStop(1,`rgba(${cols},0)`);
+        ctx.fillStyle=gr; ctx.fillRect(x,y-hgt,3,hgt);
+      }
+    }
+    ctx.restore();
+  }
+  const hor = vista==='montana'? H*.78 : vista==='bosque'? H*.8 : H*.64;
+  // montañas: lejanas (Isla Navarino / Chile) y cercanas (Martial) con nieve
+  const capas = vista==='montana' ? [[.5,.2,.9,.004],[.66,.34,.55,.006]] : [[.56,.1,1,.005],[.6,.16,.8,.009]];
+  capas.forEach(([yb,amp,dark,f],i)=>{
+    const ph=R()*6, y0=H*yb, A=H*amp;
+    const path=new Path2D(); path.moveTo(0,H);
+    for(let x=0;x<=W;x+=4) path.lineTo(x, y0 - Math.abs(ridge(x,ph,A,f*(1000/W)))- A*.2);
+    path.lineTo(W,H); path.closePath();
+    const c1 = mixC(hx(i?'#0a1a2e':'#101f36'),hx(i?'#5d7f9c':'#8aa7c0'),l*dark);
+    ctx.fillStyle=c1; ctx.fill(path);
+    ctx.save(); ctx.clip(path);
+    const snow=ctx.createLinearGradient(0,y0-A*1.2,0,y0-A*(.35-nieve*.3));
+    const sc = mixC(hx('#3b5570'),hx('#f4fbff'),Math.max(.25,l));
+    snow.addColorStop(0,sc); snow.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=snow; ctx.fillRect(0,0,W,y0);
+    ctx.restore();
+  });
+  // agua
+  const seaTop = hor;
+  const sea=ctx.createLinearGradient(0,seaTop,0,H);
+  sea.addColorStop(0,mixC(hx('#0b1c33'),hx('#6c9dbf'),l)); sea.addColorStop(1,mixC(hx('#040b16'),hx('#2c5575'),l));
+  ctx.fillStyle=sea; ctx.fillRect(0,seaTop,W,H-seaTop);
+  ctx.globalAlpha=.25+.2*(1-l);
+  for(let i=0;i<40;i++){ const y=seaTop+(i/40)**1.6*(H-seaTop); const x=(R()*W+t*6*(1+i*.05))%W; ctx.fillStyle=g>0.2?'#ffc78a':(l>.5?'#e6f4ff':'#8fb9e0'); ctx.fillRect(x,y,20+R()*60,1); }
+  ctx.globalAlpha=1;
+  // costa con árboles bandera (doblados por el viento)
+  if(vista!=='bosque'){
+    ctx.fillStyle=mixC(hx('#050d18'),hx('#223a2c'),l);
+    const cy = vista==='montana'? H*.86 : H*.9;
+    ctx.beginPath(); ctx.moveTo(0,H); for(let x=0;x<=W;x+=8) ctx.lineTo(x, cy+Math.sin(x*.01+seed)*H*.012); ctx.lineTo(W,H); ctx.fill();
+    for(let i=0;i<5;i++){ const x=W*(.02+R()*.25), s=Math.min(H*(.035+R()*.03),W*.04), yb=cy+H*.005; ctx.beginPath(); ctx.moveTo(x,yb); ctx.lineTo(x+s*.15,yb-s); ctx.quadraticCurveTo(x+s*1.1,yb-s*1.05,x+s*1.4,yb-s*.7); ctx.quadraticCurveTo(x+s*.7,yb-s*.6,x+s*.3,yb-s*.4); ctx.lineTo(x+s*.25,yb); ctx.fill(); }
+  }
+  // ciudad (luces sobre la costa)
+  if(vista==='ciudad'||vista==='canal'){
+    const n = vista==='ciudad'? 60 : 14, x0 = vista==='ciudad'? 0 : W*.12;
+    for(let i=0;i<n;i++){ const x=x0+R()*(W-x0)*(vista==='ciudad'?1:.35), y=hor-2-R()*H*(vista==='ciudad'?.08:.03);
+      ctx.fillStyle=mixC(hx('#1a2a3c'),hx('#c9b8a2'),l); const w=6+R()*10,h=5+R()*8; ctx.fillRect(x,y-h,w,h);
+      if(l<.6 && R()>.35){ ctx.fillStyle=`rgba(255,196,107,${.9-l})`; ctx.fillRect(x+w*.3,y-h*.7,2,2); } }
+  }
+  // faro Les Eclaireurs sobre su islote
+  if(vista==='canal'){
+    const port=H>W*1.1, fx=W*(port?.84:.7), fy=hor+H*(port?.2:.035), s=port?W*.1:H*.075;
+    ctx.fillStyle=mixC(hx('#0a121d'),hx('#3a3530'),l); ctx.beginPath(); ctx.ellipse(fx,fy,s*.9,s*.12,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#e03d31'; ctx.beginPath(); ctx.moveTo(fx-s*.18,fy); ctx.lineTo(fx-s*.12,fy-s); ctx.lineTo(fx+s*.12,fy-s); ctx.lineTo(fx+s*.18,fy); ctx.fill();
+    ctx.fillStyle=mixC(hx('#8d99a6'),hx('#f5f5f0'),l); ctx.fillRect(fx-s*.16,fy-s*.62,s*.32,s*.24);
+    ctx.fillStyle='#1b1b1b'; ctx.fillRect(fx-s*.1,fy-s*1.14,s*.2,s*.14);
+    if(l<.55){
+      const on=1-l/.55, ang=t*1.1;
+      ctx.save(); ctx.globalCompositeOperation='lighter';
+      const bx=fx, by=fy-s*1.07, len=W*.6;
+      [ang, ang+Math.PI].forEach(a=>{ const dx=Math.cos(a), vis=Math.max(0,Math.abs(dx)); const gr=ctx.createLinearGradient(bx,by,bx+dx*len,by); gr.addColorStop(0,`rgba(255,220,150,${.45*on*vis})`); gr.addColorStop(1,'rgba(255,220,150,0)'); ctx.fillStyle=gr; ctx.beginPath(); ctx.moveTo(bx,by); ctx.lineTo(bx+dx*len,by-H*.05*vis); ctx.lineTo(bx+dx*len,by+H*.05*vis); ctx.fill(); });
+      const glow=ctx.createRadialGradient(bx,by,0,bx,by,s*.6); glow.addColorStop(0,`rgba(255,215,140,${on})`); glow.addColorStop(1,'rgba(255,215,140,0)'); ctx.fillStyle=glow; ctx.fillRect(bx-s,by-s,s*2,s*2);
+      ctx.restore();
+    }
+  }
+  // bosque de lengas al frente
+  if(vista==='bosque'){
+    ctx.fillStyle=mixC(hx('#040a12'),hx('#1d3326'),l*.8);
+    ctx.fillRect(0,H*.9,W,H*.1);
+    for(let i=0;i<22;i++){ const x=R()*W, hgt=H*(.25+R()*.4), w=hgt*.28, y=H*.93;
+      ctx.beginPath(); ctx.moveTo(x-w*.06,y); ctx.lineTo(x-w*.04,y-hgt*.3);
+      for(let k=0;k<8;k++){ const yy=y-hgt*(.3+k*.09), ww=w*(1-k/9)*(0.7+R()*.5); ctx.lineTo(x-ww*.5,yy); ctx.lineTo(x-ww*.2,yy-hgt*.04); }
+      ctx.lineTo(x,y-hgt);
+      for(let k=7;k>=0;k--){ const yy=y-hgt*(.3+k*.09), ww=w*(1-k/9)*(0.7+R()*.5); ctx.lineTo(x+ww*.2,yy-hgt*.04); ctx.lineTo(x+ww*.5,yy); }
+      ctx.lineTo(x+w*.04,y-hgt*.3); ctx.lineTo(x+w*.06,y); ctx.fill(); }
+  }
+  // nieve cayendo
+  if(nieve>0){ ctx.fillStyle='rgba(255,255,255,.8)'; const r=rng(5); for(let i=0;i<W*H/5000*nieve;i++){ const x=(r()*W+Math.sin(t+i)*10+t*8)%W, y=(r()*H+t*(30+r()*30))%H; ctx.fillRect(x,y,2,2);} }
+}
+
+/* hero animado */
+const cielo=$('#cielo'), cctx=cielo.getContext('2d');
+let heroVis=true, t0=performance.now();
+function fitCanvas(c){ const d=Math.min(devicePixelRatio||1,1.5), r=c.getBoundingClientRect(); c.width=Math.round(r.width*d); c.height=Math.round(r.height*d); }
+addEventListener('resize',()=>fitCanvas(cielo)); fitCanvas(cielo);
+new IntersectionObserver(e=>heroVis=e[0].isIntersecting).observe(cielo);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function loopHero(now){
+  if(heroVis){
+    const {h,d}=horaUsh(), s=sol(doy(d)), {l,g}=luzDe(h,s);
+    const m=d.getUTCMonth()+1, invierno=m>=5&&m<=9;
+    pintar(cctx,cielo.width,cielo.height,{l,g,t:(now-t0)/1000,vista:'canal',seed:11,aurora:invierno?.9:.45,nieve:0});
+  }
+  if(!reduce) requestAnimationFrame(loopHero);
+}
+requestAnimationFrame(loopHero);
+
+function tickVivo(){
+  const {h,d}=horaUsh(), s=sol(doy(d)), {l}=luzDe(h,s);
+  $('#hora').textContent=hhmm(h);
+  $('#solTxt').innerHTML=(lang==='es'?'Amanece ':'Sunrise ')+'<b>'+hhmm(s.sr)+'</b> · '+(lang==='es'?'anochece ':'sunset ')+'<b>'+hhmm(s.ss)+'</b>';
+  $('#luzHoy').textContent=dur(s.len);
+  $('#faseTxt').textContent = l>.7?(lang==='es'?'de día':'daytime') : l>.05?(lang==='es'?'crepúsculo':'twilight') : (lang==='es'?'de noche — mirá el faro':'night — watch the lighthouse');
+}
+setInterval(tickVivo,20000);
+
+// clima en vivo (Open-Meteo, sin llave)
+let climaDato=null;
+fetch('https://api.open-meteo.com/v1/forecast?latitude=-54.8&longitude=-68.3&current=temperature_2m,wind_speed_10m,weather_code&timezone=America%2FArgentina%2FUshuaia')
+  .then(r=>r.json()).then(j=>{ if(j&&j.current){ climaDato=j.current; pintarClima(); } }).catch(()=>{});
+function pintarClima(){
+  if(!climaDato) return;
+  const c=climaDato, code=c.weather_code;
+  const desc = code>=71&&code<=77||code>=85&&code<=86 ? L('nevando','snowing') : code>=51&&code<=67||code>=80&&code<=82 ? L('lloviendo','raining') : code>=1&&code<=3 ? L('nublado parcial','partly cloudy') : code===0 ? L('despejado','clear') : L('nublado','cloudy');
+  $('#clima').textContent = Math.round(c.temperature_2m)+'°C · '+tx(desc)+' · '+(lang==='es'?'viento ':'wind ')+Math.round(c.wind_speed_10m)+' km/h';
+  $('#chipClima').hidden=false;
+}
+
+/* ═══════════ BUSCADOR + DISPONIBILIDAD ═══════════ */
+const iso = d => d.toISOString().slice(0,10);
+const addD = (s,n) => { const d=new Date(s+'T12:00:00Z'); d.setUTCDate(d.getUTCDate()+n); return iso(d); };
+const hoyIso = iso(new Date(Date.now()-3*3600e3));
+const fIn=$('#fIn'), fOut=$('#fOut'), fPax=$('#fPax');
+fIn.min=hoyIso; fIn.value=ls.get('uf_in',addD(hoyIso,14)); if(fIn.value<hoyIso) fIn.value=addD(hoyIso,14);
+fOut.value=ls.get('uf_out',addD(fIn.value,3)); if(fOut.value<=fIn.value) fOut.value=addD(fIn.value,3);
+function noches(){ const a=[]; for(let d=fIn.value; d<fOut.value && a.length<30; d=addD(d,1)) a.push(d); return a; }
+function temporada(dIso){ const m=+dIso.slice(5,7); return (m===12||m===1||m===2||m===7)?'alta':(m===3||m===6||m===8||m===11)?'media':'baja'; }
+const MULT={alta:1.25,media:1,baja:.85};
+const TEMPTXT={alta:L('Temporada alta','High season'),media:L('Temporada media','Mid season'),baja:L('Temporada baja','Low season')};
+function ocupada(roomId,dIso){ const occ={alta:.5,media:.3,baja:.18}[temporada(dIso)]; return (hash(modo+roomId+dIso)%1000)/1000 < occ; }
+const reservasPropias = () => ls.get('uf_res',[]);
+function ocupadaTot(roomId,dIso){ return ocupada(roomId,dIso) || reservasPropias().some(r=>r.modo===modo&&r.room===roomId&&r.noches.includes(dIso)); }
+function precioNoche(r,dIso){ return r.usd*MULT[temporada(dIso)]; }
+function fmt(usd){ return mon==='usd' ? 'USD '+Math.round(usd).toLocaleString('es-AR') : '$ '+(Math.round(usd*COTIZ/100)*100).toLocaleString('es-AR'); }
+
+function llenarPax(){ const max=Math.max(...P().rooms.map(r=>r.pax)); const v=+fPax.value||2; fPax.innerHTML=''; for(let i=1;i<=Math.max(max,4);i++){ const o=document.createElement('option'); o.value=i; o.textContent=i; fPax.appendChild(o);} fPax.value=Math.min(v,Math.max(max,4)); }
+
+const ventanas=[];
+function renderRooms(){
+  const ns=noches(), pax=+fPax.value, cont=$('#rooms'); cont.innerHTML=''; ventanas.length=0;
+  const s0 = ns[0]? sol(doy(new Date(ns[0]+'T12:00:00Z'))) : null;
+  const esHostel = modo==='hostel';
+  $('#resBuscar').innerHTML = ns.length ? `<b>${ns.length}</b> ${lang==='es'?(ns.length>1?'noches':'noche'):(ns.length>1?'nights':'night')} · ${tx(TEMPTXT[temporada(ns[0])])} · ${lang==='es'?'el día que llegás hay':'on arrival day there are'} <b>${dur(s0.len)}</b> ${lang==='es'?'de luz':'of daylight'}` : (lang==='es'?'Elegí una salida posterior a la llegada.':'Pick a check-out after check-in.');
+  P().rooms.forEach((r,idx)=>{
+    const oc = ns.map(d=>ocupadaTot(r.id,d)), libre = ns.length && !oc.some(Boolean);
+    const cant = esHostel && r.pax===1 ? pax : 1; // en compartida se paga por cama
+    const entra = esHostel && r.pax===1 ? true : r.pax>=pax;
+    const total = ns.reduce((a,d)=>a+precioNoche(r,d),0)*cant;
+    const el=document.createElement('article'); el.className='room reveal in';
+    el.innerHTML=`<div class="ventana"><canvas width="640" height="360"></canvas><span class="vista">${tx(r.v)}</span>${ns.length?`<span class="temp">${tx(TEMPTXT[temporada(ns[0])])}</span>`:''}</div>
+      <div class="body"><h3>${tx(r.n)}</h3><p class="desc">${tx(r.d)}</p>
+      <div class="tags">${r.t.map(x=>`<span>${tx(x)}</span>`).join('')}<span>👤 ${r.pax}</span></div>
+      <div class="pie"><div class="precio"><small>${lang==='es'?'desde':'from'}</small><b>${fmt(precioNoche(r,ns[0]||hoyIso))}</b><small>${esHostel&&r.pax===1?(lang==='es'?'por cama / noche':'per bed / night'):(lang==='es'?'por noche':'per night')}${ns.length?` · ${lang==='es'?'total':'total'} ${fmt(total)}`:''}</small>
+        <div class="estado ${libre&&entra?'':'no'}"><i></i>${!entra?(lang==='es'?`Máx. ${r.pax} huéspedes`:`Max ${r.pax} guests`):libre?(lang==='es'?'Libre en tus fechas':'Free on your dates'):(lang==='es'?`${oc.filter(Boolean).length} noche(s) ocupada(s)`:`${oc.filter(Boolean).length} night(s) taken`)}</div>
+        <div class="noches">${oc.map((o,i)=>`<i class="${o?'x':''}" title="${ns[i]}"></i>`).join('')}</div></div>
+        <button class="btn btn-lamp" ${libre&&entra?'':'disabled'} data-room="${idx}">${tx(T.book)}</button></div></div>`;
+    cont.appendChild(el);
+    ventanas.push({c:el.querySelector('canvas'),r,idx});
+  });
+  pintarVentanas();
+  cont.querySelectorAll('[data-room]').forEach(b=>b.onclick=()=>abrirReserva(+b.dataset.room));
+}
+function pintarVentanas(){
+  const {h,d}=horaUsh(), s=sol(doy(d)), {l,g}=luzDe(h,s);
+  ventanas.forEach(({c,r,idx})=>{ const x=c.getContext('2d'); pintar(x,c.width,c.height,{l,g,t:idx*3,vista:r.vista,seed:hash(r.id)%997,aurora:.6,nieve:0}); });
+}
+[fIn,fOut,fPax].forEach(el=>el.addEventListener('change',()=>{ if(fOut.value<=fIn.value) fOut.value=addD(fIn.value,1); fOut.min=addD(fIn.value,1); ls.set('uf_in',fIn.value); ls.set('uf_out',fOut.value); renderRooms(); }));
+$('#bBuscar').onclick=()=>{ renderRooms(); $('#habitaciones').scrollIntoView(); };
+
+/* ═══════════ RESERVA (seña simulada) ═══════════ */
+const modal=$('#modal'), sheet=$('#sheet');
+modal.addEventListener('click',e=>{ if(e.target===modal) cerrar(); });
+addEventListener('keydown',e=>{ if(e.key==='Escape') cerrar(); });
+function cerrar(){ modal.classList.remove('on'); }
+const waUrl = t => 'https://wa.me/'+NEGOCIO.wa+'?text='+encodeURIComponent(t);
+function abrirReserva(idx){
+  const r=P().rooms[idx], ns=noches(), pax=+fPax.value, esCama = modo==='hostel'&&r.pax===1;
+  const cant = esCama? pax:1, total=ns.reduce((a,d)=>a+precioNoche(r,d),0)*cant, sena=total*NEGOCIO.sena;
+  const s=sol(doy(new Date(ns[0]+'T12:00:00Z')));
+  const fecha = d => new Date(d+'T12:00:00Z').toLocaleDateString(lang==='es'?'es-AR':'en-GB',{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'});
+  const paso1=()=>{ sheet.innerHTML=`<button class="x" onclick="cerrar()">×</button><div class="eyebrow">${tx(P().tipo)} · ${P().plano}</div><h3>${tx(r.n)}</h3>
+    <div class="lin"><span>${tx(T.checkin)}</span><b>${fecha(ns[0])} · ${NEGOCIO.checkin}</b></div>
+    <div class="lin"><span>${tx(T.checkout)}</span><b>${fecha(fOut.value)} · ${NEGOCIO.checkout}</b></div>
+    <div class="lin"><span>${tx(T.guests)}</span><b>${pax}${esCama?` (${cant} ${lang==='es'?'camas':'beds'})`:''}</b></div>
+    <div class="lin"><span>${ns.length} ${lang==='es'?'noches':'nights'}</span><b>${fmt(total)}</b></div>
+    <div class="lin tot"><span>${lang==='es'?'Seña para confirmar (30 %)':'Deposit to confirm (30%)'}</span><b style="color:var(--lamp)">${fmt(sena)}</b></div>
+    <div class="nota">☀ ${lang==='es'?`El día que llegás amanece a las <b>${hhmm(s.sr)}</b> y anochece a las <b>${hhmm(s.ss)}</b>. Si tu vuelo aterriza de noche, te esperamos con la calefacción prendida.`:`On arrival day the sun rises at <b>${hhmm(s.sr)}</b> and sets at <b>${hhmm(s.ss)}</b>. If you land at night, the heating will be on.`}</div>
+    <div class="fld"><label>${lang==='es'?'Nombre y apellido':'Full name'}</label><input id="rNom" autocomplete="name"></div>
+    <div class="fld"><label>${lang==='es'?'País / ciudad':'Country / city'}</label><input id="rPais"></div>
+    <label style="display:flex;gap:10px;align-items:center;font-size:14px;color:var(--mute);margin:6px 0"><input type="checkbox" id="rTransfer"> ${lang==='es'?'Quiero transfer desde el aeropuerto':'I want an airport transfer'}</label>
+    <div class="acc"><button class="btn btn-lamp" id="rSig">${lang==='es'?'Pagar seña':'Pay deposit'} <span class="sim">${lang==='es'?'simulado':'simulated'}</span></button></div>
+    <p style="font-size:12px;color:var(--dim);margin-top:10px">${lang==='es'?'Demo: no se cobra nada ni se piden datos de tarjeta. En la web real, este botón abre Mercado Pago del hospedaje.':'Demo: nothing is charged and no card details are requested. On the real site this opens the property\'s Mercado Pago.'}</p>`;
+    $('#rSig').onclick=()=>{ const nom=$('#rNom').value.trim(); if(!nom){ $('#rNom').focus(); return; } pagando(nom,$('#rPais').value.trim(),$('#rTransfer').checked); };
+    setTimeout(()=>$('#rNom').focus(),200);
+  };
+  const pagando=(nom,pais,tr)=>{ sheet.innerHTML=`<div style="text-align:center;padding:40px 0"><div class="eyebrow">${lang==='es'?'Procesando seña simulada…':'Processing simulated deposit…'}</div><p style="margin-top:14px;color:var(--mute)">${fmt(sena)}</p></div>`;
+    setTimeout(()=>{ const cod='UF-'+(hash(nom+Date.now())%1e6).toString(36).toUpperCase().padStart(4,'0');
+      const lista=reservasPropias(); lista.push({cod,modo,room:r.id,noches:ns,nom}); ls.set('uf_res',lista);
+      const msg=`Hola ${P().plano}! Soy ${nom}${pais?` (${pais})`:''}. Reservé ${tx(r.n)} del ${ns[0]} al ${fOut.value}, ${pax} huésped(es). Código ${cod}. Seña ${fmt(sena)} (demo).${tr?' Quiero transfer desde el aeropuerto.':''}`;
+      sheet.innerHTML=`<button class="x" onclick="cerrar()">×</button><div class="eyebrow">${lang==='es'?'¡Listo!':'Done!'}</div><h3>${lang==='es'?`Te esperamos, ${nom.split(' ')[0]}.`:`See you soon, ${nom.split(' ')[0]}.`}</h3>
+        <div class="codigo">${cod}</div>
+        <p style="color:var(--mute);font-size:14px">${lang==='es'?`Seña de ${fmt(sena)} registrada (simulada). El resto, ${fmt(total-sena)}, se paga al llegar.`:`Deposit of ${fmt(sena)} recorded (simulated). The balance, ${fmt(total-sena)}, is paid on arrival.`}</p>
+        <div class="acc"><a class="btn btn-lamp" target="_blank" rel="noopener" href="${waUrl(msg)}">${lang==='es'?'Avisar por WhatsApp':'Send via WhatsApp'}</a><a class="btn btn-ghost" href="#postal-sec" onclick="cerrar();$('#pNom').value='${nom.replace(/'/g,'')}'.split(' ')[0];dibujarPostal()">${lang==='es'?'Hacer mi postal':'Make my postcard'}</a></div>`;
+      renderRooms();
+    },1400);
+  };
+  paso1(); modal.classList.add('on');
+}
+
+/* ═══════════ PLANIFICADOR ═══════════ */
+let mesSel = horaUsh().d.getUTCMonth()+1;
+const midN = m => doy(new Date(Date.UTC(2026,m-1,15)));
+function renderPlan(){
+  const mb=$('#meses'); mb.innerHTML='';
+  tx(MESES).forEach((n,i)=>{ const b=document.createElement('button'); b.textContent=n; b.className=i+1===mesSel?'on':''; b.onclick=()=>{mesSel=i+1;renderPlan();}; mb.appendChild(b); });
+  // gráfico de luz
+  const W=600,H=220,pl=34,pb=26, pts=[];
+  for(let d=1; d<=365; d+=4){ pts.push([pl+(d/365)*(W-pl-8), H-pb-(sol(d).len/24)*(H-pb-10)]); }
+  const y = h => H-pb-(h/24)*(H-pb-10);
+  const mx = m => pl+(midN(m)/365)*(W-pl-8);
+  const s = sol(midN(mesSel));
+  let svg = '';
+  [0,6,12,18,24].forEach(h=>{ svg+=`<line x1="${pl}" x2="${W-8}" y1="${y(h)}" y2="${y(h)}" stroke="#1a3150"/><text x="${pl-8}" y="${y(h)+4}" fill="#5f7a93" font-size="11" text-anchor="end" font-family="JetBrains Mono">${h}h</text>`; });
+  svg+=`<path d="M${pts.map(p=>p.join(',')).join('L')}L${pts.at(-1)[0]},${y(0)}L${pts[0][0]},${y(0)}Z" fill="url(#gl)"/><path d="M${pts.map(p=>p.join(',')).join('L')}" fill="none" stroke="#ffc46b" stroke-width="2.5"/>`;
+  tx(MESES).forEach((n,i)=>{ svg+=`<text x="${mx(i+1)}" y="${H-6}" fill="${i+1===mesSel?'#e8f4ff':'#5f7a93'}" font-size="11" text-anchor="middle" font-family="Manrope" font-weight="700">${n}</text>`; });
+  svg+=`<line x1="${mx(mesSel)}" x2="${mx(mesSel)}" y1="${y(24)}" y2="${y(0)}" stroke="#bfe6ff" stroke-dasharray="3 4"/><circle cx="${mx(mesSel)}" cy="${y(s.len)}" r="6" fill="#bfe6ff" stroke="#06101c" stroke-width="3"/>`;
+  $('#luzSvg').innerHTML=`<defs><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffc46b" stop-opacity=".35"/><stop offset="1" stop-color="#ffc46b" stop-opacity="0"/></linearGradient></defs>`+svg;
+  $('#luzSel').textContent=`${tx(MESES)[mesSel-1]} · ☀ ${hhmm(s.sr)} → ${hhmm(s.ss)}`;
+  $('#dTemp').textContent=TEMP[mesSel-1].toFixed(1).replace('.',',')+'°C';
+  $('#dLuz').textContent=dur(s.len);
+  const tp=temporada('2026-'+String(mesSel).padStart(2,'0')+'-15');
+  $('#dTemp2').textContent=tx(L({alta:'Alta',media:'Media',baja:'Baja'}[tp],{alta:'High',media:'Mid',baja:'Low'}[tp]));
+  // actividades: primero las que están en temporada
+  const orden=[...ACTS].sort((a,b)=>b.m.includes(mesSel)-a.m.includes(mesSel));
+  $('#acts').innerHTML=orden.map(a=>{ const on=a.m.includes(mesSel); const rango=a.m.length===12?(lang==='es'?'todo el año':'all year'):tx(MESES)[a.m[0]-1]+'–'+tx(MESES)[a.m.at(-1)-1];
+    return `<div class="act ${on?'on':'off'}"><div class="ic">${a.ic}</div><div><h4>${tx(a.n)}</h4><p>${tx(a.p)}</p></div><div class="when">${on?'● ':''}${rango}</div></div>`; }).join('');
+  renderValija();
+}
+function renderValija(){
+  const est = (mesSel>=5&&mesSel<=9)?'invierno':'verano';
+  $('#packH3').innerHTML = lang==='es' ? (est==='invierno'?'Para el <em>invierno</em>':'Para el <em>verano</em> (que es fresco)') : (est==='invierno'?'For <em>winter</em>':'For <em>summer</em> (which is chilly)');
+  const hechos=ls.get('uf_valija_'+est,[]);
+  const v=$('#valija'); v.innerHTML='';
+  VALIJA[est].forEach((it,i)=>{ const b=document.createElement('button'); b.className='item'+(hechos.includes(i)?' ok':''); b.innerHTML=`<i class="bx">✓</i><span>${tx(it)}</span>`;
+    b.onclick=()=>{ const h=ls.get('uf_valija_'+est,[]); const k=h.indexOf(i); k<0?h.push(i):h.splice(k,1); ls.set('uf_valija_'+est,h); renderValija(); }; v.appendChild(b); });
+  $('#progBar').style.width=(hechos.length/VALIJA[est].length*100)+'%';
+}
+
+/* ═══════════ CARTEL DE DISTANCIAS ═══════════ */
+function geo(lat2,lon2){ const [a,b]=[NEGOCIO.lat*rad,lat2*rad], dl=(lon2-NEGOCIO.lon)*rad;
+  const km = 6371*2*Math.asin(Math.sqrt(Math.sin((b-a)/2)**2+Math.cos(a)*Math.cos(b)*Math.sin(dl/2)**2));
+  const brg = (Math.atan2(Math.sin(dl)*Math.cos(b),Math.cos(a)*Math.sin(b)-Math.sin(a)*Math.cos(b)*Math.cos(dl))/rad+360)%360;
+  return {km,brg}; }
+let casa=null;
+function renderCartel(){
+  const items=[...LUGARES.map(x=>({...x,n:tx(x.n)}))]; if(casa) items.unshift({...casa,casa:true});
+  $('#poste').innerHTML=`<div class="cap">Ushuaia</div>`+items.map((x,i)=>{ const {km,brg}=geo(x.lat,x.lon); const der = brg<180; const rot=((i*37)%9-4)*.8;
+    return `<div class="flecha ${der?'der':'izq'} ${x.casa?'casa':''}" style="--rot:${rot}deg"><span>${x.n}</span><small>${Math.round(km).toLocaleString('es-AR')} km</small></div>`; }).join('');
+}
+$('#bCasa').onclick=()=>{
+  if(!navigator.geolocation){ $('#casaMsg').textContent=lang==='es'?'Tu navegador no comparte ubicación.':'Your browser can\'t share location.'; return; }
+  $('#casaMsg').textContent=lang==='es'?'Buscando… (la ubicación no sale de tu teléfono)':'Locating… (your location never leaves your device)';
+  navigator.geolocation.getCurrentPosition(p=>{ casa={n:lang==='es'?'Tu casa':'Your home',lat:p.coords.latitude,lon:p.coords.longitude}; const {km}=geo(casa.lat,casa.lon);
+    $('#casaMsg').textContent=(lang==='es'?`Estás a ${Math.round(km).toLocaleString('es-AR')} km del fin del mundo.`:`You are ${Math.round(km).toLocaleString('en')} km from the end of the world.`); renderCartel(); },
+    ()=>{ $('#casaMsg').textContent=lang==='es'?'Sin permiso de ubicación, no pasa nada.':'No location permission — no problem.'; },{timeout:8000});
+};
+
+/* ═══════════ POSTAL ═══════════ */
+const pc=$('#postal'), pctx=pc.getContext('2d');
+function dibujarPostal(){
+  const W=pc.width,H=pc.height, cielo=$('#pCielo').value;
+  const o = cielo==='aurora'?{l:0,g:0,aurora:1,t:4}: cielo==='atardecer'?{l:.45,g:1,aurora:0,t:2}:{l:.9,g:0,aurora:0,t:1,nieve:1};
+  pintar(pctx,W,H,{...o,vista:'canal',seed:11});
+  const gr=pctx.createLinearGradient(0,H*.55,0,H); gr.addColorStop(0,'rgba(3,8,15,0)'); gr.addColorStop(1,'rgba(3,8,15,.8)'); pctx.fillStyle=gr; pctx.fillRect(0,0,W,H);
+  pctx.fillStyle='#f2ead8'; pctx.textBaseline='alphabetic';
+  pctx.font='300 italic 92px Fraunces, Georgia, serif'; pctx.fillText(lang==='es'?'Estuve en el':'I was at the',60,H-190);
+  pctx.font='500 118px Fraunces, Georgia, serif'; pctx.fillText(lang==='es'?'fin del mundo':'end of the world',56,H-82);
+  const nom=$('#pNom').value.trim()||(lang==='es'?'Tu nombre':'Your name'), msg=$('#pMsg').value.trim();
+  pctx.font='700 28px Manrope, sans-serif'; pctx.fillStyle='#ffc46b'; pctx.fillText('— '+nom+(msg?' · '+msg:''),62,H-36);
+  // sello
+  const cx=W-150, cy=150, r=100; pctx.save(); pctx.translate(cx,cy); pctx.rotate(-.18);
+  pctx.strokeStyle='rgba(224,69,58,.92)'; pctx.lineWidth=5; pctx.beginPath(); pctx.arc(0,0,r,0,Math.PI*2); pctx.stroke(); pctx.lineWidth=2; pctx.beginPath(); pctx.arc(0,0,r-14,0,Math.PI*2); pctx.stroke();
+  pctx.fillStyle='rgba(224,69,58,.92)'; pctx.font='800 15px Manrope'; pctx.textAlign='center'; pctx.textBaseline='middle';
+  const txt=(P().plano+' · USHUAIA · ').toUpperCase(); const ang=Math.PI*2/txt.length;
+  for(let i=0;i<txt.length;i++){ pctx.save(); pctx.rotate(i*ang); pctx.fillText(txt[i],0,-r+27); pctx.restore(); }
+  pctx.font='800 24px JetBrains Mono'; pctx.fillText(new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'2-digit'}),0,-6);
+  pctx.font='600 13px JetBrains Mono'; pctx.fillText("54°48'S · 68°18'W",0,20);
+  pctx.restore(); pctx.textAlign='left'; pctx.textBaseline='alphabetic';
+}
+['input','change'].forEach(ev=>['#pNom','#pMsg','#pCielo'].forEach(s=>$(s).addEventListener(ev,dibujarPostal)));
+$('#bBajar').onclick=()=>{ const a=document.createElement('a'); a.download='postal-fin-del-mundo.png'; a.href=pc.toDataURL('image/png'); a.click(); };
+$('#bCompartir').onclick=async()=>{
+  try{ const blob=await new Promise(r=>pc.toBlob(r,'image/png')); const f=new File([blob],'postal-fin-del-mundo.png',{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[f]})){ await navigator.share({files:[f],title:'Fin del mundo'}); return; } }catch(e){}
+  $('#bBajar').click();
+};
+
+/* ═══════════ LLEGAR + FAQ ═══════════ */
+function renderInfo(){
+  $('#dirTxt').textContent = NEGOCIO.dir + (lang==='es'?' · a 10 minutos del aeropuerto (USH) y a 5 del puerto.':' · 10 minutes from the airport (USH) and 5 from the port.');
+  const I=[
+    [L('Aeropuerto','Airport'),'10 min',L('Transfer a pedido: te esperamos con un cartel con tu nombre.','Transfer on request: we wait for you with a sign.')],
+    [L('Check-in','Check-in'),NEGOCIO.checkin,L('¿Llegás antes? Dejás la valija y salís a caminar.','Arriving early? Leave your bag and go explore.')],
+    [L('Check-out','Check-out'),NEGOCIO.checkout,L('Si tu vuelo sale tarde, guardamos el equipaje.','If your flight is late, we store your luggage.')],
+    [L('Puerto','Port'),'5 min',L('Navegaciones y cruceros a la Antártida.','Boat trips and Antarctic cruises.')],
+  ];
+  $('#info').innerHTML=I.map(([a,b,c])=>`<div><small>${tx(a)}</small><b>${b}</b><p>${tx(c)}</p></div>`).join('');
+  const F=[
+    [L('¿Cómo se paga?','How do I pay?'),L('Una seña del 30 % para confirmar (en la web real, con Mercado Pago) y el resto al llegar: efectivo, transferencia o tarjeta.','A 30% deposit to confirm (Mercado Pago on the real site) and the rest on arrival: cash, bank transfer or card.')],
+    [L('¿Qué pasa si cancelo?','What if I cancel?'),L('Acá va la política del hospedaje. Lo típico: la seña se devuelve hasta X días antes o queda como crédito.','The property\'s policy goes here. Typically the deposit is refunded up to X days before, or kept as credit.')],
+    [L('¿Se ve la aurora austral?','Can I see the southern aurora?'),L('A veces, en noches largas y despejadas de invierno, pero no es frecuente a esta latitud. No la prometemos: si aparece, avisamos por el grupo de huéspedes.','Sometimes, on long clear winter nights, but it isn\'t frequent at this latitude. We don\'t promise it: if it shows up, we tell the guest group.')],
+    [L('¿Me ayudan a armar las excursiones?','Can you help with tours?'),L('Sí: en recepción te armamos el día según el clima, que acá cambia cada hora.','Yes: at reception we plan your day around the weather, which changes hourly here.')],
+  ];
+  $('#faq').innerHTML=F.map(([q,a])=>`<details><summary>${tx(q)}</summary><p>${tx(a)}</p></details>`).join('');
+}
+
+/* ═══════════ IDIOMA / MONEDA / MODO ═══════════ */
+function aplicarTextos(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-t]').forEach(el=>{ const o=T[el.dataset.t]; if(!o) return; if(el.hasAttribute('data-html')) el.innerHTML=tx(o); else el.textContent=tx(o); });
+  $('#logoTxt').innerHTML=P().nombre; $('#footName').textContent=P().plano+' · Ushuaia · '+tx(P().tipo);
+  $('#heroLead').textContent=tx(P().lead); $('#roomsH2').innerHTML=tx(P().h2); $('#roomsP').textContent=tx(P().p);
+  $('#heroEyebrow').textContent=tx(P().tipo)+' · Ushuaia · Tierra del Fuego';
+  $('#heroH1').innerHTML= lang==='es'?'Dormí en el<br><em>fin del mundo.</em>':'Sleep at the<br><em>end of the world.</em>';
+  $('#pMsg').placeholder= lang==='es'?'Vimos pingüinos 🐧':'We saw penguins 🐧';
+  $('#waBtn').href=waUrl(lang==='es'?`Hola ${P().plano}! Quería consultar disponibilidad.`:`Hi ${P().plano}! I'd like to check availability.`);
+  document.title=P().plano+(lang==='es'?' — Hospedaje en Ushuaia':' — Stay in Ushuaia');
+  ['#tLang','#tMon','#tModo'].forEach((s,i)=>$(s).querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v===[lang,mon,modo][i])));
+  $('#tModo').querySelectorAll('button').forEach(b=>b.textContent=tx(PRESETS[b.dataset.v].tipo));
+}
+function todo(){ aplicarTextos(); llenarPax(); renderRooms(); renderPlan(); renderCartel(); renderInfo(); tickVivo(); pintarClima(); dibujarPostal(); }
+$('#tLang').onclick=e=>{ const v=e.target.dataset.v; if(v){ lang=v; ls.set('uf_lang',v); todo(); } };
+$('#tMon').onclick=e=>{ const v=e.target.dataset.v; if(v){ mon=v; ls.set('uf_mon',v); aplicarTextos(); renderRooms(); } };
+$('#tModo').onclick=e=>{ const v=e.target.dataset.v; if(v){ modo=v; ls.set('uf_modo',v); todo(); } };
+
+/* nav + reveal */
+addEventListener('scroll',()=>$('#nav').classList.toggle('solid',scrollY>40),{passive:true});
+const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+todo();
+document.fonts && document.fonts.ready.then(dibujarPostal);
+setInterval(pintarVentanas,60000);
+</script>
+</body>
+</html>

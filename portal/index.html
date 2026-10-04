@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>0800webs · Tu web, lista para que la veas</title>
+<meta name="description" content="Portal privado de 0800webs: entrá con tu invitación, mirá tu web desde el celular y decidí.">
+<meta name="theme-color" content="#F4F5F1">
+<!--
+  PORTAL DE INVITACIONES — 0800webs · Zeta × Breka (2026-09-07)
+  La misma idea que el portal de demos de HG (demos.hg-vl.com), con la cara de
+  0800webs: el comercio recibe un link-ticket, abre, ve SU web desde el celular
+  o el escritorio, deja su devolución y, si le gusta, la pide por WhatsApp.
+
+  · BANCO DE DEMOS COMPARTIDO: las marcas, claves (hashes) y demos salen de
+    https://demos.hg-vl.com/banco.js — generado desde la tabla USERS del portal
+    de HG (web/demos-portal/_kit/banco.py). Acá no hay lista de marcas: una
+    demo nueva en el banco aparece sola. Las demos se embeben desde
+    demos.hg-vl.com con ?firma=0800webs, que apaga el sello de HG y firma el
+    chat como 0800webs (web/demos-portal/chat-ia.js).
+  · LOGIN: usuario + clave de la marca (SHA-256(user|clave|HGDEMOS), la misma
+    sal del banco) o link-ticket ?tk=base64({n,u,p,m}) con la tarjeta a nombre
+    del invitado. Los dueños (hg, 0800) ven todas las marcas con un selector.
+  · PRECIOS: los de la landing de 0800webs (US$ 250 una vez + US$ 20 por mes;
+    automatizaciones a consulta, US$ 100 la consulta). Cero cobro acá: el
+    pedido se arma y se manda por WhatsApp al número de 0800webs.
+  · Cero mención a HG/VL en lo visible: es el sitio de 0800webs.
+  · Tickets: 0800webs.com/portal/invitacion.html (clave de dueño 0800).
+  · Construido bajo la excepción de costo de CLAUDE.md; in_progress.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;800;900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Chivo+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+  // el banco vive en demos.hg-vl.com; en local se lee del vault servido en /demos-portal/
+  document.write('<script src="'+(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'/demos-portal/banco.js':'https://demos.hg-vl.com/banco.js')+'"><\/script>');
+</script>
+<style>
+  :root{
+    --papel:#F4F5F1; --blanco:#FFFFFF; --tinta:#15201B; --persiana:#1F5A3F; --persiana2:#174630;
+    --resaltador:#F2E14C; --gris:#6E7873; --cuerpo:#2F3B36; --linea:rgba(21,32,27,.14); --wa:#25D366;
+    --suave:#EEF5F0; --tinta2:#0B1210; --sobre-resaltador:#15201B;
+    --display:'Gabarito',sans-serif; --body:'Instrument Sans',sans-serif; --mono:'Chivo Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--papel);color:var(--tinta);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none} button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  img{max-width:100%;display:block}
+  :focus-visible{outline:3px solid var(--persiana);outline-offset:3px}
+  ::selection{background:var(--resaltador);color:var(--sobre-resaltador)}
+  .mono{font-family:var(--mono);font-size:12.5px;color:var(--gris)}
+  .disp{font-family:var(--display);font-weight:900;letter-spacing:-.03em;line-height:.95}
+  .logo{font-family:var(--display);font-weight:900;font-size:22px;letter-spacing:-.02em}
+  .logo span{color:var(--persiana)}
+  .marca{position:relative;display:inline-block;padding:0 .08em;white-space:nowrap;isolation:isolate}
+  .marca::before{content:'';position:absolute;inset:.18em -.05em .08em;background:var(--resaltador);z-index:-1;transform:rotate(-1.5deg);border-radius:3px}
+  .btn{font-family:var(--display);font-weight:800;font-size:15px;padding:13px 22px;border-radius:999px;border:2px solid var(--tinta);display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--tinta);color:var(--papel);transition:.15s;white-space:nowrap}
+  .btn:hover{background:var(--persiana);border-color:var(--persiana);color:#fff}
+  .btn.solid{background:var(--persiana);border-color:var(--persiana);color:#fff} .btn.solid:hover{background:var(--persiana2);border-color:var(--persiana2)}
+  .btn.ghost{background:transparent;color:var(--tinta)} .btn.ghost:hover{background:var(--tinta);color:var(--papel)}
+  .btn.wa{background:var(--wa);border-color:var(--wa);color:#fff} .btn.wa:hover{background:#1EBE5A;border-color:#1EBE5A}
+  .btn[disabled]{opacity:.4;pointer-events:none}
+  .etq{display:inline-block;background:var(--resaltador);color:var(--sobre-resaltador);font-family:var(--mono);font-size:12px;padding:4px 10px;border-radius:999px;border:1.5px solid var(--tinta)}
+
+  /* ═══ LOGIN · papel + persiana ═══ */
+  #login{position:relative;min-height:100vh;overflow:hidden;background:var(--papel);
+    background-image:linear-gradient(rgba(21,32,27,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(21,32,27,.045) 1px,transparent 1px);background-size:28px 28px}
+  .cnr{position:absolute;z-index:2;padding:18px 22px;font-family:var(--mono);font-size:12px;color:var(--gris);line-height:1.5;pointer-events:none}
+  .cnr b{color:var(--tinta);font-weight:500}
+  .cnr.tl{top:0;left:0} .cnr.tr{top:0;right:0;text-align:right} .cnr.bl{bottom:0;left:0} .cnr.br{bottom:0;right:0;text-align:right}
+  .cnr .logo{pointer-events:auto}
+  #clock{font-family:var(--display);font-weight:900;font-size:clamp(2rem,5vw,3rem);line-height:.9;letter-spacing:-.03em;color:var(--tinta)}
+  .lg-in{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:80px 24px;perspective:1100px}
+  .card-tilt{width:min(440px,92vw);transform-style:preserve-3d;transition:transform .12s ease-out;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+  .tk{position:relative;width:100%;aspect-ratio:1.586;border-radius:18px;overflow:hidden;background:var(--persiana);color:#fff;
+    box-shadow:14px 14px 0 var(--tinta);border:2px solid var(--tinta);transform-style:preserve-3d}
+  /* la persiana: tablillas horizontales que se "levantan" al entrar */
+  .tk .lamas{position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(255,255,255,.10) 0 2px,transparent 2px 14px,rgba(0,0,0,.14) 14px 16px,transparent 16px 22px);
+    transform:translateY(var(--lamas,0));transition:transform 1.1s cubic-bezier(.2,.8,.2,1)}
+  .tk .brillo{position:absolute;inset:0;pointer-events:none;background:radial-gradient(40% 32% at calc(var(--mx,50)*1%) calc(var(--my,40)*1%),rgba(255,255,255,.28),transparent 70%);mix-blend-mode:screen}
+  .tk .grano{position:absolute;inset:0;pointer-events:none;opacity:.35;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .tk-top{position:absolute;top:18px;left:22px;right:22px;display:flex;justify-content:space-between;align-items:center;transform:translateZ(30px)}
+  .tk-top b{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.92)}
+  .tk-top .etq{transform:rotate(3deg)}
+  .tk-chip{position:absolute;left:22px;top:56px;width:44px;height:33px;border-radius:7px;transform:translateZ(26px);background:linear-gradient(135deg,#F2E14C,#e3c93a 55%,#fff3a0);box-shadow:inset 0 0 0 1.5px rgba(21,32,27,.7)}
+  .tk-chip::before{content:'';position:absolute;inset:6px 8px;border:1.5px solid rgba(21,32,27,.55);border-radius:4px}
+  .tk-logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-56%) translateZ(46px);font-family:var(--display);font-weight:900;font-size:clamp(44px,9vw,64px);letter-spacing:-.04em;color:#fff;line-height:1;text-shadow:4px 4px 0 var(--tinta)}
+  .tk-logo span{color:var(--resaltador)}
+  .tk-bottom{position:absolute;left:22px;right:22px;bottom:16px;display:flex;justify-content:space-between;align-items:flex-end;transform:translateZ(30px)}
+  .tk-num{font-family:var(--mono);font-size:13px;letter-spacing:.24em;color:rgba(255,255,255,.92);text-transform:uppercase}
+  .tk-name{font-family:var(--display);font-weight:900;font-size:20px;letter-spacing:-.02em;color:var(--resaltador);text-transform:uppercase}
+  .lg-form{width:min(430px,92vw);text-align:center}
+  .lg-form h1{font-family:var(--display);font-weight:900;font-size:clamp(28px,4vw,38px);letter-spacing:-.03em;line-height:1;margin-bottom:8px}
+  .lg-form .lede{color:var(--cuerpo);font-size:15px;margin-bottom:18px}
+  .lg-form input{width:100%;background:var(--blanco);border:1.5px solid var(--linea);border-radius:999px;padding:13px 18px;color:var(--tinta);font-family:var(--mono);font-size:14px;margin-bottom:8px}
+  .lg-form input:focus{outline:none;border-color:var(--tinta)}
+  .lg-form input::placeholder{color:var(--gris)}
+  #tkInfo{display:none;font-family:var(--mono);font-size:12.5px;color:var(--cuerpo);margin-bottom:14px;background:var(--blanco);border:1.5px solid var(--linea);border-radius:999px;padding:8px 14px}
+  #tkInfo b{color:var(--tinta);font-weight:500}
+  .tk-err{min-height:1.2em;font-family:var(--mono);font-size:12px;color:#B3261E;margin:2px 0 8px}
+  .tk-note{margin-top:16px;font-family:var(--mono);font-size:12px;color:var(--gris)}
+  .tk-note a{color:var(--persiana);text-decoration:underline}
+  @media(max-width:640px){.cnr.bl,.cnr.br{display:none}.lg-in{padding:70px 18px 40px}}
+  @media(prefers-reduced-motion:reduce){.card-tilt{transform:none!important}.tk .lamas{transition:none}}
+
+  /* ═══ APP ═══ */
+  #app{display:none;min-height:100vh}
+  #side{position:fixed;z-index:40;left:0;top:0;bottom:0;width:240px;display:flex;flex-direction:column;gap:20px;padding:22px 16px 16px;background:var(--blanco);border-right:1.5px solid var(--tinta);overflow-y:auto}
+  .sd-brand b{display:block;font-family:var(--display);font-weight:900;font-size:24px;line-height:1;letter-spacing:-.03em}
+  .sd-brand span{display:block;margin-top:6px;font-family:var(--mono);font-size:11px;color:var(--gris)}
+  .sd-nav{display:flex;flex-direction:column;gap:4px}
+  .tab{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1.5px solid transparent;border-radius:999px;color:var(--cuerpo);font-weight:600;font-size:14.5px;padding:9px 14px;text-align:left}
+  .tab:hover{border-color:var(--linea)}
+  .tab.on{background:var(--tinta);color:var(--papel)}
+  .tab .dot{min-width:18px;height:18px;border-radius:999px;background:var(--resaltador);color:var(--sobre-resaltador);font-family:var(--mono);font-size:11px;line-height:18px;text-align:center;display:none}
+  .sd-open{margin-top:auto;background:var(--suave);border:1.5px solid var(--linea);border-radius:12px;padding:12px;font-family:var(--mono);font-size:11.5px;color:var(--cuerpo);line-height:1.5}
+  .sd-open b{color:var(--tinta);font-weight:500;display:block}
+  .sd-open .cd{display:block;margin-top:6px;font-family:var(--display);font-weight:900;font-size:22px;letter-spacing:-.02em;color:var(--persiana)}
+  .sd-foot{display:flex;flex-direction:column;gap:8px;font-family:var(--mono);font-size:11.5px;color:var(--gris)}
+  .sd-foot select{background:var(--papel);border:1.5px solid var(--linea);color:var(--tinta);border-radius:999px;padding:8px 12px;font-family:var(--mono);font-size:12px;cursor:pointer}
+  .sd-foot button{border:1.5px solid var(--linea);color:var(--cuerpo);border-radius:999px;padding:7px 14px;font-family:var(--mono);font-size:12px}
+  .sd-foot button:hover{border-color:var(--tinta);color:var(--tinta)}
+  main{margin-left:240px;padding:24px 24px 60px}
+  .pane{display:none} .pane.on{display:block}
+  .pane h2{font-family:var(--display);font-weight:900;font-size:clamp(26px,3vw,34px);letter-spacing:-.03em;line-height:1;margin-bottom:6px}
+  .pane .lead{color:var(--cuerpo);font-size:15px;max-width:60ch;margin-bottom:18px}
+  @media(max-width:860px){
+    #side{position:sticky;top:0;right:0;bottom:auto;width:auto;height:auto;display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px 12px;padding:12px 14px 10px;border-right:none;border-bottom:1.5px solid var(--tinta)}
+    .sd-brand b{font-size:20px} .sd-brand span{display:none}
+    .sd-foot{grid-column:2;grid-row:1;flex-direction:row;align-items:center;justify-content:flex-end}
+    #hdUser{display:none}
+    .sd-nav{grid-column:1/-1;flex-direction:row;overflow-x:auto;gap:6px}
+    .tab{padding:8px 14px;white-space:nowrap}
+    .sd-open{grid-column:1/-1;margin-top:0;display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:7px 12px}
+    .sd-open>span:first-child{font-size:0;line-height:0} .sd-open b{display:inline;font-size:11.5px;line-height:1.2} .sd-open .cd{margin-top:0;font-size:16px;white-space:nowrap}
+    main{margin-left:0;padding:18px 16px 60px}
+  }
+  /* tu web */
+  .view-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .vw{border:1.5px solid var(--linea);color:var(--cuerpo);border-radius:999px;padding:8px 14px;font-weight:600;font-size:13.5px;background:var(--blanco)}
+  .vw.on{background:var(--tinta);color:var(--papel);border-color:var(--tinta)}
+  .view-bar .btn{padding:8px 16px;font-size:13.5px}
+  .frame-wrap{border-radius:14px;overflow:hidden;background:var(--tinta);display:flex;justify-content:center;border:2px solid var(--tinta);box-shadow:10px 10px 0 var(--persiana)}
+  .frame-wrap iframe{border:0;width:100%;height:max(420px,calc(100dvh - 210px));background:#fff;transition:width .3s ease}
+  .frame-wrap.mobile iframe{width:390px}
+  .fb{margin-top:22px;background:var(--blanco);border:1.5px solid var(--linea);border-radius:14px;padding:16px}
+  .fb h3{font-family:var(--display);font-weight:800;font-size:17px;margin-bottom:8px}
+  .fb textarea{width:100%;min-height:84px;background:var(--papel);border:1.5px solid var(--linea);border-radius:10px;color:var(--tinta);font-family:inherit;font-size:14px;padding:12px;resize:vertical}
+  .fb textarea:focus{outline:none;border-color:var(--tinta)}
+  .fb .row{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;align-items:center}
+  .fb small{font-family:var(--mono);color:var(--gris);font-size:11.5px}
+  /* sumar */
+  .base{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;background:var(--persiana);color:#fff;border-radius:14px;padding:18px 20px;margin-bottom:12px;border:2px solid var(--tinta);box-shadow:8px 8px 0 var(--tinta)}
+  .base b{font-family:var(--display);font-weight:900;font-size:22px;letter-spacing:-.02em;display:block}
+  .base span{font-size:14px;color:rgba(255,255,255,.85)}
+  .base .tarifa{font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:-.02em;white-space:nowrap}
+  .base .tarifa small{font-family:var(--mono);font-weight:400;font-size:12px;color:rgba(255,255,255,.8);letter-spacing:0}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .svc{position:relative;border-radius:14px;padding:16px;background:var(--blanco);border:1.5px solid var(--linea);display:flex;flex-direction:column;gap:6px;transition:.15s}
+  .svc:hover{border-color:var(--tinta)}
+  .svc.sel{border:2px solid var(--persiana);background:var(--suave)}
+  .svc .ico{font-size:22px}
+  .svc h3{font-family:var(--display);font-weight:800;font-size:17px;line-height:1.15}
+  .svc p{font-size:13.5px;line-height:1.4;color:var(--cuerpo);flex:1}
+  .svc .price{font-family:var(--mono);font-size:12.5px;color:var(--gris)}
+  .svc .add{margin-top:6px;border:1.5px solid var(--tinta);color:var(--tinta);border-radius:999px;padding:9px;font-family:var(--display);font-weight:800;font-size:13.5px}
+  .svc.sel .add{background:var(--persiana);color:#fff;border-color:var(--persiana)}
+  .svc .rec{position:absolute;top:-11px;right:12px}
+  @media(max-width:900px){.svc-grid{grid-template-columns:1fr 1fr}} @media(max-width:600px){.svc-grid{grid-template-columns:1fr}}
+  /* contratar */
+  .co-grid{display:grid;grid-template-columns:1.2fr .9fr;gap:12px;align-items:start}
+  @media(max-width:900px){.co-grid{grid-template-columns:1fr}}
+  .card{background:var(--blanco);border:1.5px solid var(--linea);border-radius:14px;padding:18px}
+  .card h3{font-family:var(--display);font-weight:800;font-size:17px;margin-bottom:12px}
+  .sum-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;font-size:14px;line-height:1.3}
+  .sum-row+.sum-row{border-top:1px solid var(--linea)}
+  .sum-row span:last-child{font-family:var(--mono);font-size:12.5px;white-space:nowrap;color:var(--cuerpo)}
+  .sum-row .no{color:var(--gris)}
+  .sum-tot{display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;margin-top:6px;border-top:1.5px solid var(--tinta)}
+  .sum-tot b{font-family:var(--display);font-weight:900;font-size:30px;letter-spacing:-.03em}
+  .sum-tot span{font-family:var(--mono);font-size:12px;color:var(--gris)}
+  .fld{margin-bottom:10px}
+  .fld label{display:block;font-family:var(--mono);font-size:12px;color:var(--gris);margin-bottom:5px}
+  .fld input{width:100%;background:var(--papel);border:1.5px solid var(--linea);border-radius:999px;padding:11px 16px;color:var(--tinta);font-family:var(--mono);font-size:13.5px}
+  .fld input:focus{outline:none;border-color:var(--tinta)}
+  .hint{font-size:12.5px;color:var(--gris);margin-top:5px;line-height:1.4}
+  .ok-box{background:var(--suave);border:2px solid var(--persiana);border-radius:14px;padding:18px;margin-top:10px;display:none}
+  .ok-box.on{display:block}
+  .ok-box .code{font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:-.02em;color:var(--persiana)}
+  .ok-box p{font-size:14px;line-height:1.45;color:var(--cuerpo);margin-top:8px}
+  .ok-box .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  /* cómo sigue */
+  .pasos{display:grid;gap:18px;max-width:620px}
+  .paso{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start}
+  .paso .n{width:44px;height:44px;border-radius:50%;border:2px solid var(--tinta);display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:18px;background:var(--blanco)}
+  .paso.aca .n{background:var(--resaltador)}
+  .paso b{display:block;font-family:var(--display);font-weight:800;font-size:17px}
+  .paso span{font-size:14px;line-height:1.45;color:var(--cuerpo)}
+  .paso .when{display:inline-block;margin-top:6px}
+  .foot{margin-left:240px;padding:0 24px 40px;font-family:var(--mono);font-size:12px;color:var(--gris);line-height:1.5}
+  @media(max-width:860px){.foot{margin-left:0;padding:0 16px 40px}}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--tinta);color:var(--papel);padding:10px 20px;border-radius:999px;font-family:var(--mono);font-size:13px;opacity:0;transition:.25s;z-index:80;pointer-events:none}
+  .toast.show{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+
+<section id="login">
+  <div class="cnr tl"><a class="logo" href="https://0800webs.com/">0800<span>webs</span></a><br>Zeta × Breka · La Plata</div>
+  <div class="cnr tr"><span id="clock">00:00</span><br>Vista privada</div>
+  <div class="cnr bl"><b>Acceso con invitación</b><br>Primero la ves. Después hablamos.</div>
+  <div class="cnr br">0800webs.com<br>webs para comercios</div>
+  <div class="lg-in" id="lgIn">
+    <div class="card-tilt" id="cardTilt">
+      <div class="tk" id="tkCard">
+        <div class="lamas" aria-hidden="true"></div>
+        <div class="tk-top"><b id="tkMarca">tu comercio</b><span class="etq">invitación</span></div>
+        <div class="tk-chip" aria-hidden="true"></div>
+        <div class="tk-logo">0800<span>webs</span></div>
+        <div class="tk-bottom"><span class="tk-num" id="tkPara">•••• •••• ••••</span><span class="tk-name">tu web</span></div>
+        <div class="brillo" aria-hidden="true"></div>
+        <div class="grano" aria-hidden="true"></div>
+      </div>
+    </div>
+    <div class="lg-form">
+      <h1>Tu web ya <span class="marca">existe.</span></h1>
+      <p class="lede">Entrá con tu invitación y mirala como la vería un cliente.</p>
+      <p id="tkInfo"></p>
+      <div id="credFld">
+        <input id="u" placeholder="usuario" autocomplete="username" autocapitalize="none">
+        <input id="p" type="password" placeholder="clave" autocomplete="current-password">
+      </div>
+      <p class="tk-err" id="err"></p>
+      <button class="btn solid" id="enter" style="width:100%">Ver mi web</button>
+      <p class="tk-note">¿Sin invitación? <a href="https://wa.me/5492213172949?text=Hola%2C%20quiero%20ver%20c%C3%B3mo%20ser%C3%ADa%20la%20web%20de%20mi%20comercio" target="_blank" rel="noopener">Escribinos por WhatsApp</a></p>
+    </div>
+  </div>
+</section>
+
+<div id="app">
+  <aside id="side">
+    <div class="sd-brand"><b id="hdBrand">—</b><span>Vista privada · 0800webs</span></div>
+    <nav class="sd-nav">
+      <button class="tab on" data-pane="web">Tu web</button>
+      <button class="tab" data-pane="svc">Sumar <span class="dot" id="cartDot"></span></button>
+      <button class="tab" data-pane="co">La quiero</button>
+      <button class="tab" data-pane="next">Cómo sigue</button>
+    </nav>
+    <div class="sd-open">
+      <span><b>Precio de la landing</b> reservado para tu comercio</span>
+      <span class="cd" id="countdown">—</span>
+    </div>
+    <div class="sd-foot">
+      <select id="brandSel" style="display:none"></select>
+      <span id="hdUser"></span>
+      <button id="logout" type="button">Salir</button>
+    </div>
+  </aside>
+
+  <main>
+    <section class="pane on" id="pane-web">
+      <h2>Esta es tu web.</h2>
+      <p class="lead">No es un boceto: está funcionando con tu contenido real. Recorrela como lo haría un cliente, desde el celular y desde la compu.</p>
+      <div class="view-bar">
+        <button class="vw on" id="vwDesk" type="button">🖥 Escritorio</button>
+        <button class="vw" id="vwMob" type="button">📱 Celular</button>
+        <a class="btn ghost" id="openFull" href="#" target="_blank" rel="noopener">Abrir en pestaña completa ↗</a>
+        <a class="btn ghost" id="openImm" href="#" target="_blank" rel="noopener" style="display:none">✦ Versión inmersiva ↗</a>
+      </div>
+      <div class="frame-wrap" id="frameWrap"><iframe id="demoFrame" title="Tu web" loading="lazy"></iframe></div>
+      <div class="fb">
+        <h3>Tu devolución</h3>
+        <textarea id="fbTxt" placeholder="¿Qué cambiarías? ¿Qué te gustó? Anotalo acá: nos llega con tu pedido y lo ajustamos antes de ponerla en tu dominio."></textarea>
+        <div class="row">
+          <button class="btn ghost" id="fbSave" type="button">Guardar devolución</button>
+          <small id="fbNote"></small>
+        </div>
+      </div>
+    </section>
+
+    <section class="pane" id="pane-svc">
+      <h2>Lo que podés <span class="marca">sumar.</span></h2>
+      <p class="lead">La web sale al precio de la landing. Las automatizaciones se miran caso por caso: marcá las que te interesan y las cotizamos.</p>
+      <div class="base">
+        <div><b>Tu web, en tu dominio</b><span>La que estás viendo, con tu nombre, tus fotos, tu zona y tu WhatsApp. Siempre online, mantenida y con alguien del otro lado.</span></div>
+        <div class="tarifa">US$ 250 <small>una vez</small> + US$ 20 <small>por mes</small></div>
+      </div>
+      <div class="svc-grid" id="svcGrid"></div>
+    </section>
+
+    <section class="pane" id="pane-co">
+      <h2>La <span class="marca">quiero.</span></h2>
+      <p class="lead">Sin letra chica: el precio está acá. Confirmás, nos llega por WhatsApp y la ponemos en tu dominio en días.</p>
+      <div class="co-grid">
+        <div class="card">
+          <h3>Resumen</h3>
+          <div id="sumRows"></div>
+          <div class="sum-tot"><span>Total inicial <em id="sumMens" style="font-style:normal"></em></span><b id="sumSetup">—</b></div>
+          <div class="fld" style="margin-top:16px"><label>Dominio que querés (.com / .com.ar)</label><input id="domain" placeholder="micomercio.com"><p class="hint">Si no tenés uno, lo elegimos juntos: el primer año va incluido.</p></div>
+          <div class="fld"><label>Tu WhatsApp o email</label><input id="contact" placeholder="221 …"></div>
+          <button class="btn solid" id="confirm" type="button" style="width:100%">Confirmar pedido</button>
+          <div class="ok-box" id="okBox">
+            <div class="mono">Pedido registrado</div><div class="code" id="okCode">—</div>
+            <p id="okMsg"></p>
+            <div class="row"><a class="btn wa" id="okWa" href="#" target="_blank" rel="noopener">Enviar por WhatsApp</a><button class="btn ghost" id="okCopy" type="button">Copiar resumen</button></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Qué incluye</h3>
+          <div class="sum-row"><span>Dominio propio, primer año</span><span>incluido</span></div>
+          <div class="sum-row"><span>Hosting, certificado y mantenimiento</span><span>en el mensual</span></div>
+          <div class="sum-row"><span>Botón de WhatsApp que ya escribe</span><span>incluido</span></div>
+          <div class="sum-row"><span>Día y noche, celular y escritorio</span><span>incluido</span></div>
+          <div class="sum-row"><span>Cambios de textos y fotos</span><span>en el mensual</span></div>
+          <div class="sum-row"><span>Tareas puntuales grandes</span><span>se presupuestan</span></div>
+          <p class="hint" style="margin-top:12px">No te gusta: no pagaste nada. El pedido no cobra nada por acá: lo confirmamos por WhatsApp y recién ahí se paga.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pane" id="pane-next">
+      <h2>Cómo <span class="marca">sigue.</span></h2>
+      <p class="lead">Primero la ves. Después hablamos.</p>
+      <div class="pasos">
+        <div class="paso"><div class="n">1</div><div><b>Miramos tu negocio</b><span>Web, redes, ficha de Google, teléfono. Media hora nuestra, cero tuya.</span><br><span class="etq when">hecho</span></div></div>
+        <div class="paso aca"><div class="n">2</div><div><b>Te armamos la tuya</b><span>Con tus datos y tus fotos. La estás viendo desde tu celular con usuario y clave.</span><br><span class="etq when">estás acá</span></div></div>
+        <div class="paso"><div class="n">3</div><div><b>Recién ahí decidís</b><span>Te gusta: la ponemos en tu dominio, al precio de arriba. No te gusta: no pagaste nada.</span><br><span class="etq when">sin compromiso</span></div></div>
+        <div class="paso"><div class="n">4</div><div><b>En tu dominio, en días</b><span>Ajustamos lo que anotaste en tu devolución, la subimos a tu dominio y te avisamos. El mensual es tenernos a mano.</span></div></div>
+      </div>
+      <p class="hint" style="margin-top:22px">Somos dos y los dos damos la cara: Zeta pone el ojo, Breka escribe el código. El que te atiende es el que hace tu web.</p>
+    </section>
+  </main>
+  <div class="foot">0800webs · Zeta × Breka · La Plata · webs para comercios · <a href="https://0800webs.com/" style="text-decoration:underline">0800webs.com</a></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+(function(){
+const $=id=>document.getElementById(id);
+function toast(t){const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2200);}
+// ════════ CONFIG ════════
+const WHATSAPP='5492213172949';        // el WhatsApp de 0800webs (Tomás)
+const FIRMA='0800webs';                // firma que viaja a las demos embebidas (?firma=)
+const OPENING_DIAS=15;                 // días en que se sostiene el precio desde el primer ingreso
+const PRECIO={setup:250, mensual:20};  // los de 0800webs.com (landing de tu rubro)
+const CONSULTA=100;                    // automatizaciones: US$ 100 la consulta, de ahí sale el presupuesto
+const MONEDA='US$';
+// lo que se puede sumar: TODO a consulta (así lo dice la landing). El id mapea
+// a las recomendaciones que vienen del banco (rec/hide) vía MAPA_REC.
+const CATALOGO=[
+  {id:'wa',ico:'💬',n:'WhatsApp que contesta solo',d:'Las preguntas de siempre —horario, precio, zona, cómo llegar— respondidas al toque, y vos con el aviso cuando hace falta una persona.'},
+  {id:'cobro',ico:'💳',n:'Cobro automático',d:'Seña o pago completo por Mercado Pago desde la web o el chat, con el comprobante llegándote solo.'},
+  {id:'turnos',ico:'📆',n:'Turnos y pedidos',d:'El cliente reserva o arma su pedido y te llega ordenado al WhatsApp, con recordatorio antes.'},
+  {id:'google',ico:'⭐',n:'Ficha de Google al día',d:'Horarios, fotos y reseñas cuidados: que cuando te busquen, salgas vos y no el de al lado.'},
+  {id:'redes',ico:'📲',n:'Redes en piloto',d:'Lo que pasa en tu comercio, publicado con tu estética y sin que vivas en el teléfono.'},
+];
+const MAPA_REC={wa:'wa',leads:'wa',ticketing:'cobro',ecom:'cobro',menu:'turnos',turnos:'turnos',resenas:'google',social:'redes'};
+// ════════ BANCO ════════
+const B=window.BANCO_DEMOS||{marcas:{},base:'https://demos.hg-vl.com/'};
+const LOCAL=/^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+const BASE=LOCAL?'/':B.base;
+const MARCAS=B.marcas;
+if(!Object.keys(MARCAS).length){$('err').textContent='No pude leer el banco de demos. Probá de nuevo en un rato.';}
+const urlDemo=rel=>rel?BASE+rel+(rel.includes('?')?'&':'?')+'firma='+FIRMA:'#';
+// ════════ SESIÓN ════════
+let cur=null, curUser='';
+async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function tryLogin(u,p){
+  u=(u||'').trim().toLowerCase(); p=(p||'').trim();
+  const rec=MARCAS[u]; if(!rec) return false;
+  if(await sha(u+'|'+p+'|HGDEMOS')!==rec.hash) return false;
+  curUser=u; cur=rec; sessionStorage.setItem('o8_s',btoa(u+':'+p)); boot(); return true;
+}
+$('enter').addEventListener('click',async()=>{$('err').textContent='';if(!await tryLogin($('u').value,$('p').value))$('err').textContent='Esas credenciales no abren. Revisá tu invitación.';});
+$('p').addEventListener('keydown',e=>{if(e.key==='Enter')$('enter').click();});
+$('logout').addEventListener('click',()=>{sessionStorage.removeItem('o8_s');location.href=location.pathname;});
+// link-ticket ?tk=base64url({n,u,p,m}): la tarjeta llega a nombre del invitado
+(function ticketMode(){
+  const tk=new URLSearchParams(location.search).get('tk'); if(!tk) return;
+  try{
+    const d=JSON.parse(decodeURIComponent(escape(atob(tk.replace(/-/g,'+').replace(/_/g,'/')))));
+    const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    if(d.u) $('u').value=d.u; if(d.p) $('p').value=d.p;
+    $('tkInfo').style.display='inline-block';
+    $('tkInfo').innerHTML='🎟 Invitación para <b>'+esc(d.n)+'</b>'+(d.m?' · '+esc(d.m):'');
+    if(d.n) $('tkPara').textContent='para · '+String(d.n);
+    if(d.m) $('tkMarca').textContent=d.m;
+  }catch(e){}
+})();
+(async function auto(){const t=new URLSearchParams(location.search).get('t')||sessionStorage.getItem('o8_s');if(!t)return;try{const [u,...r]=atob(t).split(':');await tryLogin(u,r.join(':'));}catch(e){}})();
+// ════════ APP ════════
+let isOwner=false, brandKey='', cart=[];
+const LS=k=>'o8_'+(isOwner?'own_'+brandKey:curUser)+'_'+k;
+function boot(){
+  $('login').style.display='none'; $('app').style.display='block';
+  // La apertura, a la plataforma de HG: el panel la muestra en el embudo de la
+  // marca, junto a lo que después haga en la demo. Anónima y sin bloquear nada.
+  try{
+    let c=localStorage.getItem('o8_cid'); if(!c){c=[...crypto.getRandomValues(new Uint8Array(8))].map(x=>x.toString(16).padStart(2,'0')).join('');localStorage.setItem('o8_cid',c);}
+    fetch('https://api.hg-vl.com/v1/'+encodeURIComponent(curUser)+'/huella',{method:'POST',keepalive:true,
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({tipo:'apertura',visitante:'portal-'+c,via:'0800webs'})}).catch(()=>{});
+  }catch(e){}
+  history.replaceState(null,'',location.pathname+location.hash);
+  if(!localStorage.getItem('o8_'+curUser+'_first')) localStorage.setItem('o8_'+curUser+'_first',Date.now());
+  tickCd(); setInterval(tickCd,1000);
+  if(cur.owner){ isOwner=true;
+    const sel=$('brandSel');
+    sel.innerHTML=Object.keys(MARCAS).filter(k=>!MARCAS[k].owner).map(k=>`<option value="${k}">${MARCAS[k].brand}</option>`).join('');
+    sel.style.display=''; applyBrand(sel.value); }
+  else applyBrand(null);
+  const h=location.hash.replace('#',''); const t=h&&document.querySelector(`.tab[data-pane="${h}"]`); if(t) t.click();
+}
+function applyBrand(k){
+  if(k){brandKey=k;cur=MARCAS[k];}
+  $('hdBrand').textContent=cur.brand;
+  $('hdUser').textContent=isOwner?'Vista de dueño · '+MARCAS[curUser].brand:'Invitación de '+cur.brand;
+  $('demoFrame').src=urlDemo(cur.demo); $('openFull').href=urlDemo(cur.demo);
+  $('openImm').style.display=cur.imm?'':'none'; if(cur.imm) $('openImm').href=urlDemo(cur.imm);
+  cart=JSON.parse(localStorage.getItem(LS('cart'))||'[]');
+  $('fbTxt').value=localStorage.getItem(LS('fb'))||'';
+  renderSvc(); renderSum(); $('okBox').classList.remove('on');
+  const ped=JSON.parse(localStorage.getItem(LS('pedido'))||'null'); if(ped) showOk(ped,false);
+}
+$('brandSel').addEventListener('change',()=>applyBrand($('brandSel').value));
+function tickCd(){
+  const end=+localStorage.getItem('o8_'+curUser+'_first')+OPENING_DIAS*864e5, ms=end-Date.now();
+  if(ms<=0){$('countdown').textContent='Consultanos';return;}
+  const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);
+  $('countdown').textContent=`${d} días ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===t));
+  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id==='pane-'+t.dataset.pane));
+}));
+$('vwDesk').addEventListener('click',()=>{$('frameWrap').classList.remove('mobile');$('vwDesk').classList.add('on');$('vwMob').classList.remove('on');});
+$('vwMob').addEventListener('click',()=>{$('frameWrap').classList.add('mobile');$('vwMob').classList.add('on');$('vwDesk').classList.remove('on');});
+$('fbSave').addEventListener('click',()=>{localStorage.setItem(LS('fb'),$('fbTxt').value);$('fbNote').textContent='Guardada '+new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})+' · va con tu pedido';toast('Devolución guardada ✓');});
+const fmt=v=>MONEDA+' '+v.toLocaleString('es-AR');
+function recomendados(){return new Set((cur.rec||[]).map(r=>MAPA_REC[r]).filter(Boolean));}
+function renderSvc(){
+  const rec=recomendados();
+  $('svcGrid').innerHTML=CATALOGO.map(s=>{const sel=cart.includes(s.id);
+    return `<div class="svc${sel?' sel':''}" data-id="${s.id}">${rec.has(s.id)?'<span class="etq rec">para tu rubro</span>':''}
+      <span class="ico">${s.ico}</span><h3>${s.n}</h3><p>${s.d}</p>
+      <span class="price">a consulta · ${fmt(CONSULTA)} la consulta, de ahí sale el presupuesto</span>
+      <button class="add" type="button">${sel?'✓ Me interesa':'Me interesa'}</button></div>`;}).join('');
+  document.querySelectorAll('.svc .add').forEach(b=>b.addEventListener('click',()=>{const id=b.closest('.svc').dataset.id;cart=cart.includes(id)?cart.filter(x=>x!==id):[...cart,id];localStorage.setItem(LS('cart'),JSON.stringify(cart));renderSvc();renderSum();}));
+  const dot=$('cartDot'); dot.style.display=cart.length?'inline-block':'none'; dot.textContent=cart.length;
+}
+function renderSum(){
+  let rows=`<div class="sum-row"><span>Tu web en tu dominio (1er año incluido)</span><span>${fmt(PRECIO.setup)} · luego ${fmt(PRECIO.mensual)}/mes</span></div>`;
+  cart.forEach(id=>{const s=CATALOGO.find(x=>x.id===id);rows+=`<div class="sum-row"><span>${s.ico} ${s.n}</span><span>a consulta</span></div>`;});
+  if(cart.length) rows+=`<div class="sum-row"><span>Consulta de automatizaciones (una sola, cubre todas)</span><span>${fmt(CONSULTA)}</span></div>`;
+  else rows+=`<div class="sum-row"><span class="no">Sin automatizaciones por ahora — se suman cuando quieras, desde la pestaña Sumar.</span><span></span></div>`;
+  $('sumRows').innerHTML=rows;
+  $('sumSetup').textContent=fmt(PRECIO.setup+(cart.length?CONSULTA:0));
+  $('sumMens').textContent='· luego '+fmt(PRECIO.mensual)+'/mes';
+}
+$('confirm').addEventListener('click',()=>{
+  const dom=$('domain').value.trim(), contact=$('contact').value.trim();
+  if(!contact){toast('Dejanos un WhatsApp o email para confirmarte');$('contact').focus();return;}
+  const ped={code:'0800-'+curUser.toUpperCase().slice(0,3)+'-'+Math.random().toString(36).slice(2,6).toUpperCase(),brand:cur.brand,dom,contact,servicios:cart.slice(),setup:PRECIO.setup+(cart.length?CONSULTA:0),mens:PRECIO.mensual,fb:localStorage.getItem(LS('fb'))||'',ts:new Date().toISOString()};
+  localStorage.setItem(LS('pedido'),JSON.stringify(ped)); showOk(ped,true);
+});
+function pedidoTexto(p){
+  const svcs=p.servicios.map(id=>CATALOGO.find(x=>x.id===id).n).join(', ')||'ninguna por ahora';
+  return `PEDIDO ${p.code} — ${p.brand}\nWeb en mi dominio: ${p.dom||'(a definir)'}\nAutomatizaciones que me interesan: ${svcs}\nTotal inicial: ${fmt(p.setup)} · luego ${fmt(p.mens)}/mes\nContacto: ${p.contact}`+(p.fb?`\nMi devolución: ${p.fb}`:'');
+}
+function showOk(p,fresh){
+  $('okBox').classList.add('on'); $('okCode').textContent=p.code;
+  $('okMsg').textContent='Mandanos el pedido por WhatsApp y te confirmamos en el día. La web sale en tu dominio en días; el pago se arregla ahí, no acá.';
+  const txt=pedidoTexto(p);
+  $('okCopy').onclick=()=>navigator.clipboard.writeText(txt).then(()=>toast('Resumen copiado ✓'));
+  $('okWa').href='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(txt);
+  if(fresh){toast('Pedido '+p.code+' armado ✓');$('okBox').scrollIntoView({behavior:'smooth',block:'center'});}
+}
+// ════════ LOGIN FX: reloj, tilt y la persiana que se levanta ════════
+(function fx(){
+  const clk=$('clock'); const f=()=>{clk.textContent=new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',hour12:false});}; f(); setInterval(f,15000);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>$('tkCard').style.setProperty('--lamas','-101%')));
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const login=$('login'), tilt=$('cardTilt'), lg=$('lgIn'); let tx=0,ty=0,cx=0,cy=0,on=true;
+  login.addEventListener('pointermove',e=>{const r=lg.getBoundingClientRect();tx=Math.max(-1,Math.min(1,((e.clientX-r.left)/r.width)*2-1));ty=Math.max(-1,Math.min(1,((e.clientY-r.top)/r.height)*2-1));});
+  login.addEventListener('pointerleave',()=>{tx=0;ty=0;});
+  (function loop(){ if(login.style.display==='none') return; cx+=(tx-cx)*.09; cy+=(ty-cy)*.09;
+    tilt.style.setProperty('--ry',(cx*12)+'deg'); tilt.style.setProperty('--rx',(-cy*9)+'deg');
+    tilt.style.setProperty('--mx',50+cx*38); tilt.style.setProperty('--my',44+cy*34); requestAnimationFrame(loop); })();
+})();
+})();
+</script>
+</body></html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>0800webs · Armar invitación</title>
+<meta name="theme-color" content="#F4F5F1">
+<!--
+  ARMAR INVITACIÓN — 0800webs (2026-09-07). Solo para los dueños (usuarios
+  owner del banco: '0800' y 'hg'). Genera el link-ticket del portal:
+    https://0800webs.com/portal/?tk=base64url({n,u,p,m})
+  con el nombre del comercio invitado y las credenciales de su marca. El banco
+  de marcas es el compartido (https://demos.hg-vl.com/banco.js); la clave de la
+  marca se verifica contra su hash antes de armar el link. Llavero opcional en
+  este navegador, cifrado con AES-GCM con una llave derivada de la clave de
+  dueño (PBKDF2): sin la clave de dueño no se lee.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;800;900&family=Instrument+Sans:wght@400;500;600&family=Chivo+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>document.write('<script src="'+(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'/demos-portal/banco.js':'https://demos.hg-vl.com/banco.js')+'"><\/script>');</script>
+<style>
+  :root{--papel:#F4F5F1;--blanco:#fff;--tinta:#15201B;--persiana:#1F5A3F;--persiana2:#174630;--resaltador:#F2E14C;--gris:#6E7873;--cuerpo:#2F3B36;--linea:rgba(21,32,27,.14);--suave:#EEF5F0;--wa:#25D366;
+    --display:'Gabarito',sans-serif;--body:'Instrument Sans',sans-serif;--mono:'Chivo Mono',monospace}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--papel);color:var(--tinta);font-family:var(--body);font-size:15.5px;line-height:1.5;-webkit-font-smoothing:antialiased;
+    background-image:linear-gradient(rgba(21,32,27,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(21,32,27,.045) 1px,transparent 1px);background-size:28px 28px}
+  a{color:inherit} button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  .logo{font-family:var(--display);font-weight:900;font-size:22px;letter-spacing:-.02em;text-decoration:none} .logo span{color:var(--persiana)}
+  nav{position:sticky;top:0;z-index:10;background:rgba(244,245,241,.9);backdrop-filter:blur(10px);border-bottom:1.5px solid var(--tinta)}
+  nav .shell{display:flex;justify-content:space-between;align-items:center;height:60px}
+  .shell{max-width:1080px;margin:0 auto;padding:0 24px}
+  .mono{font-family:var(--mono);font-size:12.5px;color:var(--gris)}
+  h1{font-family:var(--display);font-weight:900;font-size:clamp(30px,4.5vw,44px);letter-spacing:-.03em;line-height:1;margin-bottom:8px}
+  .lede{color:var(--cuerpo);max-width:60ch;margin-bottom:26px}
+  .marca{position:relative;display:inline-block;padding:0 .08em;white-space:nowrap;isolation:isolate}
+  .marca::before{content:'';position:absolute;inset:.18em -.05em .08em;background:var(--resaltador);z-index:-1;transform:rotate(-1.5deg);border-radius:3px}
+  .btn{font-family:var(--display);font-weight:800;font-size:15px;padding:12px 20px;border-radius:999px;border:2px solid var(--tinta);display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--tinta);color:var(--papel);transition:.15s;text-decoration:none;white-space:nowrap}
+  .btn:hover{background:var(--persiana);border-color:var(--persiana);color:#fff}
+  .btn.solid{background:var(--persiana);border-color:var(--persiana);color:#fff}
+  .btn.ghost{background:transparent;color:var(--tinta)} .btn.ghost:hover{background:var(--tinta);color:var(--papel)}
+  .btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+  .lnk{font-family:var(--mono);font-size:12px;color:var(--persiana);text-decoration:underline}
+  .etq{display:inline-block;background:var(--resaltador);color:var(--tinta);font-family:var(--mono);font-size:12px;padding:4px 10px;border-radius:999px;border:1.5px solid var(--tinta)}
+  main{padding:56px 0 80px}
+  #gate{max-width:420px;margin:60px auto;text-align:center}
+  #gate .card{margin-top:18px}
+  .card{background:var(--blanco);border:1.5px solid var(--linea);border-radius:14px;padding:20px}
+  .fld{margin-bottom:12px;text-align:left}
+  .fld label{display:block;font-family:var(--mono);font-size:12px;color:var(--gris);margin-bottom:5px}
+  .fld input,.fld select{width:100%;background:var(--papel);border:1.5px solid var(--linea);border-radius:999px;padding:11px 16px;color:var(--tinta);font-family:var(--mono);font-size:13.5px}
+  .fld input:focus,.fld select:focus{outline:none;border-color:var(--tinta)}
+  .kb{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px;color:var(--cuerpo)} .kb input{accent-color:var(--persiana)}
+  .st{display:block;font-family:var(--mono);font-size:12px;margin-top:6px;min-height:1.2em} .st.ok{color:var(--persiana)} .st.bad{color:#B3261E}
+  .err{font-family:var(--mono);font-size:12px;color:#B3261E;min-height:1.2em;margin:4px 0 8px}
+  #app{display:none}
+  .grid{display:grid;grid-template-columns:1fr 1.1fr;gap:16px;align-items:start}
+  @media(max-width:860px){.grid{grid-template-columns:1fr}}
+  .out{display:none} .out.on{display:block}
+  .lk{font-family:var(--mono);font-size:12px;word-break:break-all;background:var(--papel);border:1.5px solid var(--linea);border-radius:10px;padding:10px 12px;line-height:1.5;color:var(--cuerpo)}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .qr{margin-top:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .qr img{width:150px;height:150px;border:1.5px solid var(--linea);border-radius:10px;background:#fff}
+  .qr small{font-family:var(--mono);font-size:12px;color:var(--gris);max-width:32ch;line-height:1.5}
+  .prev{width:100%;height:460px;border:2px solid var(--tinta);border-radius:14px;margin-top:16px;background:var(--papel);box-shadow:8px 8px 0 var(--persiana)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .chips span{font-family:var(--mono);font-size:11.5px;background:var(--suave);border:1.5px solid var(--linea);border-radius:999px;padding:4px 10px}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--tinta);color:var(--papel);padding:10px 20px;border-radius:999px;font-family:var(--mono);font-size:13px;opacity:0;transition:.25s;z-index:80;pointer-events:none}
+  .toast.show{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+<nav><div class="shell"><a class="logo" href="https://0800webs.com/">0800<span>webs</span></a><span class="mono">armar invitación · solo dueños</span></div></nav>
+<main><div class="shell">
+
+<section id="gate">
+  <h1>Armar <span class="marca">invitación</span></h1>
+  <p class="lede">Entrá con tu usuario de dueño. El link que sale es el ticket: quien lo abre ve su web con su nombre en la tarjeta.</p>
+  <div class="card">
+    <div class="fld"><label>usuario de dueño</label><input id="gUser" placeholder="0800" autocomplete="username" autocapitalize="none"></div>
+    <div class="fld"><label>clave de dueño</label><input id="gPass" type="password" placeholder="ORO-0800-····" autocomplete="current-password"></div>
+    <p class="err" id="gateErr"></p>
+    <button class="btn solid" id="gEnter" style="width:100%">Entrar</button>
+  </div>
+</section>
+
+<section id="app">
+  <h1>Invitar a un <span class="marca">comercio</span></h1>
+  <p class="lede">Elegí la marca, poné el nombre de quien la recibe y pegá la clave de esa marca. Se verifica contra el banco antes de armar el link.</p>
+  <div class="grid">
+    <div class="card">
+      <div class="fld"><label>Nombre de quien la recibe</label><input id="fName" placeholder="Mauro"></div>
+      <div class="fld"><label>Marca</label><select id="fBrand"></select></div>
+      <div class="fld"><label>Clave de esa marca</label><input id="fPass" placeholder="ORO-XXXX-XXXX" autocomplete="off">
+        <div class="kb"><label><input type="checkbox" id="fRem" checked> Recordar en este equipo (cifrada con tu clave de dueño)</label></div>
+        <span class="st" id="kStat"></span></div>
+      <div class="fld"><label>URL del portal</label><input id="fUrl" value="https://0800webs.com/portal/"></div>
+      <button class="btn solid" id="gen" style="width:100%">Generar invitación</button>
+      <div id="llavBox" style="display:none;margin-top:16px"><span class="mono">llavero de este equipo</span><div class="chips" id="llavList"></div><p style="margin-top:8px"><button class="lnk" id="llavClear" type="button">Vaciar llavero</button></p></div>
+    </div>
+    <div>
+      <div class="card out" id="out">
+        <span class="mono">link-ticket</span>
+        <div class="lk" id="oLink" style="margin-top:8px">—</div>
+        <div class="row">
+          <button class="btn" id="oCopy" type="button">Copiar link</button>
+          <a class="btn wa" id="oWa" href="#" target="_blank" rel="noopener">Mandar por WhatsApp</a>
+          <a class="btn ghost" id="oOpen" href="#" target="_blank" rel="noopener">Vista previa ↗</a>
+        </div>
+        <div class="qr"><img id="oQr" alt="QR de la invitación" src=""><small>El QR abre el mismo link: la tarjeta con el nombre y las credenciales. Para mandar como imagen o imprimir.</small></div>
+        <iframe class="prev" id="oPrev" title="Vista previa de la invitación" loading="lazy"></iframe>
+      </div>
+      <div class="card" id="vacio" style="text-align:center;color:var(--gris)"><span class="mono">La invitación aparece acá.</span></div>
+    </div>
+  </div>
+</div></main>
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+(function(){
+const $=id=>document.getElementById(id);
+function toast(t){const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),2200);}
+const B=window.BANCO_DEMOS||{marcas:{}}; const M=B.marcas;
+const MARCAS=Object.keys(M).filter(k=>!M[k].owner);
+const sha=async s=>{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');};
+const b64url=o=>btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+// ── gate: solo dueños del banco ──
+let KEK=null, owner='';
+async function kek(pass){const mat=await crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2',salt:new TextEncoder().encode('0800webs-llavero'),iterations:120000,hash:'SHA-256'},mat,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);}
+async function entrar(){
+  const u=$('gUser').value.trim().toLowerCase(), p=$('gPass').value.trim();
+  const rec=M[u]; $('gateErr').textContent='';
+  if(!rec||!rec.owner||await sha(u+'|'+p+'|HGDEMOS')!==rec.hash){$('gateErr').textContent='Esa clave no es de un dueño.';return;}
+  owner=u; KEK=await kek(u+'|'+p);
+  $('gate').style.display='none'; $('app').style.display='block';
+  $('fBrand').innerHTML=MARCAS.map(k=>`<option value="${k}">${M[k].brand}</option>`).join('');
+  await cargarLlavero(); pintarLlavero(); rellenar();
+}
+$('gEnter').addEventListener('click',entrar);
+$('gPass').addEventListener('keydown',e=>{if(e.key==='Enter')entrar();});
+if(!MARCAS.length) $('gateErr').textContent='No pude leer el banco de demos.';
+// ── llavero cifrado ──
+let llavero={};
+const LS_LL='o8_llavero';
+async function guardarLlavero(){const iv=crypto.getRandomValues(new Uint8Array(12));
+  const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},KEK,new TextEncoder().encode(JSON.stringify(llavero)));
+  localStorage.setItem(LS_LL,JSON.stringify({o:owner,iv:[...iv],ct:[...new Uint8Array(ct)]}));}
+async function cargarLlavero(){try{const d=JSON.parse(localStorage.getItem(LS_LL)||'null'); if(!d||d.o!==owner) return;
+  const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(d.iv)},KEK,new Uint8Array(d.ct)); llavero=JSON.parse(new TextDecoder().decode(pt));}catch(e){llavero={};}}
+function pintarLlavero(){const ks=Object.keys(llavero); $('llavBox').style.display=ks.length?'':'none';
+  $('llavList').innerHTML=ks.map(k=>`<span>${M[k]?M[k].brand:k}</span>`).join('');}
+function rellenar(){const k=$('fBrand').value; $('fPass').value=llavero[k]||''; $('kStat').textContent=llavero[k]?'clave recordada en este equipo':''; $('kStat').className='st';}
+$('fBrand').addEventListener('change',rellenar);
+$('llavClear').addEventListener('click',()=>{llavero={};localStorage.removeItem(LS_LL);pintarLlavero();rellenar();toast('Llavero vacío');});
+// ── generar ──
+$('gen').addEventListener('click',async()=>{
+  const n=$('fName').value.trim(), m=$('fBrand').value, p=$('fPass').value.trim();
+  let url=$('fUrl').value.trim()||'https://0800webs.com/portal/'; if(!/\/$/.test(url)&&!/\.html$/.test(url)) url+='/';
+  if(!n){toast('Poné el nombre de quien la recibe');$('fName').focus();return;}
+  if(!p){toast('Pegá la clave de la marca');$('fPass').focus();return;}
+  if(await sha(m+'|'+p+'|HGDEMOS')!==M[m].hash){$('kStat').textContent='esa clave no abre el portal de '+M[m].brand;$('kStat').className='st bad';toast('Clave incorrecta para esa marca');return;}
+  $('kStat').textContent='clave verificada contra el banco ✓'; $('kStat').className='st ok';
+  if($('fRem').checked){llavero[m]=p; await guardarLlavero(); pintarLlavero();}
+  const tk=b64url({n,u:m,p,m:M[m].brand}); const link=url+'?tk='+tk;
+  $('out').classList.add('on'); $('vacio').style.display='none';
+  $('oLink').textContent=link;
+  $('oCopy').onclick=()=>navigator.clipboard.writeText(link).then(()=>toast('Link copiado ✓'));
+  $('oWa').href='https://wa.me/?text='+encodeURIComponent('🎟 '+n+', tu web de '+M[m].brand+' ya está para que la veas. Entrá acá, es tuya: '+link);
+  $('oOpen').href=link;
+  $('oQr').src='https://api.qrserver.com/v1/create-qr-code/?size=340x340&margin=1&data='+encodeURIComponent(link);
+  $('oPrev').src='index.html?tk='+tk;
+  toast('Invitación lista ✓');
+});
+})();
+</script>
+</body></html>
