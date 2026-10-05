@@ -9,8 +9,9 @@
 <!--
   OFICIOS — LA plantilla. Una sola página pinta las webs de todos los del programa:
   0800webs.com/o/<slug> → Caddy reescribe a /oficios/sitio/index.html, y esta página
-  lee la ficha de api.hg-vl.com/v1/_oficios/sitio/<slug>. Diez estilos por data-p (papel, tinta, acido, sastre,
-  galeria, retro, marmol, y desde 048: lino, holo, noir — reemplazan a neon, pizarra y comic); cualquiera
+  lee la ficha de api.hg-vl.com/v1/_oficios/sitio/<slug>. Dieciséis estilos por data-p (papel, tinta, acido, sastre,
+  galeria, retro, marmol, y desde 048: lino, holo, noir — reemplazan a neon, pizarra y comic; desde 049:
+  medieval, bio, suizo, industrial, vision, termico); cualquiera
   sirve para barbero o tatuador. ?llave=… = vista previa del dueño antes de publicarse.
   ?demo=<estilo>[&rubro=barberia|tatuaje] = datos inventados para la
   página de la campaña; con &rubro= del otro oficio muestra la versión cruzada (CRUCE).
@@ -332,8 +333,7 @@ body[data-p=marmol]{background:linear-gradient(115deg,transparent 40%,rgba(201,1
 [data-p=marmol] .ig,[data-p=marmol] .hoy{border-radius:0;border-color:var(--line)}
 .monograma{width:74px;height:74px;margin:0 auto 6px;border:1px solid var(--acc);border-radius:50%;display:grid;place-items:center;font:500 34px/1 'Playfair Display',serif;color:var(--acc);font-style:italic;box-shadow:0 0 0 5px var(--bg),0 0 0 6px rgba(201,164,92,.4)}
 
-/* ═════════ TENDENCIA (a prueba, 2026-10-05) — seis estilos de la lista «trending design styles».
-   Todavía NO están en el CHECK del SQL ni en validar(): solo se ven en la vitrina con ?demo=. ═════════ */
+/* ═════════ TENDENCIA (049, 2026-10-05) — seis estilos de la lista «trending design styles». ═════════ */
 
 /* ════ MEDIEVAL — Future Medieval: gótica cromada, arcos en punta, espinas y cortes en bisel ════ */
 [data-p=medieval]{--bg:#0b0b0d;--bg2:#121216;--card:#121216;--line:#2c2c34;--ink:#e9e6df;--mute:#8e8a93;--acc:#cfd3db;--acc2:#8c1c2c;--on:#0b0b0d;
