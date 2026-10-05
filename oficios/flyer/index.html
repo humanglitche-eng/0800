@@ -6,7 +6,7 @@
 <title>Flyer Oficios · 0800webs</title>
 <meta name="robots" content="noindex">
 <!--
-  OFICIOS — flyer y tarjetitas para dejar en barberías y estudios.
+  OFICIOS — flyer y tarjetitas para dejar en barberías, estudios, peluquerías y salones.
   Cada tanda lleva un QR con ?o=<lugar>: el formulario guarda ese origen y en el
   panel se ve de qué barbería salió cada anotado. Blanco y negro a propósito:
   se imprime en cualquier lado y no gasta tinta de color.
@@ -38,6 +38,7 @@ body{background:#d9d6d0;font-family:'DM Sans',system-ui,sans-serif;color:var(--k
 .af li{padding:2.2mm 0;border-bottom:.4mm solid var(--k);display:flex;gap:4mm}
 .af li b{font-family:'Space Mono',monospace;font-size:11pt;min-width:9mm}
 .af .pie{margin-top:auto;display:grid;grid-template-columns:1fr 58mm;gap:8mm;align-items:end}
+.af .ofs{font-size:10pt;letter-spacing:.06em;text-transform:uppercase;margin:3mm 0 0;color:var(--gris)}
 .af .cupos{font-family:'Bebas Neue',sans-serif;font-size:40pt;line-height:.9}
 .af .cupos small{display:block;font-family:'DM Sans',sans-serif;font-size:11pt;margin-top:2mm;color:var(--gris)}
 .af .url{font-family:'Space Mono',monospace;font-size:13pt;font-weight:700;margin-top:5mm}
@@ -75,7 +76,8 @@ body{background:#d9d6d0;font-family:'DM Sans',system-ui,sans-serif;color:var(--k
 <div class="hoja" id="hAfiche"><div class="af">
   <div class="top"><span>0800webs · Oficios</span><span>Programa 2026</span></div>
   <div class="tijera" aria-hidden="true">✂</div>
-  <p class="preg">¿Cortás o tatuás por tu cuenta<br>y estás <b>arrancando</b>?</p>
+  <p class="preg">¿Trabajás por tu cuenta<br>y estás <b>arrancando</b>?</p>
+  <p class="ofs">Barbería · Tatuaje · Peluquería · Uñas · Pestañas y cejas · Maquillaje · Piercing · Masajes</p>
   <h1>Tu web<br><span>$50.000</span><em class="mes">por mes</em></h1>
   <ul>
     <li><b>01</b>Tus trabajos, tus precios y tu Instagram en una página tuya</li>
@@ -84,7 +86,7 @@ body{background:#d9d6d0;font-family:'DM Sans',system-ui,sans-serif;color:var(--k
     <li><b>04</b>Con más de 5, tu web se lleva un fondo inmersivo</li>
   </ul>
   <div class="pie">
-    <div><div class="cupos">100 cupos para barberos<br>100 para tatuadores<small>Salen todas juntas el 10/10, o antes si se llena el cupo.</small></div><div class="url">0800webs.com/oficios</div></div>
+    <div><div class="cupos">100 cupos<br>por oficio<small>Salen todas juntas el 31/10, o antes si se llena el cupo.</small></div><div class="url">0800webs.com/oficios</div></div>
     <div class="qrbox"><div class="qr" id="qr1"></div><small>Escaneá y anotate</small></div>
   </div>
 </div></div>
@@ -108,7 +110,7 @@ function armar() {
   $('#urlTxt').textContent = url;
   qr($('#qr1'), url, 440);
   const card = `<div class="card"><div><div class="t">0800webs · Oficios</div><h2>Tu web<br><span>$50.000/mes</span></h2>
-    <p>Para barberos y tatuadores independientes que arrancan. Turnos con seña a tu Mercado Pago. Traé colegas y baja hasta $30.000.</p><div class="u">0800webs.com/oficios · sale el 10/10</div></div><div class="qr"></div></div>`;
+    <p>Para independientes que arrancan: barbería, tatuaje, peluquería, uñas, pestañas, maquillaje, piercing y masajes. Turnos con seña a tu Mercado Pago. Traé colegas y baja hasta $30.000.</p><div class="u">0800webs.com/oficios · sale el 31/10</div></div><div class="qr"></div></div>`;
   $('#cards').innerHTML = card.repeat(8);
   document.querySelectorAll('#cards .qr').forEach((el) => qr(el, url, 240));
   const q = $('#que').value;

@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Oficios — Tu web por $50.000 al mes · 0800webs</title>
-<meta name="description" content="Programa de 0800webs para barberos y tatuadores que están arrancando: tu web con tus trabajos, tu Instagram y turnos con seña a tu Mercado Pago, por $50.000 al mes. Cada colega que traés te baja $4.000, hasta $30.000. 100 cupos por rubro.">
+<meta name="description" content="Programa de 0800webs para independientes que están arrancando —barberos, tatuadores, peluquería, uñas, pestañas, maquillaje, piercing y masajes—: tu web con tus trabajos, tu Instagram y turnos con seña a tu Mercado Pago, por $50.000 al mes. Cada colega que traés te baja $4.000, hasta $30.000. 100 cupos por rubro.">
 <meta property="og:title" content="Tu web por $50.000 al mes — Oficios · 0800webs">
-<meta property="og:description" content="Para barberos y tatuadores que arrancan. Tus trabajos, tu Instagram y turnos con seña a tu Mercado Pago. 100 cupos por rubro.">
+<meta property="og:description" content="Para barberos, tatuadores, peluqueras, manicuras, lashistas, maquilladoras, piercers y masajistas que arrancan. Tus trabajos, tu Instagram y turnos con seña a tu Mercado Pago. 100 cupos por rubro.">
 <meta name="theme-color" content="#F4F5F1">
 <script>try{var t0=localStorage.getItem("0800tema");if(t0&&t0!=="cartel")document.documentElement.setAttribute("data-tema",t0);}catch(e){}</script>
 <!--
@@ -118,14 +118,16 @@ nav .btn{padding:9px 16px;min-height:0;font-size:14px}
 .hero .lead b{color:var(--ink);font-weight:500}
 .hero .ctas{display:flex;gap:12px;flex-wrap:wrap;margin:32px 0 40px}
 .lanza{color:var(--cel);margin:-14px 0 14px;text-transform:none;letter-spacing:.04em}
-.cupos{display:grid;grid-template-columns:repeat(2,minmax(0,300px));gap:14px}
+.cupos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:980px}
+.oficios{color:var(--mute);font-size:12.5px;letter-spacing:.04em;margin:14px 0 22px;line-height:1.7}
 .cupo{border:1px solid var(--line);background:var(--blanco);border-radius:18px;padding:18px 20px}
 .cupo .top{display:flex;justify-content:space-between;align-items:baseline}
-.cupo b{font-family:var(--d);font-size:44px;font-weight:400;line-height:1}
+.cupo{padding:14px 16px}
+.cupo b{font-family:var(--d);font-size:36px;font-weight:400;line-height:1}
 .cupo small{color:var(--mute)}
 .barra{height:6px;border-radius:3px;background:var(--line);margin-top:12px;overflow:hidden}
 .barra i{display:block;height:100%;background:var(--grad);width:0;transition:width 1.2s var(--ease)}
-@media(max-width:560px){.cupos{grid-template-columns:1fr 1fr}.cupo b{font-size:36px}}
+@media(max-width:760px){.cupos{grid-template-columns:1fr 1fr}.cupo b{font-size:30px}}
 
 /* incluye */
 .incl{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -176,6 +178,7 @@ nav .btn{padding:9px 16px;min-height:0;font-size:14px}
 .pc .barra-pc b{font-family:var(--d);font-size:26px;font-weight:400;margin-right:auto;line-height:1}
 .pc .barra-pc button{min-height:40px;padding:8px 14px;border:1px solid var(--line2);border-radius:999px;font-size:13px;font-weight:700}
 .pc .barra-pc button[aria-pressed="true"]{background:var(--grad);color:var(--sobre-resaltador);border-color:transparent}
+.pc .barra-pc select{min-height:40px;padding:8px 12px;border:1px solid var(--line2);border-radius:999px;font:inherit;font-size:13px;font-weight:700;background:transparent;color:inherit}
 .pc .barra-pc .cerrar{width:40px;padding:0;font-size:18px}
 .pc iframe{flex:1;width:100%;border:0;background:#fff}
 body.sin-scroll{overflow:hidden}
@@ -233,9 +236,13 @@ textarea.inp{min-height:88px;resize:vertical}
 .seg span small{display:block;font-weight:400;color:var(--mute);font-size:12px}
 .seg input:checked+span{border-color:var(--cel);background:rgba(var(--persiana-rgb),.08);box-shadow:inset 0 0 0 1px var(--cel)}
 .seg input:focus-visible+span{outline:2px solid var(--cel);outline-offset:2px}
-.seg.big label{flex:1;min-width:150px}
+.seg.big label{flex:1 1 calc(25% - 8px);min-width:140px}
+#segRubro{display:grid;grid-template-columns:1fr 1fr}
+#segRubro label{min-width:0}
+#segRubro span{padding:14px 12px}
+.seg.big input:disabled+span{opacity:.45;cursor:not-allowed}
 .seg.big span{padding:18px;text-align:center}
-.seg.big span b{display:block;font-family:var(--d);font-size:30px;font-weight:400}
+.seg.big span b{display:block;font-family:var(--d);font-size:22px;font-weight:400;line-height:1.15}
 .svc-row{display:grid;grid-template-columns:1fr 120px 90px 40px;gap:8px;margin-bottom:8px}
 .svc-row .x{border:1px solid var(--line2);border-radius:12px;color:var(--mute)}
 .svc-head{display:grid;grid-template-columns:1fr 120px 90px 40px;gap:8px;font-size:12px;color:var(--mute);margin-bottom:6px}
@@ -352,18 +359,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </div></nav>
 
 <header class="hero"><div class="wrap">
-  <span class="chip mono"><i></i>Programa para barberos y tatuadores independientes</span>
+  <span class="chip mono"><i></i>Programa para independientes de ocho oficios</span>
   <h1>Tu web<br><span class="grad">por $50.000 al mes.</span></h1>
-  <p class="lead">Para los que <b>están arrancando</b> y viven en el Instagram y los DMs. Una página tuya con <b>tus trabajos</b>, <b>tus precios</b> y <b>turnos con seña que van directo a tu Mercado Pago</b>. <b>Traé colegas: cada uno te baja $4.000 por mes, hasta $30.000</b> — y con más de 5 tu web se lleva un fondo inmersivo. <b>Salen todas juntas el 10 de octubre.</b></p>
+  <p class="lead">Para los que <b>están arrancando</b> y viven en el Instagram y los DMs. Una página tuya con <b>tus trabajos</b>, <b>tus precios</b> y <b>turnos con seña que van directo a tu Mercado Pago</b>. <b>Traé colegas: cada uno te baja $4.000 por mes, hasta $30.000</b> — y con más de 5 tu web se lleva un fondo inmersivo. <b>Salen todas juntas el 31 de octubre.</b></p>
+  <p class="oficios mono" aria-label="Los oficios del programa">Barbería · Tatuaje · Peluquería · Uñas · Pestañas y cejas · Maquillaje · Piercing · Masajes</p>
   <div class="ctas">
     <a class="btn btn-pri" href="#anotarme">Anotarme ahora →</a>
     <a class="btn btn-sec" href="#referidos">Cómo bajar la cuota</a>
   </div>
-  <p class="lanza mono" id="lanza">Lanzamiento: 10 de octubre · o antes, si se llena el cupo</p>
-  <div class="cupos" aria-live="polite">
-    <div class="cupo"><div class="top"><b id="cB">100</b><small>de <span id="tB">100</span> cupos</small></div><small>Barberos</small><div class="barra"><i id="bB"></i></div></div>
-    <div class="cupo"><div class="top"><b id="cT">100</b><small>de <span id="tT">100</span> cupos</small></div><small>Tatuadores</small><div class="barra"><i id="bT"></i></div></div>
-  </div>
+  <p class="lanza mono" id="lanza">Lanzamiento: 31 de octubre · o antes, si se llena el cupo</p>
+  <div class="cupos" id="cupos" aria-live="polite"></div>
 </div></header>
 
 <section id="incluye" style="padding-top:40px"><div class="wrap">
@@ -372,7 +377,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <div class="incl">
     <div class="it big"><span class="n">01</span><h3>Turnos con seña a tu Mercado Pago</h3><p>El cliente elige servicio, día y horario, paga la seña en <b>tu</b> link de Mercado Pago y te llega el turno por WhatsApp. Si usás la agenda de citas de Google Calendar, la conectamos y los horarios se bloquean solos. La plata nunca pasa por nosotros.</p></div>
     <div class="it"><span class="n">02</span><h3>Tu dirección propia</h3><p><span class="mono" style="text-transform:none">0800webs.com/o/tu-nombre</span> para poner en la bio, en la tarjeta y en el espejo.</p></div>
-    <div class="it"><span class="n">03</span><h3>Tus trabajos</h3><p>Hasta 8 fotos de tus cortes o tatuajes y el botón directo a tu Instagram.</p></div>
+    <div class="it"><span class="n">03</span><h3>Tus trabajos</h3><p>Hasta 8 fotos de tus trabajos —cortes, tatuajes, uñas, looks— y el botón directo a tu Instagram.</p></div>
     <div class="it"><span class="n">04</span><h3>Precios y horarios</h3><p>Tus servicios con precio y duración, y cuándo atendés. Los cambiás vos cuando quieras.</p></div>
     <div class="it"><span class="n">05</span><h3>El directorio</h3><p>Aparecés junto a los otros del programa, filtrable por barrio. Más gente te encuentra.</p></div>
   </div>
@@ -380,11 +385,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <section id="estilos"><div class="wrap">
   <div class="head"><div><div class="mono grad">Dieciséis estilos</div><h2>Elegí cómo<br>se ve la tuya</h2></div>
-    <p>Mismo contenido, dieciséis caras: tres clásicas, tres llamativas, cuatro elegantes y seis de tendencia. <b style="color:var(--ink)">Las dieciséis sirven para barbero y para tatuador</b> — cambiá el oficio acá abajo para verlas. Estos son ejemplos con datos inventados: la tuya lleva tus fotos, tus precios y tu nombre.</p></div>
+    <p>Mismo contenido, dieciséis caras: tres clásicas, tres llamativas, cuatro elegantes y seis de tendencia. <b style="color:var(--ink)">Las dieciséis sirven para los ocho oficios</b> — elegí el tuyo acá abajo para verlas. Estos son ejemplos con datos inventados: la tuya lleva tus fotos, tus precios y tu nombre.</p></div>
   <div class="ver-como" role="group" aria-label="Ver los estilos como">
     <span class="mono">Ver como</span>
-    <button type="button" data-ver="barberia" aria-pressed="true">Barbero</button>
-    <button type="button" data-ver="tatuaje" aria-pressed="false">Tatuador</button>
+    <span id="verBtns" style="display:contents"></span>
     <span class="sep" aria-hidden="true"></span>
     <button type="button" class="fondo-todos" id="fondoTodos" aria-pressed="false">✦ Fondo inmersivo en todos</button>
   </div>
@@ -405,7 +409,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <div class="pasos">
     <div class="paso"><h3>Completás el formulario</h3><p>Tus datos, servicios, horarios, tu link de seña y tus fotos. Te lleva diez minutos.</p></div>
     <div class="paso"><h3>Te suscribís por $50.000/mes</h3><p>Lo activás una vez en Mercado Pago y se cobra solo cada mes. Cancelás cuando quieras.</p></div>
-    <div class="paso"><h3>Salen todas juntas</h3><p>El <b>10 de octubre</b>, o antes si se llena el cupo de tu oficio, publicamos todas las webs a la vez y abrimos el directorio. Hasta ese día ves la tuya con tu llave.</p></div>
+    <div class="paso"><h3>Salen todas juntas</h3><p>El <b>31 de octubre</b>, o antes si se llena el cupo de tu oficio, publicamos todas las webs a la vez y abrimos el directorio. Hasta ese día ves la tuya con tu llave.</p></div>
   </div>
 </div></section>
 
@@ -432,10 +436,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div>
       <fieldset id="fsRubro">
         <legend>¿Qué hacés?</legend>
-        <div class="seg big">
-          <label><input type="radio" name="rubro" value="barberia" checked><span><b>Barbero</b><small id="qB">quedan 100</small></span></label>
-          <label><input type="radio" name="rubro" value="tatuaje"><span><b>Tatuador</b><small id="qT">quedan 100</small></span></label>
-        </div>
+        <div class="seg big" id="segRubro"></div>
       </fieldset>
 
       <fieldset>
@@ -545,7 +546,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     </div>
 
     <aside class="resumen">
-      <div class="mono" style="color:var(--mute)" id="resRubro">Barbero</div>
+      <div class="mono" style="color:var(--mute)" id="resRubro">Barbería</div>
       <h3 id="resNombre">Tu web</h3>
       <div class="mono" style="color:var(--cel);text-transform:none" id="resUrl">0800webs.com/o/…</div>
       <ul><li>Página propia con tu dirección</li><li>Turnos con seña a tu Mercado Pago</li><li>Hasta 8 fotos y tu Instagram</li><li>Aparecés en el directorio</li><li>QR para imprimir</li></ul>
@@ -553,7 +554,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <p class="fine" style="text-align:left;margin-top:6px" id="resRef">−$4.000 por cada colega al día · mínimo $30.000 · con más de 5, fondo inmersivo</p>
       <button class="btn btn-pri" type="submit" id="enviar">Enviar y suscribirme →</button>
       <div class="err" id="err" hidden role="alert"></div>
-      <p class="fine">Primero guardamos tus datos, después activás la suscripción en Mercado Pago. Se cobra sola cada mes y la cancelás cuando quieras. Tu web sale el 10/10, o antes si se llena el cupo.</p>
+      <p class="fine">Primero guardamos tus datos, después activás la suscripción en Mercado Pago. Se cobra sola cada mes y la cancelás cuando quieras. Tu web sale el 31/10, o antes si se llena el cupo.</p>
     </aside>
   </form>
 
@@ -562,9 +563,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <section id="directorio"><div class="wrap">
   <div class="head"><div><div class="mono grad">Directorio</div><h2>Los del programa</h2></div>
-    <p>Barberos y tatuadores que ya tienen su web. Buscá por barrio.</p></div>
+    <p>Los independientes del programa que ya tienen su web. Buscá por oficio o por barrio.</p></div>
   <div class="filtros">
-    <button class="on" data-r="">Todos</button><button data-r="barberia">Barberos</button><button data-r="tatuaje">Tatuadores</button>
+    <button class="on" data-r="">Todos</button>
     <input id="buscar" type="search" placeholder="Buscar por barrio o nombre" aria-label="Buscar por barrio o nombre">
   </div>
   <div class="dir" id="dir"></div>
@@ -583,14 +584,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <details><summary>¿Cómo funcionan los referidos?</summary><p>Al anotarte te damos tu código y tu link. Cuando un colega se anota con tu código y paga su mes, a vos te baja $4.000 la cuota del mes siguiente (el ajuste en Mercado Pago es automático). Cuenta mientras esté al día: si deja de pagar, tu descuento vuelve a subir. El que se suma paga su cuota completa y, a su vez, puede bajarla trayendo a otros.</p></details>
   <details><summary>¿Qué es el fondo inmersivo?</summary><p>Una animación viva detrás de toda tu web, en los colores de tu estilo, que se mueve con el dedo y el scroll. Es el premio para los que tienen <b>más de 5</b> referidos al día: con 5 ya pagás el mínimo, y del sexto en adelante tu web se lleva el fondo. Si bajás de 6, vuelve al fondo de siempre.</p></details>
   <details><summary>¿Qué pasa si dejo de pagar?</summary><p>Tenés 7 días de margen. Pasados esos días tu web se pausa: deja de verse y sale del directorio, pero no se borra nada. Cuando volvés a pagar, vuelve sola como estaba.</p></details>
-  <details><summary>¿Cuándo sale mi web?</summary><p>Todas las webs del programa salen juntas, con el directorio: el <b>10 de octubre</b>, o antes si se llenan los 100 cupos de tu oficio (si se llenan los de barberos, salen los barberos aunque todavía haya lugar para tatuadores). Mientras tanto la ves y la ajustás con tu llave.</p></details>
+  <details><summary>¿Cuándo sale mi web?</summary><p>Todas las webs del programa salen juntas, con el directorio: el <b>31 de octubre</b>, o antes si se llenan los 100 cupos de tu oficio (si se llenan los de barberos, salen los barberos aunque todavía haya lugar en los otros). Mientras tanto la ves y la ajustás con tu llave.</p></details>
   <details><summary>¿La seña de mis clientes a quién le llega?</summary><p>A vos, directo a tu cuenta de Mercado Pago, con tu propio link. Nosotros nunca tocamos esa plata.</p></details>
   <details><summary>¿Se actualiza sola con mi Instagram?</summary><p>No: Instagram no deja hacerlo sin un permiso especial para cada cuenta. Subís tus mejores fotos en el formulario, la web tiene el botón directo a tu Instagram, y las fotos las cambiás vos cuando quieras con tu llave.</p></details>
   <details><summary>¿Cómo funcionan los turnos?</summary><p>El cliente elige servicio, día y horario entre los que marcaste, paga la seña en tu link y te manda el turno por WhatsApp con el comprobante. Vos confirmás. Si conectás tu agenda de citas de Google Calendar, los horarios salen de ahí y se bloquean solos.</p></details>
   <details><summary>¿Puedo cambiar precios u horarios?</summary><p>Sí, cuando quieras. Al terminar el formulario te damos una llave: con tu código y esa llave entrás acá y actualizás servicios, precios, horarios, fotos, la seña y tu Instagram.</p></details>
   <details><summary>¿Y el diseño? ¿Puedo personalizarla?</summary><p>En esta tanda elegís uno de los dieciséis estilos (tres clásicos, tres llamativos, cuatro elegantes y seis de tendencia) y no se hacen cambios a medida: así podemos entregar 200 webs a este precio. <b>Cuando terminemos las entregas vamos a abrir una campaña de customización</b> para los del programa: colores y tipografías propias, secciones nuevas, dominio propio y agenda con bloqueo automático. Va a ser opcional y con precio aparte; los del programa se enteran primero.</p></details>
   <details><summary>¿Y si no me gusta o no sale?</summary><p>Si tu web no sale en el lanzamiento, te devolvemos el primer mes y cancelamos la suscripción. Si revisando algo no se puede publicar (por ejemplo, fotos que no son tuyas), te avisamos antes para que lo cambies, y si no se puede, te devolvemos la plata.</p></details>
-  <details id="terminos"><summary>Términos del programa</summary><p>Suscripción mensual de $50.000 por Mercado Pago por una web simple en 0800webs.com/o/&lt;tu-dirección&gt;, en uno de los dieciséis estilos. Por cada persona que se anota con tu código y tiene su cuota al día, tu cuota baja $4.000, hasta un mínimo de $30.000 por mes; con más de 5 referidos al día tu web suma el fondo inmersivo mientras se mantengan. El descuento se recalcula solo y se aplica desde el siguiente cobro. No se admite anotarse con el propio código. Si la cuota queda impaga más de 7 días, la web se pausa hasta que se regularice. Podés cancelar cuando quieras; lo ya cobrado no se devuelve, salvo que tu web no salga en el lanzamiento. Quienes se anotaron antes del 30 de septiembre de 2026 con el pago único de $30.000 conservan esas condiciones. Incluye: tu nombre, tus fotos, tus servicios y precios, tus horarios, tu Instagram, tu WhatsApp, el pedido de turno con seña a tu propio link de Mercado Pago (o tu agenda de Google) y tu lugar en el directorio. Las webs se publican todas juntas al completarse el cupo de su oficio o el 10 de octubre de 2026, lo que ocurra primero. No incluye cambios de diseño ni dominio propio; terminadas las entregas se abrirá una campaña de customización opcional, con precio aparte. Los datos personales (nombre real, email) no se publican y se usan solo para contactarte por tu web; podés pedir que los borremos escribiéndonos. 0800webs puede dar de baja una web con contenido que no sea tuyo o que no corresponda al oficio.</p></details>
+  <details id="terminos"><summary>Términos del programa</summary><p>Suscripción mensual de $50.000 por Mercado Pago por una web simple en 0800webs.com/o/&lt;tu-dirección&gt;, en uno de los dieciséis estilos. Por cada persona que se anota con tu código y tiene su cuota al día, tu cuota baja $4.000, hasta un mínimo de $30.000 por mes; con más de 5 referidos al día tu web suma el fondo inmersivo mientras se mantengan. El descuento se recalcula solo y se aplica desde el siguiente cobro. No se admite anotarse con el propio código. Si la cuota queda impaga más de 7 días, la web se pausa hasta que se regularice. Podés cancelar cuando quieras; lo ya cobrado no se devuelve, salvo que tu web no salga en el lanzamiento. Quienes se anotaron antes del 30 de septiembre de 2026 con el pago único de $30.000 conservan esas condiciones. Incluye: tu nombre, tus fotos, tus servicios y precios, tus horarios, tu Instagram, tu WhatsApp, el pedido de turno con seña a tu propio link de Mercado Pago (o tu agenda de Google) y tu lugar en el directorio. Las webs se publican todas juntas al completarse el cupo de su oficio o el 31 de octubre de 2026, lo que ocurra primero. No incluye cambios de diseño ni dominio propio; terminadas las entregas se abrirá una campaña de customización opcional, con precio aparte. Los datos personales (nombre real, email) no se publican y se usan solo para contactarte por tu web; podés pedir que los borremos escribiéndonos. 0800webs puede dar de baja una web con contenido que no sea tuyo o que no corresponda al oficio.</p></details>
   <details><summary>Ya me anoté: ¿cuántos referidos tengo?</summary><p><a class="btn btn-sec" id="verMios" href="#anotarme" style="margin-top:6px">Ver mis referidos y mi cuota</a></p></details>
   <details><summary>Ya me anoté: quiero actualizar mis datos</summary><p><a class="btn btn-sec" href="?editar=1#anotarme" style="margin-top:6px">Actualizar mis datos</a></p></details>
 </div></section>
@@ -600,8 +601,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <div class="pc" id="pc" hidden role="dialog" aria-modal="true" aria-labelledby="pcNom">
   <div class="barra-pc">
     <b id="pcNom">Estilo</b>
-    <button type="button" data-pc-ver="barberia">Barbero</button>
-    <button type="button" data-pc-ver="tatuaje">Tatuador</button>
+    <select id="pcVer" aria-label="Ver como"></select>
     <button type="button" id="pcFondo" aria-pressed="false">✦ Fondo inmersivo</button>
     <button type="button" id="pcElegir">Elegir este</button>
     <button type="button" class="cerrar" id="pcCerrar" aria-label="Cerrar pantalla completa">✕</button>
@@ -619,6 +619,28 @@ const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const fmt = (c) => '$' + Math.round(c / 100).toLocaleString('es-AR');
 const params = new URLSearchParams(location.search);
+// Los ocho oficios (API 050). Mismas claves que RUBROS de hg-infra/api/src/oficios.js;
+// sumar uno = fila acá + en sitio/ + en la API (la API ANTES que la página).
+// `uno` = cómo se dice el oficio de una persona, `todos` = el grupo (cupos y directorio).
+const RUBROS = {
+  barberia:   { uno: 'Barbería',          todos: 'Barberos',         estilo: 'papel',
+    svcs: [['Corte', 11000, 40], ['Corte + barba', 16000, 60], ['Barba', 6500, 25]] },
+  tatuaje:    { uno: 'Tatuaje',           todos: 'Tatuadores',       estilo: 'tinta',
+    svcs: [['Tatuaje chico (hasta 8 cm)', 45000, 90], ['Tatuaje mediano', 90000, 180], ['Sesión (por hora)', 40000, 60]] },
+  peluqueria: { uno: 'Peluquería',        todos: 'Peluquería',       estilo: 'lino',   ayuda: 'estilista, coiffeur, color',
+    svcs: [['Corte', 14000, 45], ['Color / mechas', 38000, 150], ['Brushing', 10000, 40]] },
+  unas:       { uno: 'Uñas',              todos: 'Uñas',             estilo: 'holo',   ayuda: 'manicura, nail art',
+    svcs: [['Semipermanente', 12000, 60], ['Kapping', 16000, 75], ['Esculpidas', 22000, 120]] },
+  pestanas:   { uno: 'Pestañas y cejas',  todos: 'Pestañas y cejas', estilo: 'marmol', ayuda: 'lifting, extensiones, perfilado',
+    svcs: [['Lifting de pestañas', 18000, 60], ['Extensiones clásicas', 28000, 120], ['Perfilado de cejas', 8000, 30]] },
+  maquillaje: { uno: 'Maquillaje',        todos: 'Maquillaje',       estilo: 'galeria', ayuda: 'social, novias, eventos',
+    svcs: [['Maquillaje social', 30000, 60], ['Novia (con prueba)', 90000, 150], ['Clase de automaquillaje', 35000, 90]] },
+  piercing:   { uno: 'Piercing',          todos: 'Piercing',         estilo: 'acido',  ayuda: 'perforaciones y joyas',
+    svcs: [['Lóbulo', 15000, 20], ['Hélix / cartílago', 20000, 30], ['Cambio de joya', 5000, 15]] },
+  masajes:    { uno: 'Masajes',           todos: 'Masajes',          estilo: 'sastre', ayuda: 'descontracturante, relajante',
+    svcs: [['Descontracturante (60 min)', 25000, 60], ['Relajante (60 min)', 25000, 60], ['Piedras calientes', 32000, 75]] },
+};
+const rubroDe = (r) => RUBROS[r] || RUBROS.barberia;
 const DIAS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 // La cuota y los referidos (API 046). Se pisan con lo que diga /cupos.
 let PLAN = { precio: 5000000, descuento: 400000, piso: 3000000, fondo_desde: 6 };
@@ -642,23 +664,33 @@ $('#waHG').href = 'https://wa.me/' + WA_HG + '?text=' + encodeURIComponent('Hola
 
 
 /* ── cupos en vivo y cuenta regresiva al lanzamiento ── */
+const R_IDS = Object.keys(RUBROS);
+$('#cupos').innerHTML = R_IDS.map((r) => `<div class="cupo"><div class="top"><b data-c="${r}">100</b><small>de <span data-t="${r}">100</span></small></div><small>${RUBROS[r].todos}</small><div class="barra"><i data-b="${r}"></i></div></div>`).join('');
+$('#segRubro').innerHTML = R_IDS.map((r, i) => `<label><input type="radio" name="rubro" value="${r}"${i ? '' : ' checked'}><span><b>${RUBROS[r].uno}</b><small data-q="${r}">${RUBROS[r].ayuda ? RUBROS[r].ayuda + ' · ' : ''}quedan 100</small></span></label>`).join('');
+$('#verBtns').innerHTML = R_IDS.map((r, i) => `<button type="button" data-ver="${r}" aria-pressed="${!i}">${RUBROS[r].uno}</button>`).join('');
+$('#pcVer').innerHTML = R_IDS.map((r) => `<option value="${r}">Ver como ${RUBROS[r].uno.toLowerCase()}</option>`).join('');
+$('.filtros [data-r=""]').insertAdjacentHTML('afterend', R_IDS.map((r) => `<button data-r="${r}">${RUBROS[r].todos}</button>`).join(''));
+
 function lanza(c) {
-  const f = new Date(c && c.lanzamiento || '2026-10-10T00:00:00-03:00');
+  const f = new Date(c && c.lanzamiento || '2026-10-31T00:00:00-03:00');
+  const dia = f.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', timeZone: 'America/Argentina/Buenos_Aires' });
   const dias = Math.ceil((f - Date.now()) / 864e5);
-  const ya = c && ['barberia', 'tatuaje'].filter((r) => c[r].lanzado).map((r) => r === 'tatuaje' ? 'los tatuadores' : 'los barberos');
-  $('#lanza').textContent = ya && ya.length === 2 ? '¡Ya salieron! Mirá el directorio ↓'
-    : ya && ya.length ? `¡Ya salieron ${ya[0]}! El resto sale el 10 de octubre.`
-    : `Lanzamiento: 10 de octubre${dias > 0 ? ` · faltan ${dias} ${dias === 1 ? 'día' : 'días'}` : ''} · o antes, si se llena el cupo`;
+  const ya = c ? R_IDS.filter((r) => c[r] && c[r].lanzado).map((r) => RUBROS[r].todos.toLowerCase()) : [];
+  $('#lanza').textContent = ya.length === R_IDS.length ? '¡Ya salieron! Mirá el directorio ↓'
+    : ya.length ? `¡Ya salieron ${ya.join(', ')}! El resto sale el ${dia}.`
+    : `Lanzamiento: ${dia}${dias > 0 ? ` · faltan ${dias} ${dias === 1 ? 'día' : 'días'}` : ''} · o antes, si se llena el cupo`;
 }
 async function cupos() {
   lanza(null);
   try {
     const c = await pedir('/cupos'); lanza(c);
     if (c.referidos) { PLAN = { precio: c.precio, ...c.referidos }; escalera(); }
-    for (const [k, id] of [['barberia', 'B'], ['tatuaje', 'T']]) {
-      $('#c' + id).textContent = c[k].quedan; $('#t' + id).textContent = c[k].total;
-      $('#b' + id).style.width = (c[k].tomados / c[k].total * 100) + '%';
-      $('#q' + id).textContent = c[k].quedan ? `quedan ${c[k].quedan}` : 'sin cupos';
+    for (const k of R_IDS) {
+      if (!c[k]) continue;                    // la API todavía no conoce el rubro: queda el 100 de base
+      $(`[data-c="${k}"]`).textContent = c[k].quedan; $(`[data-t="${k}"]`).textContent = c[k].total;
+      $(`[data-b="${k}"]`).style.width = (c[k].tomados / c[k].total * 100) + '%';
+      $(`[data-q="${k}"]`).textContent = (RUBROS[k].ayuda ? RUBROS[k].ayuda + ' · ' : '') + (c[k].quedan ? `quedan ${c[k].quedan}` : 'sin cupos');
+      if (!c[k].quedan) { const i = $(`[name=rubro][value="${k}"]`); i.disabled = true; if (i.checked) $('[name=rubro]:not(:disabled)')?.click(); }
     }
   } catch { /* sin API: quedan los 100 de base */ }
 }
@@ -689,7 +721,7 @@ async function panelReferidos(codigo, llave) {
 }
 document.addEventListener('click', (e) => { const b = e.target.closest('[data-copiar]'); if (!b) return;
   navigator.clipboard.writeText(b.dataset.copiar).then(() => toast('Link copiado')); });
-const mensajeRef = (codigo) => `Me sumé al programa Oficios de 0800webs: web propia para barberos y tatuadores, con turnos con seña a tu Mercado Pago. Si te anotás con mi link me bajás la cuota → ${linkRef(codigo)}`;
+const mensajeRef = (codigo) => `Me sumé al programa Oficios de 0800webs: web propia para independientes (barbería, tatuaje, peluquería, uñas, pestañas, maquillaje, piercing, masajes), con turnos con seña a tu Mercado Pago. Si te anotás con mi link me bajás la cuota → ${linkRef(codigo)}`;
 
 /* ── la vitrina: dieciséis estilos, cada uno con fondo inmersivo y pantalla completa ── */
 const ESTILOS = [
@@ -783,7 +815,7 @@ function elegirMarca(id) { $$('.tarj').forEach((t) => t.classList.toggle('elegid
 const PC = { id: null, fondo: false, ver: 'barberia', volver: null };
 function pintarPC() {
   $('#pcNom').textContent = ESTILOS.find((e) => e.id === PC.id).nom;
-  $$('[data-pc-ver]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.pcVer === PC.ver));
+  $('#pcVer').value = PC.ver;
   $('#pcFondo').setAttribute('aria-pressed', PC.fondo);
   $('#pcFrame').src = `sitio/?demo=${PC.id}&rubro=${PC.ver}${PC.fondo ? '&fondo=1' : ''}`;
 }
@@ -795,7 +827,7 @@ function cerrarPC() {
   $('#pc').hidden = true; $('#pcFrame').src = 'about:blank'; document.body.classList.remove('sin-scroll');
   if (PC.volver) PC.volver.focus({ preventScroll: true });
 }
-$$('[data-pc-ver]').forEach((b) => b.onclick = () => { PC.ver = b.dataset.pcVer; pintarPC(); });
+$('#pcVer').onchange = (e) => { PC.ver = e.target.value; pintarPC(); };
 $('#pcFondo').onclick = () => { PC.fondo = !PC.fondo; pintarPC(); };
 $('#pcElegir').onclick = () => { elegir(PC.id); cerrarPC(); $('#anotarme').scrollIntoView({ behavior: 'smooth' }); };
 $('#pcCerrar').onclick = cerrarPC;
@@ -803,10 +835,8 @@ addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('#pc').hidden)
 verComo('barberia'); elegirMarca($('[name=plantilla]:checked').value);
 
 /* ── servicios ── */
-const SUGERIDOS = {
-  barberia: [['Corte', 11000, 40], ['Corte + barba', 16000, 60], ['Barba', 6500, 25]],
-  tatuaje: [['Tatuaje chico (hasta 8 cm)', 45000, 90], ['Tatuaje mediano', 90000, 180], ['Sesión (por hora)', 40000, 60]],
-};
+let svcTocado = false;
+$('#svcs').addEventListener('input', () => { svcTocado = true; });
 function filaSvc(n = '', p = '', m = '') {
   const d = document.createElement('div'); d.className = 'svc-row';
   d.innerHTML = `<input class="inp" data-k="nombre" placeholder="Servicio" maxlength="60" aria-label="Servicio">
@@ -819,8 +849,8 @@ function filaSvc(n = '', p = '', m = '') {
 }
 function sugerir(rubro) {
   const vacias = $$('.svc-row').every((r) => !$$('input', r).some((i) => i.value.trim()));
-  if (!vacias) return;
-  $('#svcs').innerHTML = ''; SUGERIDOS[rubro].forEach((s) => filaSvc(...s));
+  if (svcTocado && !vacias) return;           // los que escribió no se pisan
+  $('#svcs').innerHTML = ''; rubroDe(rubro).svcs.forEach((s) => filaSvc(...s)); svcTocado = false;
 }
 $('#addSvc').onclick = () => $('input', filaSvc()).focus();
 const leerSvcs = () => $$('.svc-row').map((r) => ({ nombre: $('[data-k=nombre]', r).value.trim(),
@@ -894,11 +924,11 @@ function modalidad() { const m = $('[name=modalidad]:checked').value, casa = m =
   $('#wLocal').hidden = casa; $('#avisoCasa').hidden = !casa; }
 $$('[name=modalidad]').forEach((r) => r.onchange = modalidad);
 $$('[name=rubro]').forEach((r) => r.onchange = () => { const v = r.value;
-  if (!estiloTocado) { $(`[name=plantilla][value=${v === 'tatuaje' ? 'tinta' : 'papel'}]`).checked = true; elegirMarca($('[name=plantilla]:checked').value); }
+  if (!estiloTocado) { $(`[name=plantilla][value=${rubroDe(v).estilo}]`).checked = true; elegirMarca($('[name=plantilla]:checked').value); }
   verComo(v);
   sugerir(v); resumen(); });
 function resumen() {
-  $('#resRubro').textContent = $('[name=rubro]:checked').value === 'tatuaje' ? 'Tatuador' : 'Barbero';
+  $('#resRubro').textContent = rubroDe($('[name=rubro]:checked').value).uno;
   $('#resNombre').textContent = $('[name=nombre_publico]').value.trim() || 'Tu web';
   $('#resUrl').textContent = '0800webs.com/o/' + ($('#slug').value || '…');
 }
@@ -983,7 +1013,7 @@ async function vuelta() {
     location.hash = '#anotarme';
     try { const r = await pedir(`/solicitudes/${encodeURIComponent(codigo)}/pago`, { method: 'POST', body: '{}' });
       if (r.pago && r.pago.url) { location.href = r.pago.url; return; }
-      if (r.ya) { el.innerHTML = `<h3>¡Ya está pago!</h3><p class="sub">Tu suscripción está al día. Tu web sale el 10 de octubre, o antes si se llena el cupo.</p><div class="codigo">${esc(codigo)}</div>${await panelReferidos(codigo, (ls.get('of-mia') || {}).llave)}`; return; }
+      if (r.ya) { el.innerHTML = `<h3>¡Ya está pago!</h3><p class="sub">Tu suscripción está al día. Tu web sale el 31 de octubre, o antes si se llena el cupo.</p><div class="codigo">${esc(codigo)}</div>${await panelReferidos(codigo, (ls.get('of-mia') || {}).llave)}`; return; }
     } catch (x) { toast(x.message); }
   }
   el.innerHTML = `<div class="mono grad">Pago</div><h3>Confirmando…</h3><p class="sub">Mercado Pago nos avisa en unos segundos.</p><div class="codigo">${codigo}</div>`;
@@ -993,7 +1023,7 @@ async function vuelta() {
       if (s.al_dia) {
         const mia = ls.get('of-mia') || {};
         el.innerHTML = `<div class="mono grad">Paso 2 de 2 listo</div><h3>¡Suscripción activa!</h3>
-          <p class="sub">Tu cupo está reservado. Tu web sale el <b>10 de octubre</b> (o antes, si se llena el cupo) y ese día te mandamos por WhatsApp el link y el QR. Mientras, la ves con tu llave.</p><div class="codigo">${esc(codigo)}</div>
+          <p class="sub">Tu cupo está reservado. Tu web sale el <b>31 de octubre</b> (o antes, si se llena el cupo) y ese día te mandamos por WhatsApp el link y el QR. Mientras, la ves con tu llave.</p><div class="codigo">${esc(codigo)}</div>
           ${await panelReferidos(codigo, mia.codigo === codigo ? mia.llave : null)}
           <div class="acts"><a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(mensajeRef(codigo))}">Pasárselo a un colega (y bajar tu cuota)</a></div>`;
         return;
@@ -1063,7 +1093,7 @@ function pintarDir() {
   const q = $('#buscar').value.toLowerCase().trim();
   const l = DIR.filter((p) => (!filtroR || p.rubro === filtroR) && (!q || (p.nombre + ' ' + p.barrio + ' ' + p.ciudad).toLowerCase().includes(q)));
   $('#dir').innerHTML = l.length ? l.map((p) => `<a class="pers" href="/o/${p.slug}"><div class="ph" style="background-image:url('${p.foto || ''}')"></div>
-      <div class="bd"><b>${esc(p.nombre)}</b><small>${p.rubro === 'tatuaje' ? 'Tatuador' : 'Barbero'} · ${esc(p.barrio)} · desde ${fmt(p.desde)}</small></div></a>`).join('')
+      <div class="bd"><b>${esc(p.nombre)}</b><small>${rubroDe(p.rubro).uno} · ${esc(p.barrio)} · desde ${fmt(p.desde)}</small></div></a>`).join('')
     : `<div class="vacio" style="grid-column:1/-1">${DIR.length ? 'Nadie con ese filtro todavía.' : 'Los primeros del programa aparecen acá. ¿Querés ser uno?'}<br><br><a class="btn btn-sec" href="#anotarme">Anotarme</a></div>`;
 }
 const esc = (s) => String(s || '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -1073,7 +1103,7 @@ $('#buscar').oninput = pintarDir;
 /* ── pasalo ── */
 const miaP = ls.get('of-mia');
 $('#pasaloBtn').href = 'https://wa.me/?text=' + encodeURIComponent(miaP && miaP.codigo ? mensajeRef(miaP.codigo)
-  : 'Mirá esto: 0800webs arma webs para barberos y tatuadores que arrancan, por $50.000 al mes (baja hasta $30.000 trayendo colegas) y con turnos con seña a tu Mercado Pago. Son 100 cupos → https://0800webs.com/oficios/' + (ORIGEN ? '?o=' + encodeURIComponent(ORIGEN) : ''));
+  : 'Mirá esto: 0800webs arma webs para independientes que arrancan (barbería, tatuaje, peluquería, uñas, pestañas, maquillaje, piercing, masajes), por $50.000 al mes (baja hasta $30.000 trayendo colegas) y con turnos con seña a tu Mercado Pago. Son 100 cupos por oficio → https://0800webs.com/oficios/' + (ORIGEN ? '?o=' + encodeURIComponent(ORIGEN) : ''));
 
 /* ── ver mis referidos ── */
 $('#verMios').onclick = async (e) => {

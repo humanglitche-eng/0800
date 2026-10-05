@@ -13,8 +13,10 @@
   galeria, retro, marmol, y desde 048: lino, holo, noir — reemplazan a neon, pizarra y comic; desde 049:
   medieval, bio, suizo, industrial, vision, termico); cualquiera
   sirve para barbero o tatuador. ?llave=… = vista previa del dueño antes de publicarse.
-  ?demo=<estilo>[&rubro=barberia|tatuaje] = datos inventados para la
-  página de la campaña; con &rubro= del otro oficio muestra la versión cruzada (CRUCE).
+  ?demo=<estilo>[&rubro=<oficio>] = datos inventados para la página de la
+  campaña; con &rubro= del otro oficio de la pareja barbería/tatuaje muestra la
+  versión cruzada (CRUCE), y con uno de los seis nuevos (050) arma la demo con
+  su persona de PERSONAS sobre los colores del estilo.
   FONDO INMERSIVO (046): con MÁS de 5 referidos al día la ficha trae `fondo: true` y la web pinta un
   shader vivo detrás de todo, en los colores de su estilo (--bg/--acc/--acc2). ?demo=…&fondo=1 lo muestra.
   El turno NO bloquea agenda (eso es la versión «modernizar»): arma el pedido, manda
@@ -748,10 +750,42 @@ const CRUCE = {
     modalidad: 'local', local: 'Sillón 2 · Barbería Brasa', barrio: 'Tolosa', servicios: S_BAR, horarios: H_BAR,
     fotos: ['✂', '🔥', '⚡', '✂', '🔥', '⚡'].map((g) => calor(g)) }),
 };
+/* Los seis oficios de la 050: una persona por oficio que se viste con cada estilo.
+   Las fotos son las del estilo con el glifo cambiado (mismos colores). */
+const conGlifo = (uri, g) => 'data:image/svg+xml,' + encodeURIComponent(
+  decodeURIComponent(uri.slice(uri.indexOf(',') + 1)).replace(/(<text[^>]*>)[^<]*(<\/text>)/, `$1${g}$2`));
+const PERSONAS = {
+  peluqueria: { nombres: ['Caro Tijera', 'Ana Color', 'Flor Ondas', 'Mica Corte', 'Juli Mechas', 'Vale Rulo'], bio: 'Peluquera. Cortes, color y balayage pensados para vos. Con turno, sin apuro.',
+    modalidad: 'estudio', local: 'Estudio propio', barrio: 'Centro', glifos: ['✂', '〰', '✿', '◐', '✂', '〰'], sena: 500000,
+    servicios: [{ nombre: 'Corte', precio: 1400000, min: 45 }, { nombre: 'Color / mechas', precio: 3800000, min: 150 }, { nombre: 'Brushing', precio: 1000000, min: 40 }] },
+  unas: { nombres: ['Cami Nails', 'Uñas de Mar', 'Pau Esmalte', 'Ro Nail Art', 'Lu Kapping', 'Bel Uñas'], bio: 'Manicura. Semipermanente, kapping y nail art a mano alzada. Diseños nuevos cada semana.',
+    modalidad: 'casa', local: null, barrio: 'Tolosa', glifos: ['💅', '✦', '❀', '◆', '💅', '✧'], sena: 300000,
+    servicios: [{ nombre: 'Semipermanente', precio: 1200000, min: 60 }, { nombre: 'Kapping', precio: 1600000, min: 75 }, { nombre: 'Esculpidas', precio: 2200000, min: 120 }] },
+  pestanas: { nombres: ['Lash Agus', 'Mirada Bri', 'Nati Lash', 'Cejas Sol', 'Lash Tini', 'Ojos Meli'], bio: 'Lifting, extensiones pelo a pelo y perfilado de cejas. Turnos con seña, sin espera.',
+    modalidad: 'estudio', local: 'Box en Estudio Diagonal', barrio: 'Centro', glifos: ['👁', '✧', '◡', '☾', '👁', '✦'], sena: 500000,
+    servicios: [{ nombre: 'Lifting de pestañas', precio: 1800000, min: 60 }, { nombre: 'Extensiones clásicas', precio: 2800000, min: 120 }, { nombre: 'Perfilado de cejas', precio: 800000, min: 30 }] },
+  maquillaje: { nombres: ['Lola Glow', 'Delfi Makeup', 'Juana Make Up', 'Brillo Mora', 'Tini Glam', 'Sol Pinceles'], bio: 'Maquilladora social y de novias. Voy a tu casa o al salón el día del evento.',
+    modalidad: 'domicilio', local: null, barrio: 'City Bell', glifos: ['💄', '✦', '◐', '❀', '💋', '✧'], sena: 1000000,
+    servicios: [{ nombre: 'Maquillaje social', precio: 3000000, min: 60 }, { nombre: 'Novia (con prueba)', precio: 9000000, min: 150 }, { nombre: 'Clase de automaquillaje', precio: 3500000, min: 90 }] },
+  piercing: { nombres: ['Punto Acero', 'Nahuel Piercer', 'Aro Studio', 'Titanio Ro', 'Fran Piercing', 'Anillo Negro'], bio: 'Piercer. Material descartable y joyería de titanio. Con turno y cuidados explicados.',
+    modalidad: 'estudio', local: 'Box en Estudio Diagonal', barrio: 'Centro', glifos: ['◯', '✦', '⚬', '☆', '◯', '✧'], sena: 300000,
+    servicios: [{ nombre: 'Lóbulo', precio: 1500000, min: 20 }, { nombre: 'Hélix / cartílago', precio: 2000000, min: 30 }, { nombre: 'Cambio de joya', precio: 500000, min: 15 }] },
+  masajes: { nombres: ['Calma Masajes', 'Manos de Ana', 'Leo Masajista', 'Pausa Estudio', 'Brisa Masajes', 'Tomi Manos'], bio: 'Masajes descontracturantes y relajantes. En mi espacio o a domicilio.',
+    modalidad: 'casa', local: null, barrio: 'Gonnet', glifos: ['❋', '〰', '☾', '✿', '❋', '◯'], sena: 500000,
+    servicios: [{ nombre: 'Descontracturante (60 min)', precio: 2500000, min: 60 }, { nombre: 'Relajante (60 min)', precio: 2500000, min: 60 }, { nombre: 'Piedras calientes', precio: 3200000, min: 75 }] },
+};
+function personaDe(base, r) {
+  const p = PERSONAS[r], i = Object.keys(DEMOS).indexOf(base.plantilla);
+  return cruce(base, { rubro: r, nombre: p.nombres[i % p.nombres.length], bio: p.bio, modalidad: p.modalidad, local: p.local,
+    barrio: p.barrio, servicios: p.servicios, horarios: H_BAR, sena: { link: 'https://www.mercadopago.com.ar/', monto: p.sena },
+    fotos: base.fotos.map((u, k) => conGlifo(u, p.glifos[k % p.glifos.length])) });
+}
 async function cargar() {
   if (params.get('demo')) {
     const base = DEMOS[params.get('demo')] || DEMOS.papel, r = params.get('rubro');
-    return r && r !== base.rubro && CRUCE[base.plantilla] ? CRUCE[base.plantilla] : base;
+    if (!r || r === base.rubro) return base;
+    if (Object.hasOwn(PERSONAS, r)) return personaDe(base, r);
+    return CRUCE[base.plantilla] || base;
   }
   const m = /^\/o\/([a-z0-9-]+)\/?$/.exec(location.pathname);
   const slug = m ? m[1] : params.get('s');
@@ -781,15 +815,28 @@ function estadoHoy(f) {
   return { on: false, txt: 'Consultá por WhatsApp' };
 }
 
+/* Cómo se nombra cada oficio en la web (050). Barbero/Tatuador quedan como estaban. */
+const OFICIO = {
+  barberia: { uno: 'Barbero', foto: 'Corte', expo: 'Selección de trabajos' },
+  tatuaje: { uno: 'Tatuador', foto: 'Obra', expo: 'Selección de obra' },
+  peluqueria: { uno: 'Peluquería', foto: 'Trabajo', expo: 'Selección de trabajos' },
+  unas: { uno: 'Uñas', foto: 'Diseño', expo: 'Selección de diseños' },
+  pestanas: { uno: 'Pestañas y cejas', foto: 'Trabajo', expo: 'Selección de trabajos' },
+  maquillaje: { uno: 'Maquillaje', foto: 'Look', expo: 'Selección de looks' },
+  piercing: { uno: 'Piercing', foto: 'Pieza', expo: 'Selección de trabajos' },
+  masajes: { uno: 'Masajes', foto: 'Espacio', expo: 'El espacio' },
+};
+const oficioDe = (r) => (Object.hasOwn(OFICIO, r) ? OFICIO[r] : OFICIO.barberia);
 function pintar(f) {
   document.body.dataset.p = f.plantilla;
-  document.title = `${f.nombre} — ${f.rubro === 'tatuaje' ? 'Tatuador' : 'Barbero'} en ${f.barrio}`;
-  $('meta[name=description]').content = (f.bio || `${f.nombre}, ${f.rubro === 'tatuaje' ? 'tatuador' : 'barbero'} en ${f.barrio}, ${f.ciudad}. Sacá turno online.`).slice(0, 160);
+  const of = oficioDe(f.rubro);
+  document.title = `${f.nombre} — ${of.uno} en ${f.barrio}`;
+  $('meta[name=description]').content = (f.bio || `${f.nombre}, ${of.uno.toLowerCase()} en ${f.barrio}, ${f.ciudad}. Sacá turno online.`).slice(0, 160);
   $('meta[name=theme-color]').content = getComputedStyle(document.body).getPropertyValue('--bg').trim();
   $('#previa').hidden = f.publicado !== false;
   $('#pausada').hidden = !f.suspendida;
   if (f.fondo || (params.get('demo') && params.get('fondo'))) fondoInmersivo();
-  const rubro = f.rubro === 'tatuaje' ? 'Tatuador' : 'Barbero';
+  const rubro = of.uno;
   const hoy = estadoHoy(f), wa = (t) => `https://wa.me/${f.whatsapp}?text=${encodeURIComponent(t)}`;
   const lugar = f.modalidad === 'domicilio' ? 'Voy a domicilio' : f.modalidad === 'casa' ? 'Atiendo en mi espacio' : (f.local || (f.modalidad === 'estudio' ? 'Estudio' : 'Local'));
   const dHoy = new Date().getDay();
@@ -816,9 +863,9 @@ function pintar(f) {
     ${f.plantilla === 'vision' ? `<div class="hud" aria-hidden="true"><span>detectando · ${f.fotos.length} trabajos</span><span>${esc(f.barrio.toLowerCase())} · 60 fps</span></div>` : ''}
     ${f.plantilla === 'termico' ? '<div class="escala" aria-hidden="true"><i></i><div><span>18°</span><span>30°</span><span>42°</span></div></div>' : ''}
     ${f.plantilla === 'retro' ? '<div class="franjas" aria-hidden="true"></div>' : ''}
-    ${f.plantilla === 'galeria' && f.fotos.length ? `<div class="expo"><span>${f.rubro === 'tatuaje' ? 'Selección de obra' : 'Selección de trabajos'}</span><span>${f.fotos.length ? String(f.fotos.length).padStart(2, '0') + ' piezas' : ''}</span></div>` : ''}
+    ${f.plantilla === 'galeria' && f.fotos.length ? `<div class="expo"><span>${of.expo}</span><span>${f.fotos.length ? String(f.fotos.length).padStart(2, '0') + ' piezas' : ''}</span></div>` : ''}
     ${f.plantilla === 'acido' ? `<div class="cinta" aria-hidden="true"><div>${Array(8).fill(`<span>${esc(f.nombre)}</span><span>✦</span><span>${rubro}</span><span>✦</span>`).join('')}</div></div>` : ''}
-    ${f.fotos.length ? `<section style="padding-top:10px"><div class="fotos ${f.fotos.length === 1 ? 'una' : f.fotos.length < 4 ? 'pocas' : ''}">${f.fotos.slice(0, 8).map((u, i) => `<button style="background-image:url('${u}')" data-lbl="${f.rubro === 'tatuaje' ? 'Obra' : 'Corte'}" data-u="${u}" aria-label="Ver trabajo ${i + 1}"></button>`).join('')}</div>
+    ${f.fotos.length ? `<section style="padding-top:10px"><div class="fotos ${f.fotos.length === 1 ? 'una' : f.fotos.length < 4 ? 'pocas' : ''}">${f.fotos.slice(0, 8).map((u, i) => `<button style="background-image:url('${u}')" data-lbl="${of.foto}" data-u="${u}" aria-label="Ver trabajo ${i + 1}"></button>`).join('')}</div>
       ${f.instagram ? `<p style="text-align:center;margin-top:14px"><a class="ig" href="https://instagram.com/${esc(f.instagram)}" target="_blank" rel="noopener">${IG_SVG}Ver más en Instagram</a></p>` : ''}</section>` : ''}
     <section><h2>Servicios</h2><div class="svcs">${f.servicios.map((s) => `<div class="svc"><div><b>${esc(s.nombre)}</b><small>${s.min} min</small></div><span class="p">${fmt(s.precio)}</span></div>`).join('')}</div>
       ${f.sena ? `<p class="nota">Los turnos se confirman con una seña${f.sena.monto ? ' de ' + fmt(f.sena.monto) : ''} que se descuenta del total.</p>` : ''}</section>
