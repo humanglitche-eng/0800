@@ -22,7 +22,7 @@
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=Outfit:wght@400;600;800&family=Unbounded:wght@600;900&family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Shrikhand&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&family=Manrope:wght@400;600;800&family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,400;1,6..96,500&family=Courier+Prime:wght@400;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=Outfit:wght@400;600;800&family=Unbounded:wght@600;900&family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Shrikhand&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&family=Manrope:wght@400;600;800&family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,400;1,6..96,500&family=Courier+Prime:wght@400;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=UnifrakturMaguntia&family=Tilt+Warp&family=Archivo:wdth,wght@62..125,500..800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{--r:18px;--ease:cubic-bezier(.2,.8,.2,1)}
 [data-p=tinta]{--bg:#0b0a0a;--bg2:#121010;--card:#171414;--line:#2a2424;--ink:#ece4d6;--mute:#a2978a;--acc:#d9312b;--acc2:#ff5a4e;--on:#fff;
@@ -332,19 +332,228 @@ body[data-p=marmol]{background:linear-gradient(115deg,transparent 40%,rgba(201,1
 [data-p=marmol] .ig,[data-p=marmol] .hoy{border-radius:0;border-color:var(--line)}
 .monograma{width:74px;height:74px;margin:0 auto 6px;border:1px solid var(--acc);border-radius:50%;display:grid;place-items:center;font:500 34px/1 'Playfair Display',serif;color:var(--acc);font-style:italic;box-shadow:0 0 0 5px var(--bg),0 0 0 6px rgba(201,164,92,.4)}
 
+/* ═════════ TENDENCIA (a prueba, 2026-10-05) — seis estilos de la lista «trending design styles».
+   Todavía NO están en el CHECK del SQL ni en validar(): solo se ven en la vitrina con ?demo=. ═════════ */
+
+/* ════ MEDIEVAL — Future Medieval: gótica cromada, arcos en punta, espinas y cortes en bisel ════ */
+[data-p=medieval]{--bg:#0b0b0d;--bg2:#121216;--card:#121216;--line:#2c2c34;--ink:#e9e6df;--mute:#8e8a93;--acc:#cfd3db;--acc2:#8c1c2c;--on:#0b0b0d;
+  --d:'UnifrakturMaguntia',serif;--b:'Inter Tight',system-ui,sans-serif;--dw:400;--rad:0px;--fondo-k:.5}
+body[data-p=medieval]{background:radial-gradient(60% 40% at 50% 0%,rgba(207,211,219,.09),transparent 70%),var(--bg)}
+[data-p=medieval] .hero{text-align:center;padding-top:50px}
+[data-p=medieval] .hero p{margin-inline:auto}
+[data-p=medieval] .hero .ctas{justify-content:center}
+[data-p=medieval] .hero h1{font-size:clamp(68px,19vw,128px);line-height:1;letter-spacing:0;
+  background:linear-gradient(180deg,#fff 0%,#c9cdd5 30%,#5b5f68 48%,#f2f3f6 56%,#8a8f99 80%,#e9ebef 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 2px 0 #000) drop-shadow(0 0 22px rgba(207,211,219,.18))}
+[data-p=medieval] .rub{color:var(--mute);letter-spacing:.42em;font-weight:500;font-size:11px}
+[data-p=medieval] .rub::before,[data-p=medieval] .rub::after{content:" ✠ ";color:var(--acc2);letter-spacing:0}
+[data-p=medieval] h2{text-align:center;font-size:clamp(44px,10vw,64px);color:var(--acc)}
+[data-p=medieval] .top{border-bottom:1px solid var(--line)}
+[data-p=medieval] .top .nom{font-size:28px}
+[data-p=medieval] .btn{text-transform:uppercase;letter-spacing:.2em;font-size:12px;font-weight:600;
+  clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,12px 100%,0 50%);padding-inline:30px}
+[data-p=medieval] .btn-acc{background:linear-gradient(180deg,#f4f5f7,#aeb3bc 45%,#6d727b 55%,#d9dce1);color:#0b0b0d}
+[data-p=medieval] .btn-line{background:var(--acc2);color:#f3e9ea;border:0}
+[data-p=medieval] .ig,[data-p=medieval] .hoy{border-radius:0}
+[data-p=medieval] .fotos{gap:10px}
+[data-p=medieval] .fotos button{border-radius:0;filter:grayscale(.6) contrast(1.15);border:1px solid #3a3a44}
+[data-p=medieval] .fotos button:first-child{clip-path:polygon(0 100%,0 30%,10% 14%,26% 4%,50% 0,74% 4%,90% 14%,100% 30%,100% 100%);border:0}
+[data-p=medieval] .svcs{border-color:var(--line)}
+[data-p=medieval] .svc b{text-transform:uppercase;letter-spacing:.12em;font-size:14px;font-weight:600}
+[data-p=medieval] .svc .p{font-family:'Inter Tight',sans-serif;font-weight:300;font-size:26px;color:var(--acc)}
+[data-p=medieval] .turno{border:1px solid #3a3a44;box-shadow:inset 0 0 0 5px var(--card),inset 0 0 0 6px rgba(140,28,44,.6)}
+[data-p=medieval] .chip,[data-p=medieval] .day,[data-p=medieval] .slot,[data-p=medieval] .inp{border-radius:0}
+[data-p=medieval] .chip.sel,[data-p=medieval] .day.sel,[data-p=medieval] .slot.sel{background:var(--acc2);border-color:var(--acc2);color:#fff}
+[data-p=medieval] .dias div.hoy-d{color:var(--acc)}
+.espinas{height:26px;margin:2px 0 26px;color:#7d818a;background:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='26' viewBox='0 0 40 26'%3E%3Cpath d='M0 13H40M8 13 4 4M8 13 4 22M20 13l4-11M20 13l4 11M32 13l-4-9M32 13l-4 9' fill='none' stroke='%237d818a' stroke-width='1.2'/%3E%3C/svg%3E") repeat-x center/40px 26px;
+  position:relative;mask:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent)}
+
+/* ════ BIO — Biomorphism: cromo líquido, gotas que se fusionan y fotos con forma de célula ════ */
+[data-p=bio]{--bg:#dfe3eb;--bg2:#d3d8e2;--card:#eef0f5;--line:#c2c8d4;--ink:#0f1626;--mute:#56607a;--acc:#2438ff;--acc2:#7d8db5;--on:#fff;
+  --d:'Tilt Warp',system-ui,sans-serif;--b:'Manrope',system-ui,sans-serif;--dw:400;--rad:999px;--fondo-k:.42}
+body[data-p=bio]{background:var(--bg)}
+body[data-p=bio]::before{content:"";position:fixed;inset:-10%;z-index:0;pointer-events:none;opacity:.9;
+  background:radial-gradient(18% 14% at 82% 12%,#fff,#b9c1d1 40%,#5c6681 70%,transparent 72%),
+    radial-gradient(12% 9% at 12% 46%,#fff,#aeb7c9 45%,#4d5772 70%,transparent 72%),
+    radial-gradient(22% 16% at 90% 78%,#f4f6fb,#a9b2c6 40%,#48526e 68%,transparent 70%),
+    radial-gradient(9% 7% at 30% 92%,#fff,#b4bccd 45%,#56607a 70%,transparent 72%);
+  filter:blur(1px);animation:bio 22s ease-in-out infinite alternate}
+@keyframes bio{to{transform:translate(-3%,4%) scale(1.06)}}
+body[data-p=bio] #app,body[data-p=bio] footer{position:relative;z-index:1}
+[data-p=bio] .hero{padding-top:46px}
+[data-p=bio] .hero h1{font-size:clamp(64px,18vw,124px);letter-spacing:-.03em;line-height:.9;
+  background:linear-gradient(176deg,#4a5576 0%,#f4f6fb 24%,#0f1626 46%,#9aa6c0 56%,#1c2540 76%,#dfe4ee 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-text-stroke:1px rgba(15,22,38,.25);filter:drop-shadow(0 6px 10px rgba(15,22,38,.25))}
+[data-p=bio] .rub{display:inline-block;padding:6px 14px;border-radius:999px;color:#fff;background:var(--acc);letter-spacing:.16em}
+[data-p=bio] h2{letter-spacing:-.02em}
+[data-p=bio] .top .nom{font-size:24px}
+[data-p=bio] .btn{font-weight:700}
+[data-p=bio] .btn-acc{background:radial-gradient(120% 140% at 30% 15%,#6f7dff,#2438ff 45%,#0d1599);box-shadow:inset 0 2px 4px rgba(255,255,255,.5),0 12px 26px -12px #2438ff}
+[data-p=bio] .btn-line{background:linear-gradient(180deg,#fdfdfe,#c9cfdb 50%,#eef0f5);border:1px solid #fff;box-shadow:0 6px 16px -8px rgba(15,22,38,.4)}
+[data-p=bio] .fotos{gap:12px}
+[data-p=bio] .fotos button{border-radius:46% 54% 58% 42%/44% 40% 60% 56%;box-shadow:inset 0 0 0 3px rgba(255,255,255,.7),0 14px 28px -14px rgba(15,22,38,.5);animation:celula 14s ease-in-out infinite alternate}
+[data-p=bio] .fotos button:nth-child(2n){animation-delay:-5s}[data-p=bio] .fotos button:nth-child(3n){animation-delay:-9s}
+@keyframes celula{50%{border-radius:58% 42% 40% 60%/56% 62% 38% 44%}to{border-radius:40% 60% 52% 48%/38% 52% 48% 62%}}
+[data-p=bio] .svcs{border:0;display:grid;gap:10px}
+[data-p=bio] .svc{background:rgba(255,255,255,.55);border:1px solid #fff;border-radius:999px;padding:14px 24px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+[data-p=bio] .svc .p{color:var(--acc);font-size:24px}
+[data-p=bio] .turno{border-radius:40px;background:rgba(255,255,255,.6);border:1px solid #fff;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+[data-p=bio] .day{border-radius:22px}
+[data-p=bio] .inp{border-radius:999px;padding-inline:20px}
+.gotas{display:flex;justify-content:center;align-items:center;gap:10px;margin:0 0 26px}
+.gotas i{display:block;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff 0 12%,#c7cdd9 32%,#3b4560 68%,#a7b0c4 100%);box-shadow:0 8px 14px -8px rgba(15,22,38,.6)}
+.gotas i:nth-child(1),.gotas i:nth-child(5){width:14px;height:14px}.gotas i:nth-child(2),.gotas i:nth-child(4){width:24px;height:24px}.gotas i:nth-child(3){width:40px;height:40px}
+
+/* ════ SUIZO — Neo Swiss: grilla a la vista, letra enorme pegada, numeración y un solo rojo ════ */
+[data-p=suizo]{--bg:#f1f1ed;--bg2:#e7e7e2;--card:#f8f8f5;--line:#cfcfc8;--ink:#0d0d0d;--mute:#6b6b66;--acc:#ff3b00;--acc2:#0d0d0d;--on:#fff;
+  --d:'Inter Tight',system-ui,sans-serif;--b:'Inter Tight',system-ui,sans-serif;--dw:600;--rad:0px}
+body[data-p=suizo]{background:repeating-linear-gradient(90deg,rgba(13,13,13,.06) 0 1px,transparent 1px calc(100%/6)) center/min(720px,100% - 32px) 100% no-repeat fixed,var(--bg)}
+[data-p=suizo] #app{counter-reset:sec 1}
+[data-p=suizo] .top{border-bottom:2px solid var(--ink)}
+[data-p=suizo] .top .nom{font-size:17px;font-weight:700;letter-spacing:-.01em}
+[data-p=suizo] .hero{padding:26px 0 30px}
+[data-p=suizo] .hero h1{font-size:clamp(78px,23vw,168px);letter-spacing:-.075em;line-height:.8;margin:14px 0 22px;margin-left:-.05em}
+[data-p=suizo] .rub{color:var(--ink);letter-spacing:0;text-transform:none;font-size:14px;font-weight:600}
+[data-p=suizo] .rub::before{content:"(01)  ";color:var(--acc);white-space:pre}
+[data-p=suizo] .hero p{color:var(--ink);font-size:20px;line-height:1.3;letter-spacing:-.01em}
+[data-p=suizo] h2{font-size:clamp(46px,12vw,80px);letter-spacing:-.06em;line-height:.9;counter-increment:sec;display:flex;justify-content:space-between;align-items:flex-start;border-top:2px solid var(--ink);padding-top:10px}
+[data-p=suizo] h2::after{content:"(0" counter(sec) ")";font-size:14px;letter-spacing:0;color:var(--acc);font-weight:600}
+[data-p=suizo] .btn{font-weight:600;font-size:15px;justify-content:space-between;gap:28px}
+[data-p=suizo] .btn::after{content:"→"}
+[data-p=suizo] .btn-line{border:2px solid var(--ink)}
+[data-p=suizo] .ig,[data-p=suizo] .hoy{border-radius:0;border-color:var(--ink)}
+[data-p=suizo] .fotos{gap:2px}
+[data-p=suizo] .fotos button{border-radius:0}
+[data-p=suizo] .svcs{border-top:0;counter-reset:svc}
+[data-p=suizo] .svc{counter-increment:svc;display:grid;grid-template-columns:42px 1fr auto;border-color:var(--ink)}
+[data-p=suizo] .svc::before{content:counter(svc,decimal-leading-zero);font-size:13px;color:var(--acc);font-weight:600}
+[data-p=suizo] .svc b{font-size:20px;font-weight:600;letter-spacing:-.02em}
+[data-p=suizo] .svc .p{font-size:24px;color:var(--ink);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+[data-p=suizo] .turno{border:2px solid var(--ink)}
+[data-p=suizo] .chip,[data-p=suizo] .day,[data-p=suizo] .slot,[data-p=suizo] .inp{border-radius:0}
+[data-p=suizo] .dias div{border-color:var(--ink)}
+[data-p=suizo] .paso .n{border-radius:0}
+.indice{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:12px;line-height:1.3;border-top:1px solid var(--ink);padding-top:8px;margin:0 0 26px}
+.indice span{color:var(--mute)}.indice b{display:block;color:var(--ink);font-weight:600}
+
+/* ════ INDUSTRIAL — Micro Industrial: ficha técnica, gris plástico, naranja de seguridad, códigos y marcas de corte ════ */
+[data-p=industrial]{--bg:#e3e4e0;--bg2:#d8d9d4;--card:#eeefeb;--line:#b9bbb4;--ink:#151515;--mute:#62645e;--acc:#ff6a00;--acc2:#151515;--on:#151515;
+  --d:'Archivo',system-ui,sans-serif;--b:'JetBrains Mono',ui-monospace,monospace;--dw:800;--rad:3px}
+body[data-p=industrial]{font-size:14.5px;background:radial-gradient(rgba(21,21,21,.13) 1px,transparent 1.2px) 0 0/14px 14px,var(--bg)}
+[data-p=industrial] h1,[data-p=industrial] h2,[data-p=industrial] .top .nom{font-stretch:62%;text-transform:uppercase;letter-spacing:-.01em}
+[data-p=industrial] .top{border-bottom:1px dashed var(--ink)}
+[data-p=industrial] .top .nom{font-size:22px}
+[data-p=industrial] .top .nom::after{content:" ®";font-size:12px;vertical-align:super}
+[data-p=industrial] .hero{position:relative;padding:34px 0 30px}
+[data-p=industrial] .hero h1{font-size:clamp(80px,24vw,170px);line-height:.9}
+[data-p=industrial] .rub{display:inline-flex;gap:8px;align-items:center;background:var(--ink);color:var(--bg);padding:4px 8px;font-weight:500;letter-spacing:.14em;font-size:11px}
+[data-p=industrial] .rub::before{content:"";width:8px;height:8px;background:var(--acc)}
+[data-p=industrial] .hero p{color:var(--ink);font-size:15px}
+[data-p=industrial] h2{font-size:clamp(48px,13vw,84px);display:flex;align-items:center;gap:12px}
+[data-p=industrial] h2::before{content:"";flex:none;width:20px;height:20px;background:repeating-linear-gradient(-45deg,var(--acc) 0 4px,var(--ink) 4px 8px)}
+[data-p=industrial] .btn{text-transform:uppercase;font-size:13px;letter-spacing:.06em}
+[data-p=industrial] .btn-acc{background:var(--acc);box-shadow:inset 0 -3px 0 rgba(0,0,0,.25)}
+[data-p=industrial] .btn-line{border:1.5px solid var(--ink);background:var(--card)}
+[data-p=industrial] .ig,[data-p=industrial] .hoy{border-radius:3px;border-color:var(--ink);font-weight:500}
+[data-p=industrial] .fotos{gap:8px;counter-reset:pz}
+[data-p=industrial] .fotos button{position:relative;border-radius:2px;outline:1px solid var(--ink);outline-offset:4px;counter-increment:pz;overflow:visible}
+[data-p=industrial] .fotos button::after{content:"PZ-" counter(pz,decimal-leading-zero);position:absolute;left:6px;bottom:6px;font:500 10px/1 'JetBrains Mono',monospace;background:var(--bg);color:var(--ink);padding:3px 5px}
+[data-p=industrial] .svcs{border-top:1.5px solid var(--ink);counter-reset:sku}
+[data-p=industrial] .svc{counter-increment:sku;border-bottom:1px dashed var(--line)}
+[data-p=industrial] .svc b{font-family:'Archivo',sans-serif;font-stretch:75%;text-transform:uppercase;font-size:20px;font-weight:700}
+[data-p=industrial] .svc small::before{content:"SKU-" counter(sku,decimal-leading-zero) " · "}
+[data-p=industrial] .svc .p{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:20px;color:var(--ink);background:var(--acc);padding:2px 8px}
+[data-p=industrial] .turno{border:1.5px solid var(--ink);border-radius:4px;position:relative;
+  background:linear-gradient(var(--ink),var(--ink)) 0 0/14px 2px,linear-gradient(var(--ink),var(--ink)) 0 0/2px 14px,
+    linear-gradient(var(--ink),var(--ink)) 100% 100%/14px 2px,linear-gradient(var(--ink),var(--ink)) 100% 100%/2px 14px,var(--card);background-repeat:no-repeat}
+[data-p=industrial] .chip.sel,[data-p=industrial] .day.sel,[data-p=industrial] .slot.sel{color:var(--ink)}
+[data-p=industrial] .paso .n{border-radius:3px}
+.ficha{display:flex;align-items:stretch;gap:10px;border:1.5px solid var(--ink);margin:0 0 26px;font:500 10.5px/1.3 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.06em}
+.ficha div{padding:7px 9px;border-right:1px dashed var(--ink)}
+.ficha div span{display:block;color:var(--mute)}
+.ficha .barras{flex:1;border:0;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 8px,var(--ink) 8px 11px,transparent 11px 12px) center/100% 70% no-repeat}
+
+/* ════ VISION — Computer Vision: la cámara «detecta» tus trabajos, cajas con etiqueta y confianza ════ */
+[data-p=vision]{--bg:#070a09;--bg2:#0c1110;--card:#0c1211;--line:#1f2b28;--ink:#dcf7ea;--mute:#6f8d82;--acc:#2bff88;--acc2:#ffd60a;--on:#04110a;
+  --d:'Space Grotesk',system-ui,sans-serif;--b:'Space Mono',ui-monospace,monospace;--dw:700;--rad:0px;--fondo-k:.45}
+body[data-p=vision]{font-size:14.5px;background:linear-gradient(rgba(43,255,136,.04) 1px,transparent 1px) 0 0/100% 4px,var(--bg)}
+[data-p=vision] .top .nom{font-family:var(--b);font-size:14px;letter-spacing:.06em}
+[data-p=vision] .top .nom::before{content:"● REC ";color:#ff3b3b;animation:rec 1.2s steps(2) infinite}
+@keyframes rec{50%{opacity:.2}}
+[data-p=vision] .hero{padding-top:36px}
+[data-p=vision] .hero h1{display:inline-block;position:relative;font-size:clamp(56px,15vw,112px);letter-spacing:-.04em;padding:6px 10px;margin:34px 0 18px -10px;
+  border:1.5px solid var(--acc);box-shadow:0 0 18px -4px rgba(43,255,136,.5)}
+[data-p=vision] .hero h1::before{content:"persona · 0.99";position:absolute;left:-1.5px;bottom:100%;background:var(--acc);color:var(--on);font:700 12px/1 'Space Mono',monospace;padding:4px 6px;letter-spacing:0}
+[data-p=vision] .rub{color:var(--acc);font-family:var(--b);letter-spacing:.08em;font-weight:400;text-transform:lowercase}
+[data-p=vision] .rub::before{content:"> clase: "}
+[data-p=vision] h2{letter-spacing:-.03em}
+[data-p=vision] h2::before{content:"[ ";color:var(--acc)}[data-p=vision] h2::after{content:" ]";color:var(--acc)}
+[data-p=vision] .btn{font-family:var(--b);text-transform:lowercase;font-size:14px}
+[data-p=vision] .btn-acc{box-shadow:0 0 22px -6px var(--acc)}
+[data-p=vision] .btn-line{border:1.5px dashed var(--acc);color:var(--acc)}
+[data-p=vision] .ig,[data-p=vision] .hoy{border-radius:0}
+[data-p=vision] .fotos{gap:8px;counter-reset:det}
+[data-p=vision] .fotos button{position:relative;overflow:hidden;border-radius:0;counter-increment:det;filter:saturate(.7) contrast(1.1)}
+[data-p=vision] .fotos button::before{content:"";position:absolute;inset:14% 16% 18% 14%;border:1.5px solid var(--acc);box-shadow:0 0 0 9999px rgba(0,0,0,.28)}
+[data-p=vision] .fotos button:nth-child(3n+2)::before{inset:20% 12% 12% 22%;border-color:var(--acc2)}
+[data-p=vision] .fotos button::after{content:attr(data-lbl) " 0.9" counter(det);position:absolute;left:14%;top:calc(14% - 18px);background:var(--acc);color:var(--on);font:700 11px/1 'Space Mono',monospace;padding:4px 5px;text-transform:lowercase}
+[data-p=vision] .fotos button:nth-child(3n+2)::after{left:22%;top:calc(20% - 18px);background:var(--acc2)}
+[data-p=vision] .fotos button:first-child{background-size:cover}
+[data-p=vision] .fotos::after{content:"";grid-column:1/-1;height:0}
+[data-p=vision] .fotos button:first-child::before{animation:escanea 3.5s ease-in-out infinite}
+@keyframes escanea{50%{inset:10% 10% 14% 10%}}
+[data-p=vision] .svc{border-bottom:1px dashed var(--line)}
+[data-p=vision] .svc b{font-family:var(--d);font-size:19px}
+[data-p=vision] .svc small::before{content:"t≈"}
+[data-p=vision] .svc .p{font-family:var(--b);font-size:20px;color:var(--acc)}
+[data-p=vision] .turno{border:1px solid var(--acc);position:relative}
+[data-p=vision] .turno::before{content:"formulario · 1.00";position:absolute;top:-18px;left:-1px;background:var(--acc);color:var(--on);font:700 11px/1 'Space Mono',monospace;padding:4px 5px}
+[data-p=vision] .chip,[data-p=vision] .day,[data-p=vision] .slot,[data-p=vision] .inp{border-radius:0}
+.hud{display:flex;justify-content:space-between;gap:10px;font:400 11px/1.3 'Space Mono',monospace;color:var(--acc);border:1px solid var(--line);padding:8px 10px;margin:0 0 22px;text-transform:lowercase}
+.hud span:last-child{color:var(--mute)}
+
+/* ════ TERMICO — Heat Map: tus fotos en cámara térmica, título que hierve y escala de temperatura ════ */
+[data-p=termico]{--bg:#0a0620;--bg2:#120a30;--card:#120b2c;--line:#2c2150;--ink:#fff3e4;--mute:#a294c7;--acc:#ff3d00;--acc2:#ffd400;--on:#0a0620;
+  --d:'Syne',system-ui,sans-serif;--b:'DM Sans',system-ui,sans-serif;--dw:800;--rad:14px}
+body[data-p=termico]{background:radial-gradient(50% 30% at 80% 10%,rgba(255,61,0,.22),transparent 70%),radial-gradient(50% 35% at 10% 55%,rgba(91,33,255,.28),transparent 70%),var(--bg)}
+[data-p=termico] .hero h1{font-size:clamp(48px,13vw,104px);word-break:normal;overflow-wrap:break-word;letter-spacing:-.04em;text-transform:uppercase;
+  background:linear-gradient(90deg,#1a0bff,#b300ff,#ff0055,#ff6a00,#ffd400,#fffbe0,#ffd400,#ff6a00,#ff0055,#b300ff,#1a0bff) 0 0/200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:hierve 8s linear infinite}
+@keyframes hierve{to{background-position:-200% 0}}
+[data-p=termico] .rub{color:var(--acc2)}
+[data-p=termico] .rub::before{content:"▲ 37.4°  ";color:var(--acc);white-space:pre}
+[data-p=termico] h2{text-transform:uppercase;letter-spacing:-.03em}
+[data-p=termico] .top .nom{text-transform:uppercase;font-size:16px}
+[data-p=termico] .btn-acc{background:linear-gradient(100deg,#ff0055,#ff6a00 50%,#ffd400);color:#1a0612;box-shadow:0 10px 30px -10px #ff3d00}
+[data-p=termico] .btn-line{border-color:#5b21ff;background:rgba(91,33,255,.15)}
+[data-p=termico] .fotos{gap:8px}
+[data-p=termico] .fotos button{filter:url(#termica);transition:filter .4s}
+[data-p=termico] .fotos button:hover{filter:none}
+[data-p=termico] .svc .p{background:linear-gradient(90deg,#ff6a00,#ffd400);-webkit-background-clip:text;background-clip:text;color:transparent}
+[data-p=termico] .turno{border-color:#3d2a7a;box-shadow:0 0 0 1px rgba(255,61,0,.15),0 30px 60px -30px rgba(255,61,0,.45)}
+[data-p=termico] .chip.sel,[data-p=termico] .day.sel,[data-p=termico] .slot.sel{background:linear-gradient(100deg,#ff0055,#ff6a00);border-color:transparent;color:#fff}
+.escala{margin:0 0 26px;font:600 11px/1 'DM Sans',sans-serif;color:var(--mute);letter-spacing:.08em}
+.escala i{display:block;height:10px;border-radius:99px;margin-bottom:6px;background:linear-gradient(90deg,#000014,#1a0bff,#b300ff,#ff0055,#ff6a00,#ffd400,#fffbe0)}
+.escala div{display:flex;justify-content:space-between}
+
 /* ── fondo inmersivo (premio por referidos) ── */
 #fondoInm{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;transition:opacity 1.2s var(--ease)}
 #fondoInm.on{opacity:1}
 body.fondo #app,body.fondo footer,body.fondo .previa{position:relative;z-index:1}
-body.fondo[data-p=holo]::before{display:none}
+body.fondo[data-p=holo]::before,body.fondo[data-p=bio]::before{display:none}
 body.fondo .svc,body.fondo .turno,body.fondo .donde .dias{backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .pausada{background:#1a1a1a;color:#fff;text-align:center;font-size:13px;font-weight:700;padding:8px 12px}
-@media(prefers-reduced-motion:reduce){.cinta div,body[data-p=holo]::before,[data-p=holo] .hero h1{animation:none!important}}
+@media(prefers-reduced-motion:reduce){body[data-p=bio]::before,[data-p=bio] .fotos button,[data-p=termico] .hero h1,[data-p=vision] .fotos button::before,[data-p=vision] .top .nom::before,.cinta div,body[data-p=holo]::before,[data-p=holo] .hero h1{animation:none!important}}
 [hidden]{display:none!important}
 </style>
 </head>
 <body data-p="papel">
 <canvas id="fondoInm" aria-hidden="true"></canvas>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="termica" color-interpolation-filters="sRGB">
+  <feColorMatrix type="matrix" values=".33 .33 .33 0 0  .33 .33 .33 0 0  .33 .33 .33 0 0  0 0 0 1 0"/>
+  <feComponentTransfer><feFuncR type="table" tableValues="0 .1 .7 1 1 1 1"/><feFuncG type="table" tableValues="0 .04 0 .05 .42 .83 .98"/><feFuncB type="table" tableValues=".08 1 1 .33 0 0 .88"/></feComponentTransfer>
+</filter></svg>
 <div class="previa" id="previa" hidden>Vista previa · tu web todavía no está publicada</div>
 <div class="pausada" id="pausada" hidden>Tu web está pausada porque venció la cuota: solo la ves vos. <a href="/oficios/?editar=1" style="text-decoration:underline">Reactivala</a></div>
 <main id="app"><div class="vacio"><p>Cargando…</p></div></main>
@@ -367,6 +576,8 @@ const IG_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 
 /* Datos inventados para mostrar los dos estilos en la página de la campaña. */
 const tile = (bg, fg, glifo) => 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><rect width="300" height="300" fill="${bg}"/><g opacity=".14" stroke="${fg}">${[...Array(10)].map((_, i) => `<line x1="${i * 40 - 100}" y1="0" x2="${i * 40 + 100}" y2="300"/>`).join('')}</g><text x="150" y="185" font-size="120" text-anchor="middle" fill="${fg}">${glifo}</text></svg>`);
+/* Para el térmico: un degradé en grises (frío afuera, caliente al centro) que el filtro #termica pinta. */
+const calor = (glifo) => 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><defs><radialGradient id="g" cx="50%" cy="55%" r="65%"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="#999"/><stop offset="1" stop-color="#111"/></radialGradient></defs><rect width="300" height="300" fill="url(#g)"/><text x="150" y="190" font-size="130" text-anchor="middle" fill="#fff" opacity=".9">${glifo}</text></svg>`);
 const DEMOS = {
   tinta: { slug: 'demo', rubro: 'tatuaje', plantilla: 'tinta', nombre: 'Vera Tinta', whatsapp: '5492213172949', instagram: 'ejemplo',
     bio: 'Tatuadora. Línea fina, botánica y blackwork. Flash nuevo todas las semanas.', modalidad: 'estudio', local: 'Box en Estudio Diagonal',
@@ -437,6 +648,48 @@ const DEMOS = {
     horarios: { 2: [['10:00', '20:00']], 3: [['10:00', '20:00']], 4: [['10:00', '20:00']], 5: [['10:00', '21:00']], 6: [['09:00', '15:00']] },
     sena: { link: 'https://www.mercadopago.com.ar/', monto: 400000 }, agenda: null,
     fotos: ['✂', '🎩', '🪒', '✂', '🎩', '🪒'].map((g, i) => tile(['#2a2a2a', '#d9d7d0', '#151515'][i % 3], i % 3 === 1 ? '#111' : '#eee', g)), publicado: true },
+  medieval: { slug: 'demo', rubro: 'tatuaje', plantilla: 'medieval', nombre: 'Vlad Espina', whatsapp: '5492213172949', instagram: 'ejemplo',
+    bio: 'Tatuador. Blackwork, ornamental y neo-tribal. Espadas, rosas y armaduras en piezas a medida.', modalidad: 'estudio', local: 'Estudio Cripta',
+    direccion: null, barrio: 'Centro', ciudad: 'La Plata',
+    servicios: [{ nombre: 'Flash del grimorio', precio: 5000000, min: 90 }, { nombre: 'Ornamental mediano', precio: 12000000, min: 210 }, { nombre: 'Sesión (por hora)', precio: 4500000, min: 60 }],
+    horarios: { 3: [['14:00', '21:00']], 4: [['14:00', '21:00']], 5: [['14:00', '22:00']], 6: [['13:00', '20:00']] },
+    sena: { link: 'https://www.mercadopago.com.ar/', monto: 2000000 }, agenda: null,
+    fotos: ['🗡', '✠', '🌹', '⚔', '♰', '🛡'].map((g, i) => tile(['#1a1a20', '#d6d8de', '#121216'][i % 3], i % 3 === 1 ? '#111' : '#cfd3db', g)), publicado: true },
+  bio: { slug: 'demo', rubro: 'tatuaje', plantilla: 'bio', nombre: 'Lía Cromo', whatsapp: '5492213172949', instagram: 'ejemplo',
+    bio: 'Tatuadora. Neo-tribal, líneas orgánicas y formas que siguen el cuerpo. Diseños que parecen líquidos.', modalidad: 'estudio', local: 'Box en Estudio Diagonal',
+    direccion: null, barrio: 'Centro', ciudad: 'La Plata',
+    servicios: [{ nombre: 'Neo-tribal chico', precio: 5500000, min: 120 }, { nombre: 'Pieza orgánica mediana', precio: 11000000, min: 210 }, { nombre: 'Sesión (por hora)', precio: 4500000, min: 60 }],
+    horarios: { 3: [['12:00', '20:00']], 4: [['12:00', '20:00']], 5: [['12:00', '20:00']], 6: [['11:00', '18:00']] },
+    sena: { link: 'https://www.mercadopago.com.ar/', monto: 1500000 }, agenda: null,
+    fotos: ['〰', '◉', '☊', '〰', '◉', '☊'].map((g, i) => tile(['#c9cfdb', '#2438ff', '#eef0f5'][i % 3], ['#0f1626', '#eef0f5', '#2438ff'][i % 3], g)), publicado: true },
+  suizo: { slug: 'demo', rubro: 'barberia', plantilla: 'suizo', nombre: 'Franco Ruiz', whatsapp: '5492213172949', instagram: 'ejemplo',
+    bio: 'Barbero. Cortes precisos, fades limpios y barba prolija. Sin vueltas.', modalidad: 'local', local: 'Sillón 3 · Barbería Plaza',
+    direccion: null, barrio: 'Plaza Moreno', ciudad: 'La Plata',
+    servicios: [{ nombre: 'Corte', precio: 1200000, min: 40 }, { nombre: 'Fade', precio: 1400000, min: 45 }, { nombre: 'Corte + barba', precio: 1800000, min: 60 }, { nombre: 'Barba', precio: 700000, min: 25 }],
+    horarios: { 2: [['10:00', '20:00']], 3: [['10:00', '20:00']], 4: [['10:00', '20:00']], 5: [['10:00', '21:00']], 6: [['09:00', '16:00']] },
+    sena: { link: 'https://www.mercadopago.com.ar/', monto: 300000 }, agenda: null,
+    fotos: ['✂', '+', '●', '✂', '+', '●'].map((g, i) => tile(['#ff3b00', '#0d0d0d', '#e7e7e2'][i % 3], i % 3 === 2 ? '#0d0d0d' : '#f1f1ed', g)), publicado: true },
+  industrial: { slug: 'demo', rubro: 'barberia', plantilla: 'industrial', nombre: 'Taller Gómez', whatsapp: '5492213172949', instagram: 'ejemplo',
+    bio: 'Barbero. Máquina, tijera y navaja calibradas. Fades de precisión con turno.', modalidad: 'casa', local: null,
+    direccion: null, barrio: 'Berisso', ciudad: 'La Plata',
+    servicios: [{ nombre: 'Corte', precio: 1100000, min: 40 }, { nombre: 'Fade de precisión', precio: 1350000, min: 45 }, { nombre: 'Corte + barba', precio: 1700000, min: 60 }],
+    horarios: { 1: [['14:00', '21:00']], 2: [['10:00', '20:00']], 3: [['10:00', '20:00']], 4: [['10:00', '20:00']], 5: [['10:00', '21:00']], 6: [['09:00', '15:00']] },
+    sena: { link: 'https://www.mercadopago.com.ar/', monto: 300000 }, agenda: null,
+    fotos: ['✂', '⚙', '⌁', '✂', '⚙', '⌁'].map((g, i) => tile(['#ff6a00', '#151515', '#cfd0cb'][i % 3], i % 3 === 2 ? '#151515' : '#eeefeb', g)), publicado: true },
+  vision: { slug: 'demo', rubro: 'barberia', plantilla: 'vision', nombre: 'Dani Fade', whatsapp: '5492213172949', instagram: 'ejemplo',
+    bio: 'Barbero. Fades, diseños y freestyle. Cada corte, medido al milímetro.', modalidad: 'local', local: 'Sillón 1 · Barbería Norte',
+    direccion: null, barrio: 'Villa Elvira', ciudad: 'La Plata',
+    servicios: [{ nombre: 'Fade', precio: 1300000, min: 45 }, { nombre: 'Fade + diseño', precio: 1600000, min: 60 }, { nombre: 'Corte + barba', precio: 1800000, min: 60 }],
+    horarios: { 2: [['12:00', '21:00']], 3: [['12:00', '21:00']], 4: [['12:00', '21:00']], 5: [['12:00', '22:00']], 6: [['11:00', '20:00']] },
+    sena: { link: 'https://www.mercadopago.com.ar/', monto: 300000 }, agenda: null,
+    fotos: ['✂', '◎', '⚡', '✂', '◎', '⚡'].map((g, i) => tile(['#13201c', '#1b2b26', '#0f1715'][i % 3], '#9fe8c4', g)), publicado: true },
+  termico: { slug: 'demo', rubro: 'tatuaje', plantilla: 'termico', nombre: 'Kai Calor', whatsapp: '5492213172949', instagram: 'ejemplo',
+    bio: 'Tatuador. Color saturado, degradés y piezas que se ven de lejos. Diseños que levantan temperatura.', modalidad: 'estudio', local: 'Estudio Brasa',
+    direccion: null, barrio: 'Tolosa', ciudad: 'La Plata',
+    servicios: [{ nombre: 'Flash a color', precio: 5000000, min: 90 }, { nombre: 'Pieza a color mediana', precio: 11500000, min: 210 }, { nombre: 'Sesión (por hora)', precio: 4500000, min: 60 }],
+    horarios: { 3: [['13:00', '21:00']], 4: [['13:00', '21:00']], 5: [['13:00', '21:00']], 6: [['12:00', '19:00']] },
+    sena: { link: 'https://www.mercadopago.com.ar/', monto: 1500000 }, agenda: null,
+    fotos: ['🔥', '☀', '🐉', '🔥', '☀', '🐉'].map((g) => calor(g)), publicado: true },
 };
 /* El mismo estilo con el OTRO oficio: los seis sirven para barbero y para tatuador. */
 const H_BAR = { 2: [['10:00', '20:00']], 3: [['10:00', '20:00']], 4: [['10:00', '20:00']], 5: [['10:00', '21:00']], 6: [['09:00', '17:00']] };
@@ -476,6 +729,24 @@ const CRUCE = {
   noir: cruce(DEMOS.noir, { rubro: 'tatuaje', nombre: 'Ezequiel Sombra', bio: 'Realismo en negro y gris. Retratos, cine y piezas grandes con consulta previa.',
     modalidad: 'estudio', local: 'Estudio privado', barrio: 'Centro', servicios: S_TAT, horarios: H_TAT,
     fotos: ['🎞', '👁', '🌹', '🎞', '👁', '🌹'].map((g, i) => tile(['#2a2a2a', '#d9d7d0', '#151515'][i % 3], i % 3 === 1 ? '#111' : '#eee', g)) }),
+  medieval: cruce(DEMOS.medieval, { rubro: 'barberia', nombre: 'Barbería Cruzada', bio: 'Barbería oscura. Navaja, fades y barba de caballero, con turno.',
+    modalidad: 'local', local: 'Sillón 1 · Salón Torre', barrio: 'Centro', servicios: S_BAR, horarios: H_BAR,
+    fotos: ['✂', '✠', '🪒', '✂', '⚔', '🪒'].map((g, i) => tile(['#1a1a20', '#d6d8de', '#121216'][i % 3], i % 3 === 1 ? '#111' : '#cfd3db', g)) }),
+  bio: cruce(DEMOS.bio, { rubro: 'barberia', nombre: 'Nube Barber', bio: 'Barbero. Texturas, ondas y colores fantasía. Cortes que fluyen.',
+    modalidad: 'estudio', local: 'Estudio Nube', barrio: 'Gonnet', servicios: [...S_BAR, { nombre: 'Color fantasía', precio: 3500000, min: 120 }], horarios: H_BAR,
+    fotos: ['✂', '◉', '〰', '✂', '◉', '〰'].map((g, i) => tile(['#c9cfdb', '#2438ff', '#eef0f5'][i % 3], ['#0f1626', '#eef0f5', '#2438ff'][i % 3], g)) }),
+  suizo: cruce(DEMOS.suizo, { rubro: 'tatuaje', nombre: 'Ana Línea', bio: 'Tatuadora. Línea fina, geometría y letras. Diseños limpios con cita previa.',
+    modalidad: 'estudio', local: 'Estudio Grilla', barrio: 'Centro', servicios: S_TAT, horarios: H_TAT,
+    fotos: ['◯', '△', '■', '◯', '△', '■'].map((g, i) => tile(['#ff3b00', '#0d0d0d', '#e7e7e2'][i % 3], i % 3 === 2 ? '#0d0d0d' : '#f1f1ed', g)) }),
+  industrial: cruce(DEMOS.industrial, { rubro: 'tatuaje', nombre: 'Unidad 07', bio: 'Tatuador. Biomecánico, cyber y piezas técnicas. Cada diseño con su plano.',
+    modalidad: 'estudio', local: 'Galpón 7', barrio: 'Berisso', servicios: S_TAT, horarios: H_TAT,
+    fotos: ['⚙', '⌁', '☢', '⚙', '⌁', '☢'].map((g, i) => tile(['#ff6a00', '#151515', '#cfd0cb'][i % 3], i % 3 === 2 ? '#151515' : '#eeefeb', g)) }),
+  vision: cruce(DEMOS.vision, { rubro: 'tatuaje', nombre: 'Iris Ink', bio: 'Tatuadora. Cyber, glitch y línea fina. Si lo ves en la pantalla, va en la piel.',
+    modalidad: 'estudio', local: 'Box en Estudio Diagonal', barrio: 'Centro', servicios: S_TAT, horarios: H_TAT,
+    fotos: ['👁', '◎', '⚡', '👁', '◎', '⚡'].map((g, i) => tile(['#13201c', '#1b2b26', '#0f1715'][i % 3], '#9fe8c4', g)) }),
+  termico: cruce(DEMOS.termico, { rubro: 'barberia', nombre: 'Fuego Barber', bio: 'Barbero. Fades que queman, diseños y platinados. Con turno, sin espera.',
+    modalidad: 'local', local: 'Sillón 2 · Barbería Brasa', barrio: 'Tolosa', servicios: S_BAR, horarios: H_BAR,
+    fotos: ['✂', '🔥', '⚡', '✂', '🔥', '⚡'].map((g) => calor(g)) }),
 };
 async function cargar() {
   if (params.get('demo')) {
@@ -538,6 +809,12 @@ function pintar(f) {
     ${f.plantilla === 'holo' ? '<div class="estrellas" aria-hidden="true"><span>✦</span><span>✧</span><span>✦</span><span>✧</span><span>✦</span></div>' : ''}
     ${f.plantilla === 'noir' ? `<div class="claqueta" aria-hidden="true"><span>Esc. 01</span><span>Toma 1</span><span>${esc(f.barrio)}</span></div>` : ''}
     ${f.plantilla === 'sastre' ? '<div class="orla" aria-hidden="true">✦</div>' : ''}
+    ${f.plantilla === 'medieval' ? '<div class="espinas" aria-hidden="true"></div>' : ''}
+    ${f.plantilla === 'bio' ? '<div class="gotas" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>' : ''}
+    ${f.plantilla === 'suizo' ? `<div class="indice"><div><span>Oficio</span><b>${rubro}</b></div><div><span>Barrio</span><b>${esc(f.barrio)}</b></div><div><span>Turnos</span><b>Online</b></div></div>` : ''}
+    ${f.plantilla === 'industrial' ? `<div class="ficha" aria-hidden="true"><div><span>Mod.</span>${rubro}</div><div><span>Lote</span>${new Date().getFullYear()}</div><div><span>Origen</span>${esc(f.ciudad)}</div><div class="barras"></div></div>` : ''}
+    ${f.plantilla === 'vision' ? `<div class="hud" aria-hidden="true"><span>detectando · ${f.fotos.length} trabajos</span><span>${esc(f.barrio.toLowerCase())} · 60 fps</span></div>` : ''}
+    ${f.plantilla === 'termico' ? '<div class="escala" aria-hidden="true"><i></i><div><span>18°</span><span>30°</span><span>42°</span></div></div>' : ''}
     ${f.plantilla === 'retro' ? '<div class="franjas" aria-hidden="true"></div>' : ''}
     ${f.plantilla === 'galeria' && f.fotos.length ? `<div class="expo"><span>${f.rubro === 'tatuaje' ? 'Selección de obra' : 'Selección de trabajos'}</span><span>${f.fotos.length ? String(f.fotos.length).padStart(2, '0') + ' piezas' : ''}</span></div>` : ''}
     ${f.plantilla === 'acido' ? `<div class="cinta" aria-hidden="true"><div>${Array(8).fill(`<span>${esc(f.nombre)}</span><span>✦</span><span>${rubro}</span><span>✦</span>`).join('')}</div></div>` : ''}

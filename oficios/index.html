@@ -119,6 +119,7 @@ nav .btn{padding:9px 16px;min-height:0;font-size:14px}
 .tarj .acc button{min-height:42px;border:1px solid var(--line2);border-radius:12px;font-size:12.5px;font-weight:700;padding:8px 6px;white-space:nowrap;transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
 .tarj .acc button:hover{border-color:var(--cel)}
 .tarj .acc button[aria-pressed="true"]{background:var(--grad);color:#15201B;border-color:transparent}
+.tarj .acc .elegir:disabled{opacity:.45;cursor:default}
 .tarj .acc .elegir{grid-column:1/-1;background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .tarj.elegido .acc .elegir{background:transparent;color:var(--cel);border-color:var(--cel)}
 .filtro-est{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:-14px 0 30px}
@@ -351,10 +352,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <button type="button" class="fondo-todos" id="fondoTodos" aria-pressed="false">✦ Fondo inmersivo en todos</button>
   </div>
   <div class="filtro-est" role="group" aria-label="Filtrar estilos">
-    <button type="button" data-filtro="" aria-pressed="true">Los diez</button>
+    <button type="button" data-filtro="" aria-pressed="true">Todos</button>
     <button type="button" data-filtro="clasico" aria-pressed="false">Clásicos</button>
     <button type="button" data-filtro="llamativo" aria-pressed="false">Llamativos</button>
     <button type="button" data-filtro="elegante" aria-pressed="false">Elegantes</button>
+    <button type="button" data-filtro="tendencia" aria-pressed="false">Tendencia ⚑</button>
   </div>
   <div class="estilos" id="vitrina"></div>
   <p class="vitrina-pista mono">← deslizá para ver los diez →</p>
@@ -658,11 +660,18 @@ const ESTILOS = [
   { id: 'noir', nom: 'Noir', cat: 'llamativo', nuevo: true, txt: 'Cine en blanco y negro: franjas, grano, rollo de película y créditos.', pal: ['#0b0b0b', '#f2f0ea', '#c1121f'] },
   { id: 'lino', nom: 'Lino', cat: 'elegante', nuevo: true, txt: 'Aesthetic suave: lino, terracota y salvia, serif en cursiva y foto en arco.', pal: ['#f3ece3', '#b9806a', '#8a9a7b'] },
   { id: 'marmol', nom: 'Mármol', cat: 'elegante', nuevo: true, txt: 'Negro veteado y dorado, mayúsculas finas y monograma.', pal: ['#0f0e0d', '#c9a45c', '#f3ede1'] },
+  // A prueba (2026-10-05): se ven en la vitrina pero no se pueden elegir hasta que estén en validar() y en el CHECK del SQL.
+  { id: 'medieval', nom: 'Medieval', cat: 'tendencia', prueba: true, txt: 'Future Medieval: gótica cromada, arco en punta, espinas y botones en bisel.', pal: ['#0b0b0d', '#cfd3db', '#8c1c2c'] },
+  { id: 'bio', nom: 'Bio', cat: 'tendencia', prueba: true, txt: 'Biomorphism: cromo líquido, gotas y fotos con forma de célula que respiran.', pal: ['#dfe3eb', '#2438ff', '#7d8db5'] },
+  { id: 'suizo', nom: 'Suizo', cat: 'tendencia', prueba: true, txt: 'Neo Swiss: grilla a la vista, letra enorme, todo numerado y un solo rojo.', pal: ['#f1f1ed', '#ff3b00', '#0d0d0d'] },
+  { id: 'industrial', nom: 'Industrial', cat: 'tendencia', prueba: true, txt: 'Micro Industrial: ficha técnica, naranja de seguridad, códigos y piezas numeradas.', pal: ['#e3e4e0', '#ff6a00', '#151515'] },
+  { id: 'vision', nom: 'Visión', cat: 'tendencia', prueba: true, txt: 'Computer Vision: la cámara detecta tus trabajos con cajas, etiquetas y confianza.', pal: ['#070a09', '#2bff88', '#ffd60a'] },
+  { id: 'termico', nom: 'Térmico', cat: 'tendencia', prueba: true, txt: 'Heat Map: tus fotos en cámara térmica (al tocarlas, el original) y un título que hierve.', pal: ['#0a0620', '#ff3d00', '#ffd400'] },
 ];
-const CAT = { clasico: 'Clásico', llamativo: 'Llamativo ✦', elegante: 'Elegante ◆' };
+const CAT = { clasico: 'Clásico', llamativo: 'Llamativo ✦', elegante: 'Elegante ◆', tendencia: 'Tendencia ⚑ a prueba' };
 let VER = 'barberia', estiloTocado = false;
 const srcDe = (id, fondo) => `sitio/?demo=${id}&rubro=${VER}${fondo ? '&fondo=1' : ''}`;
-const ORDEN = { clasico: 0, llamativo: 1, elegante: 2 };
+const ORDEN = { clasico: 0, llamativo: 1, elegante: 2, tendencia: 3 };
 $('#vitrina').innerHTML = [...ESTILOS].sort((a, b) => ORDEN[a.cat] - ORDEN[b.cat]).map((e) => `<article class="tarj" data-id="${e.id}" data-cat="${e.cat}">
   <div class="cat"><span>${CAT[e.cat]}</span><span class="pal" aria-hidden="true">${e.pal.map((c) => `<i style="background:${c}"></i>`).join('')}</span></div>
   <div class="phone"><iframe title="Ejemplo estilo ${e.nom}" loading="lazy" data-est="${e.id}" data-src="${srcDe(e.id, false)}"></iframe></div>
@@ -670,7 +679,7 @@ $('#vitrina').innerHTML = [...ESTILOS].sort((a, b) => ORDEN[a.cat] - ORDEN[b.cat
   <div class="acc">
     <button type="button" data-fondo aria-pressed="false" title="Así se ve con más de 5 referidos">✦ Fondo inmersivo</button>
     <button type="button" data-pc>⛶ Pantalla completa</button>
-    <button type="button" class="elegir" data-elegir>Elegir ${e.nom}</button>
+    ${e.prueba ? '<button type="button" class="elegir" disabled title="Todavía a prueba: no se puede elegir">A prueba · todavía no se elige</button>' : `<button type="button" class="elegir" data-elegir>Elegir ${e.nom}</button>`}
   </div></article>`).join('');
 
 /* los iframes se cargan al verse y se escalan al teléfono */
@@ -715,7 +724,7 @@ function elegir(id) {
   const r = $(`[name=plantilla][value=${id}]`); if (!r) return;
   r.checked = true; estiloTocado = true;
   $$('.tarj').forEach((t) => { t.classList.toggle('elegido', t.dataset.id === id);
-    $('[data-elegir]', t).textContent = t.dataset.id === id ? '✓ Elegido' : 'Elegir ' + ESTILOS.find((e) => e.id === t.dataset.id).nom; });
+    if ($('[data-elegir]', t)) $('[data-elegir]', t).textContent = t.dataset.id === id ? '✓ Elegido' : 'Elegir ' + ESTILOS.find((e) => e.id === t.dataset.id).nom; });
   toast(`Estilo ${ESTILOS.find((e) => e.id === id).nom} elegido`);
 }
 $('#vitrina').addEventListener('click', (e) => {
@@ -731,6 +740,7 @@ function elegirMarca(id) { $$('.tarj').forEach((t) => t.classList.toggle('elegid
 const PC = { id: null, fondo: false, ver: 'barberia', volver: null };
 function pintarPC() {
   $('#pcNom').textContent = ESTILOS.find((e) => e.id === PC.id).nom;
+  $('#pcElegir').hidden = !!ESTILOS.find((e) => e.id === PC.id).prueba;
   $$('[data-pc-ver]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.pcVer === PC.ver));
   $('#pcFondo').setAttribute('aria-pressed', PC.fondo);
   $('#pcFrame').src = `sitio/?demo=${PC.id}&rubro=${PC.ver}${PC.fondo ? '&fondo=1' : ''}`;
