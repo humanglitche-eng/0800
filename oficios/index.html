@@ -41,13 +41,19 @@ input,textarea,select{font:inherit;color:inherit}
 .wrap{width:min(1120px,100% - 32px);margin-inline:auto}
 .mono{font-family:var(--m);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* letras con gradiente animado, igual que 0800webs.com (.grad.claro: el fondo acá es oscuro) */
+h1 .grad,h2 .grad,h3 .grad,.mono.grad,b.grad{background-image:linear-gradient(100deg,#F4F5F1 0%,#F2E14C 30%,#25D366 50%,#F2E14C 70%,#F4F5F1 100%);
+  background-size:250% 100%;background-position:0 0;-webkit-text-fill-color:transparent;animation:fluye 7s linear infinite}
+@keyframes fluye{to{background-position:250% 0}}
+@media(prefers-reduced-motion:reduce){.grad{animation:none!important}}
 h1,h2,h3{font-family:var(--d);font-weight:900;letter-spacing:-.03em;line-height:.95}
 h2{font-size:clamp(38px,5.6vw,68px)}
 section{padding:96px 0}
 .head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
 .head p{color:var(--mute);max-width:440px}
 
-#fondo{position:fixed;inset:0;z-index:-1;width:100%;height:100%;opacity:.55}
+#fondo{position:fixed;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity 1.2s var(--ease)}
+#fondo.on{opacity:1}
 .velo{position:fixed;inset:0;z-index:-1;background:
   radial-gradient(ellipse 70% 50% at 20% 0%,rgba(31,90,63,.55),transparent 60%),
   radial-gradient(ellipse 60% 50% at 90% 20%,rgba(242,225,76,.07),transparent 60%),
@@ -304,6 +310,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </head>
 <body>
 <div class="velo" aria-hidden="true"></div>
+<canvas id="fondo" aria-hidden="true"></canvas>
 
 <nav><div class="wrap">
   <a class="marca" href="/">0800webs<span>· Oficios</span></a>
@@ -1054,6 +1061,71 @@ $('#verMios').onclick = async (e) => {
 /* ── arranque ── */
 sugerir('barberia'); armarDias(); pintarFotos(); modalidad(); resumen(); escalera();
 cupos(); directorio(); vuelta(); modoEditar();
+</script>
+<script>
+/* ═══ FONDO INTERACTIVO · el mismo líquido del hero de 0800webs.com (fbm sobre fbm + hoja de puntos),
+   en los colores de marca, que se vuelca con el mouse o el dedo. WebGL directo, sin three.js.
+   Sin WebGL o con prefers-reduced-motion queda el velo de CSS. ═══ */
+(function () {
+  try {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const cv = document.getElementById('fondo');
+    const gl = cv.getContext('webgl', { antialias: false, premultipliedAlpha: false, alpha: true });
+    if (!gl) return;
+    const fs = `precision highp float;uniform float uT;uniform vec2 uRes;uniform vec2 uPtr;uniform vec3 uA,uB,uC,uD;
+float hs(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float nz(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hs(i),hs(i+vec2(1.,0.)),f.x),mix(hs(i+vec2(0.,1.)),hs(i+vec2(1.,1.)),f.x),f.y);}
+float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*nz(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}
+void main(){
+  vec2 uv=gl_FragCoord.xy/uRes; vec2 p=(gl_FragCoord.xy-.5*uRes)/uRes.y;
+  vec2 m=uPtr*vec2(uRes.x/uRes.y,1.)*.5; vec2 d=p-m; float l=length(d);
+  float lente=smoothstep(.55,0.,l);
+  vec2 w=p*1.35+uPtr*vec2(.45,.35)+vec2(uT*.045,-uT*.03);
+  float f1=fbm(w+fbm(w*.9+uT*.05)*.9);
+  float f2=fbm(w*1.25-vec2(uT*.02,uT*.05)+f1*.7);
+  float liq1=smoothstep(.42,.72,f1), liq2=smoothstep(.48,.78,f2), cresta=smoothstep(.68,.90,f1);
+  float mask=smoothstep(1.35,.15,length((uv-vec2(.36,.62))*vec2(1.15,1.)));
+  vec2 q=p-normalize(d+1e-4)*lente*lente*.09; q+=vec2(f1-.5,f2-.5)*.012;
+  vec2 g=fract(q*uRes.y/22.)-.5; float pt=smoothstep(.09,.05,length(g));
+  float dots=pt*.12*mask;
+  vec3 col=vec3(0.); float a=0.;
+  float k1=liq1*.30*mask, k2=liq2*.45*mask, k3=cresta*.16*mask, k4=smoothstep(.55,.85,f1*f2*2.2)*.22*mask;
+  col+=uA*k1; a+=k1; col+=uB*k2; a+=k2; col+=uD*k4; a+=k4; col+=vec3(1.)*k3; a+=k3;
+  col+=uC*dots; a+=dots; col+=vec3(1.)*lente*.06; a+=lente*.06;
+  a=clamp(a,0.,1.); gl_FragColor=vec4(a>0.?col/a:col,a);
+}`;
+    const sh = (t, src) => { const o = gl.createShader(t); gl.shaderSource(o, src); gl.compileShader(o); return o; };
+    const pr = gl.createProgram();
+    gl.attachShader(pr, sh(gl.VERTEX_SHADER, 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}'));
+    gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr);
+    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return;
+    gl.useProgram(pr);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const lp = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(lp); gl.vertexAttribPointer(lp, 2, gl.FLOAT, false, 0, 0);
+    const U = (k) => gl.getUniformLocation(pr, k);
+    const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
+    // resaltador, persiana, tinta clara (puntos) y verde wa: los de 0800webs.com
+    gl.uniform3fv(U('uA'), hex('#F2E14C')); gl.uniform3fv(U('uB'), hex('#1F5A3F')); gl.uniform3fv(U('uC'), hex('#F4F5F1')); gl.uniform3fv(U('uD'), hex('#25D366'));
+    const movil = matchMedia('(pointer:coarse)').matches || innerWidth < 760;
+    const DPR = Math.min(devicePixelRatio || 1, movil ? 1 : 1.5);
+    const medir = () => { cv.width = innerWidth * DPR; cv.height = innerHeight * DPR; gl.viewport(0, 0, cv.width, cv.height); };
+    medir(); addEventListener('resize', medir, { passive: true });
+    const ptr = { x: 0, y: 0, tx: 0, ty: 0 };
+    addEventListener('pointermove', (e) => { ptr.tx = e.clientX / innerWidth * 2 - 1; ptr.ty = 1 - e.clientY / innerHeight * 2; }, { passive: true });
+    const t0 = performance.now();
+    const cuadro = (ahora) => {
+      if (document.hidden) return;
+      ptr.x += (ptr.tx - ptr.x) * .06; ptr.y += (ptr.ty - ptr.y) * .06;
+      gl.uniform1f(U('uT'), (ahora - t0) / 1000); gl.uniform2f(U('uRes'), cv.width, cv.height); gl.uniform2f(U('uPtr'), ptr.x, ptr.y);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      requestAnimationFrame(cuadro);
+    };
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) requestAnimationFrame(cuadro); });
+    requestAnimationFrame(cuadro);
+    cv.classList.add('on');
+  } catch (e) { console.warn('fondo:', e); }
+})();
 </script>
 </body>
 </html>
