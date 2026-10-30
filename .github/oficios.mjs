@@ -62,6 +62,13 @@ for (const e of await readdir('.')) {
   if (sinMd(e)) await cp(e, join(SALIDA, e), { recursive: true, filter: sinMd });
 }
 
+const urls = [];
+for (const ruta of ['index.html', ...(await readdir('.', { recursive: true })).filter((p) => p.endsWith('/index.html'))]) {
+  if (!sinMd(ruta.split('/')[0]) || ruta.startsWith('oficios/sitio/')) continue;
+  if (/<meta[^>]+name=["']robots["'][^>]+noindex/i.test(await readFile(ruta, 'utf8'))) continue;
+  urls.push(`${SITIO}/${ruta.replace(/index\.html$/, '')}`);
+}
+
 const plantilla = await readFile('oficios/sitio/index.html', 'utf8');
 const { lista } = await pedir('/directorio');
 let hechas = 0;
@@ -72,6 +79,17 @@ for (const item of lista) {
   const dir = join(SALIDA, 'o', item.slug);
   await mkdir(dir, { recursive: true });
   await writeFile(join(dir, 'index.html'), pagina(plantilla, { ...item, ...ficha, foto: item.foto }));
+  urls.push(`${SITIO}/o/${item.slug}/`);
   hechas++;
 }
-console.log(`sitio en ${SALIDA}/ · ${hechas} web(s) de oficios`);
+
+// sitemap.xml: las páginas del repo que Google puede indexar (sin noindex; la
+// plantilla de oficios/sitio/ no, que sin slug está vacía) más una URL por
+// oficio publicado. Se arma acá porque las /o/<slug>/ cambian sin push.
+await writeFile(join(SALIDA, 'sitemap.xml'), [
+  '<?xml version="1.0" encoding="UTF-8"?>',
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+  ...urls.map((u) => `  <url><loc>${esc(u)}</loc></url>`),
+  '</urlset>', '',
+].join('\n'));
+console.log(`sitio en ${SALIDA}/ · ${hechas} web(s) de oficios · ${urls.length} URL(s) en el sitemap`);
