@@ -28,9 +28,11 @@
 <!--
   0800 — la home es el catálogo de las dos líneas (Commerce y Content) y el
   portfolio. Piel: el canon azul del manual de marca
-  (proyectos/0800webs/marca/manual.md del vault). Precios: los de los documentos
-  aprobados de cada línea (proyectos/0800webs/negocio/0800-commerce y
-  0800-content). Lo que se toca seguido está en CFG, al final.
+  (proyectos/0800webs/marca/manual.md del vault). Precios: en pesos, lista de
+  octubre de 2026 (Commerce en cuatro variantes, Content en tres planes);
+  reemplazan a los USD de los documentos de cada línea
+  (proyectos/0800webs/negocio/0800-commerce y 0800-content). Lo que se toca
+  seguido está en CFG, al final.
 -->
 <style>
 :root{
@@ -175,6 +177,10 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
 .condiciones li:first-child{border-top:0;padding-top:0}
 .condiciones b{color:var(--papel);font-weight:700}
 @media(max-width:860px){.precio-bloque{grid-template-columns:1fr}}
+/* commerce: las cuatro variantes van dentro del bloque de precio */
+.precio-bloque.variantes{display:block;margin-top:28px}
+.variantes-pie{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;margin-top:40px;padding-top:32px;border-top:1px solid var(--linea-o)}
+@media(max-width:860px){.variantes-pie{grid-template-columns:1fr}}
 
 /* content: familias */
 .familias{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:56px;background:var(--linea-o);border:1px solid var(--linea-o);border-radius:var(--r);overflow:hidden}
@@ -212,6 +218,20 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
 .plan dd.no{color:var(--mute-o);font-weight:400}
 .plan .btn{margin-top:22px;justify-content:center}
 @media(max-width:960px){.planes{grid-template-columns:1fr;max-width:560px}}
+.planes.cuatro{grid-template-columns:repeat(4,1fr);margin-top:0}
+.planes.cuatro .plan h4{font-size:clamp(24px,2.2vw,28px)}
+.planes.cuatro .abono{white-space:nowrap}
+.planes.cuatro .abono b{font-size:clamp(26px,2.3vw,30px)}
+/* las filas (nombre, para quién, precio, qué incluye) quedan alineadas entre tarjetas */
+@supports (grid-template-rows:subgrid){
+  .planes.cuatro .plan{display:grid;grid-row:span 7;grid-template-rows:subgrid;row-gap:0}
+}
+.plan .setup-var{font:400 13px/1.4 var(--m);color:var(--dim-o);margin-top:8px;min-height:0}
+.plan .incluye{list-style:none;margin-top:18px;flex:1}
+.plan .incluye li{padding:9px 0;border-top:1px solid var(--linea-o);font-size:15px;line-height:1.4}
+.plan .incluye li.base{color:var(--dim-o)}
+@media(max-width:1200px){.planes.cuatro{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:960px){.planes.cuatro{grid-template-columns:1fr}}
 .setup-comun{margin-top:16px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;border:1px solid var(--linea-o);border-radius:var(--r);padding:22px 24px}
 .setup-comun > b{font:700 30px/1 var(--m);color:var(--papel);letter-spacing:-.03em;white-space:nowrap}
 .setup-comun p{color:var(--dim-o);font-size:15.5px;line-height:1.5}
@@ -320,13 +340,13 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
         <span class="dato">Línea 01</span><span class="fl" aria-hidden="true">↘</span>
         <strong>0800 Commerce</strong>
         <p>La tienda que cobra y la caja que cuadra.</p>
-        <span class="precio">USD 3.000 + USD 300/mes</span>
+        <span class="precio">desde $460.000 + $78.000/mes</span>
       </a>
       <a class="linea" href="#content">
         <span class="dato">Línea 02</span><span class="fl" aria-hidden="true">↘</span>
         <strong>0800 Content</strong>
         <p>El contenido sale de lo que vendés.</p>
-        <span class="precio">USD 3.000 + desde USD 390/mes</span>
+        <span class="precio">$150.000 + desde $195.000/mes</span>
       </a>
     </div>
     <p class="nota dato">El fondo es gráfica en tiempo real: la dibuja tu navegador cuadro a cuadro, no es un video. Movelo con el dedo o el mouse.</p>
@@ -407,25 +427,83 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
     <div class="ficha sube"><p class="dato">El cierre</p><h4>La caja cierra con el motivo escrito.</h4><p>Esperado, contado, diferencia y motivo quedan juntos. Y con la caja cerrada no se cobra en efectivo: así empieza un descuadre.</p></div>
     <div class="ficha sube"><p class="dato">Tu panel</p><h4>Se arma con lo que contrataste.</h4><p>Sin pantallas apagadas. Y cada llave abre su parte: el mostrador vende y cobra, el depósito ve pedidos y stock sin un solo número de plata.</p></div>
   </div>
-  <p class="sin-vueltas sube"><b>El asistente también vive acá:</b> contesta con tu catálogo vivo, deriva a una persona y anota por qué no se compró. En el chat de tu página, hoy; en tu WhatsApp, cuando esté el alta de tu cuenta de WhatsApp Business. Esos mensajes los cobra Meta, directo a tu cuenta.</p>
+  <p class="sin-vueltas sube"><b>En Plataforma, el asistente también vive acá:</b> contesta con tu catálogo vivo, deriva a una persona y anota por qué no se compró. En el chat de tu página, hoy; en tu WhatsApp, cuando esté el alta de tu cuenta de WhatsApp Business. Esos mensajes los cobra Meta, directo a tu cuenta.</p>
 
-  <div class="precio-bloque oscura sube" role="group" aria-label="Precio de 0800 Commerce">
+  <div class="subtit sube"><h3>Cuatro variantes</h3><p class="dato">Elegís hasta dónde llega</p></div>
+  <div class="precio-bloque variantes oscura sube" role="group" aria-label="Variantes y precios de 0800 Commerce">
+    <div class="planes cuatro">
+      <article class="plan">
+        <p class="dato">Variante 01</p><h4>Landing</h4>
+        <p>Para oficios y servicios: cerrajería, gas, electricidad.</p>
+        <div class="abono"><b>$78.000</b><span>/ mes</span></div>
+        <p class="setup-var">+ $460.000 de setup, una sola vez</p>
+        <ul class="incluye">
+          <li>Una página con tu dominio</li>
+          <li>Botón de WhatsApp que ya escribe</li>
+          <li>Tu zona, tus reseñas y Google</li>
+          <li>Online en una semana</li>
+        </ul>
+        <a class="btn borde" href="#" data-wa="Hola 0800, quiero consultar por 0800 Commerce Landing.">Consultar Landing</a>
+      </article>
+      <article class="plan">
+        <p class="dato">Variante 02</p><h4>Catálogo WhatsApp</h4>
+        <p>Para comercios chicos y gastronomía que cierran por WhatsApp.</p>
+        <div class="abono"><b>$234.000</b><span>/ mes</span></div>
+        <p class="setup-var">+ $790.000 de setup, una sola vez</p>
+        <ul class="incluye">
+          <li class="base">Todo lo de Landing</li>
+          <li>Catálogo con precios y fotos, hasta 60 productos cargados</li>
+          <li>Carrito que arma el pedido o la reserva y lo manda por WhatsApp</li>
+          <li>2 cambios por mes</li>
+        </ul>
+        <a class="btn borde" href="#" data-wa="Hola 0800, quiero consultar por 0800 Commerce Catálogo WhatsApp.">Consultar Catálogo</a>
+      </article>
+      <article class="plan">
+        <p class="dato">Variante 03</p><h4>Tienda + Mercado Pago</h4>
+        <p>Para marcas que venden a todo el país.</p>
+        <div class="abono"><b>$359.000</b><span>/ mes</span></div>
+        <p class="setup-var">+ $1.490.000 de setup, una sola vez</p>
+        <ul class="incluye">
+          <li class="base">Todo lo de Catálogo</li>
+          <li>Cobro total o seña con Mercado Pago</li>
+          <li>Configurador a medida y ficha del pedido para el taller</li>
+          <li>Galería y reels</li>
+          <li>4 cambios por mes</li>
+        </ul>
+        <a class="btn borde" href="#" data-wa="Hola 0800, quiero consultar por 0800 Commerce Tienda + Mercado Pago.">Consultar Tienda</a>
+      </article>
+      <article class="plan">
+        <p class="dato">Variante 04</p><h4>Plataforma</h4>
+        <p>Para negocios con stock y operación: el sistema entero de esta página.</p>
+        <div class="abono"><b>$468.000</b><span>/ mes</span></div>
+        <p class="setup-var">+ $2.450.000 de setup, una sola vez</p>
+        <ul class="incluye">
+          <li class="base">Todo lo de Tienda</li>
+          <li>Panel de gestión: stock, precios y planillas</li>
+          <li>Chat con IA y automatizaciones: turnos y respuestas de WhatsApp</li>
+          <li>App que abre sin señal</li>
+          <li>Soporte prioritario</li>
+        </ul>
+        <a class="btn" href="#" data-wa="Hola 0800, quiero consultar por 0800 Commerce Plataforma.">Consultar Plataforma</a>
+      </article>
+    </div>
+    <div class="variantes-pie">
     <div>
-      <p class="rotulo">Un producto, un precio</p>
+      <p class="rotulo">En las cuatro</p>
       <div class="cifras">
-        <div class="cifra"><p class="dato">Setup</p><b>USD 3.000</b><small>una sola vez</small></div>
-        <div class="cifra"><p class="dato">Abono</p><b>USD 300</b><small>por mes</small></div>
         <div class="cifra"><p class="dato">Comisión</p><b>0 %</b><small>sobre tus ventas</small></div>
       </div>
       <div class="acciones"><a class="btn" href="#" data-wa="Hola 0800, quiero ver 0800 Commerce andando con los productos de mi negocio.">Quiero verlo con mis productos <span class="fl">→</span></a></div>
     </div>
     <ul class="condiciones">
+      <li><b>Qué cubre el abono.</b> Hosting, SSL, la renovación del dominio .com.ar y los cambios que indica tu variante.</li>
       <li><b>El reloj arranca después.</b> El abono empieza el día que el sistema funciona para vos, no el día que firmás.</li>
       <li><b>Precio congelado.</b> El abono se sostiene 12 meses; después pasa a lista, avisado por escrito.</li>
       <li><b>La plata va directo a tu cuenta.</b> Se paga el sistema, nunca el volumen.</li>
       <li><b>Cláusula de salida.</b> Todos tus datos en formato abierto cuando los pidas, sin costo.</li>
       <li><b>El abono no es una bolsa de horas:</b> un desarrollo nuevo se presupuesta antes de hacerlo.</li>
     </ul>
+    </div>
   </div>
 </div></section>
 
@@ -464,7 +542,7 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
     <article class="plan sube">
       <p class="dato">Plan 01</p><h4>Señal</h4>
       <p>Para la marca que hoy publica cuando se acuerda. Presencia pareja, todas las semanas.</p>
-      <div class="abono"><b>USD 390</b><span>/ mes</span></div>
+      <div class="abono"><b>$195.000</b><span>/ mes</span></div>
       <dl>
         <div><dt>Piezas de feed</dt><dd>8</dd></div>
         <div><dt>Videos verticales</dt><dd>4</dd></div>
@@ -478,7 +556,7 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
     <article class="plan sube">
       <p class="dato">Plan 02</p><h4>Vidriera</h4>
       <p>Para la que ya vende y quiere volumen: el catálogo apareciendo todos los días.</p>
-      <div class="abono"><b>USD 690</b><span>/ mes</span></div>
+      <div class="abono"><b>$355.000</b><span>/ mes</span></div>
       <dl>
         <div><dt>Piezas de feed</dt><dd>14</dd></div>
         <div><dt>Videos verticales</dt><dd>10</dd></div>
@@ -492,7 +570,7 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
     <article class="plan sube">
       <p class="dato">Plan 03</p><h4>Temporada</h4>
       <p>Para la que lanza por campañas: todo el volumen, más lo que no se compra por volumen.</p>
-      <div class="abono"><b>USD 1.200</b><span>/ mes</span></div>
+      <div class="abono"><b>$590.000</b><span>/ mes</span></div>
       <dl>
         <div><dt>Piezas de feed</dt><dd>20</dd></div>
         <div><dt>Videos verticales</dt><dd>16</dd></div>
@@ -508,7 +586,7 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
     </article>
   </div>
   <div class="setup-comun sube">
-    <b>USD 3.000</b>
+    <b>$150.000</b>
     <p><strong>Setup, el mismo en los tres planes y una sola vez:</strong> plantillas con tu identidad, la conexión con tu catálogo y tus cuentas, y el banco de material. Subir de plan no vuelve a cobrarlo, y el abono arranca cuando tu primer mes se está publicando. La pauta de anuncios no está incluida: la cargás vos, en tu cuenta.</p>
   </div>
 
