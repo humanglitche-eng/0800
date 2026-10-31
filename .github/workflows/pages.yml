@@ -1,18 +1,13 @@
 # Publica 0800webs.com en GitHub Pages.
 #
-# Corre con cada push a main y cada 15 minutos, para que un oficio recién
-# publicado tenga su carpeta propia (/o/<slug>/) sin esperar a un push. Mientras
-# tanto su web igual se ve, por 404.html. El generador está en .github/oficios.mjs.
+# Corre con cada push a main (o a mano). El armado está en .github/armar.mjs:
+# copia el repo sin lo interno y escribe sitemap.xml.
 name: Publicar
 
 on:
   push:
     branches: [main]
-  schedule:
-    - cron: '*/15 * * * *'
   workflow_dispatch:
-  repository_dispatch:
-    types: [oficios]
 
 permissions:
   contents: read
@@ -31,7 +26,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - run: node .github/oficios.mjs _sitio
+      - run: node .github/armar.mjs _sitio
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _sitio
