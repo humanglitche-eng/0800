@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>0800 · Commerce y Content para marcas que venden · La Plata</title>
-<meta name="description" content="0800 Commerce: la tienda que cobra y la caja que cuadra. 0800 Content: el contenido sale de lo que vendés. Precios escritos, webs andando y demos para ver antes de hablar.">
+<meta name="description" content="0800 Commerce: la tienda que cobra y la caja que cuadra. 0800 Content: el contenido sale de lo que vendés. Lo que trae cada rubro —gastronomía, tiendas, oficios, ferreterías, hospedaje, estudios y artistas—, con precios escritos, webs andando y demos.">
 <link rel="canonical" href="https://0800webs.com/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://0800webs.com/">
@@ -21,7 +21,8 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Pirata+One&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Pirata+One&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="bits.css?v=2">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"0800","url":"https://0800webs.com/","email":"hola@0800webs.com","telephone":"+54 9 221 563-2444","areaServed":"La Plata, Buenos Aires, Argentina","logo":"https://0800webs.com/favicon-192.png"}
 </script>
@@ -33,6 +34,9 @@
   reemplazan a los USD de los documentos de cada línea
   (proyectos/0800webs/negocio/0800-commerce y 0800-content). Lo que se toca
   seguido está en CFG, al final.
+  Por rubro (07/11/2026): la sección «Por rubro» y el menú «¿Qué tenés?» se
+  arman desde rubros.js. Las animaciones son componentes de React Bits
+  portados a JS plano en bits.js / bits.css (con su aviso de licencia).
 -->
 <style>
 :root{
@@ -251,6 +255,7 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
 .filtro button span{font-weight:400;opacity:.7;margin-left:4px}
 .obras{display:grid;grid-template-columns:repeat(3,1fr);gap:32px 20px;margin-top:28px;list-style:none}
 .obra[hidden]{display:none}
+.obra{position:relative}
 .obra a{display:block;text-decoration:none;height:100%}
 .obra .foto{position:relative;aspect-ratio:16/10;overflow:hidden;border-radius:var(--r);background:#dcdad4;border:1px solid var(--linea)}
 .obra .foto img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
@@ -303,6 +308,150 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
 .fija.ver{transform:none}
 @media(min-width:861px){.fija{display:none}}
 
+/* ═══ POR RUBRO y los bits (07/11/2026) ═══ */
+
+/* hero: «Tengo una…» y el sello que gira */
+.tengo{margin-top:26px}
+.tengo a{display:inline-flex;align-items:baseline;flex-wrap:wrap;gap:0 .32em;font:800 clamp(22px,2.6vw,32px)/1.22 var(--f);letter-spacing:-.015em;text-decoration:none;color:var(--papel)}
+.tengo .b-rota,.tengo .rota-sin-js{color:var(--lima)}
+.tengo .b-rota-v{box-shadow:inset 0 -2px 0 var(--lima)}
+.tengo .fl{font:400 .78em var(--m);color:var(--lima);transition:transform .2s}
+.tengo a:hover .fl{transform:translateX(4px)}
+.tengo small{display:block;margin-top:8px;font:400 12px/1.4 var(--m);letter-spacing:.14em;text-transform:uppercase;color:var(--mute-o)}
+.sello{position:absolute;right:max(24px,calc((100% - 1200px) / 2 + 24px));bottom:96px;--b-circ-d:150px;color:var(--lima);z-index:1}
+.sello b{font:900 30px/1 var(--f);color:var(--papel);letter-spacing:-.03em}
+@media(max-width:1120px){.sello{display:none}}
+.linea .precio.b-brillo{display:inline-block}
+
+/* la tira lima, ahora con velocidad de scroll */
+.tira [data-fila]{overflow:hidden}
+.tira .pista{display:flex;gap:44px;list-style:none;padding:14px 0;width:max-content;animation:tira 38s linear infinite}
+.tira.b-vel .pista{gap:0}
+.tira.b-vel .pista li{margin-right:44px}
+
+/* sección por rubro */
+.rubros{position:relative;isolation:isolate;overflow:hidden}
+.rubros > canvas.puntos{position:absolute;inset:0;width:100%;height:100%;z-index:-1;display:block}
+.rubros-tabs{margin-top:44px;font:700 13.5px/1 var(--m);letter-spacing:.06em;text-transform:uppercase}
+.rubros-tabs ul{display:flex;flex-wrap:wrap;gap:6px;list-style:none}
+.rubros-tabs [role="tab"]{padding:13px 16px;border-radius:999px;color:var(--dim-o);font:inherit;letter-spacing:inherit;text-transform:inherit;
+  box-shadow:inset 0 0 0 1px var(--linea-o);transition:color .2s,box-shadow .2s}
+.rubros-tabs [role="tab"]:hover{color:var(--papel);box-shadow:inset 0 0 0 1px var(--mute-o)}
+.rubros-tabs [role="tab"][aria-selected="true"]{color:var(--tinta);box-shadow:none}
+.rubros-tabs:not(.b-goo) [role="tab"][aria-selected="true"]{background:var(--papel)}
+.rubro{margin-top:40px}
+.rubro-cab{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:40px;align-items:center}
+.rubro-cab .dato{color:var(--lima)}
+.rubro-tit{font:900 clamp(30px,4.2vw,54px)/.98 var(--f);text-transform:uppercase;letter-spacing:-.03em;margin-top:12px;text-wrap:balance}
+.rubro-cab .bajada{color:var(--dim-o);margin-top:16px;max-width:52ch}
+.rubro-ej{height:250px;--b-carta-w:210px}
+.rubro-ej-pie{text-align:center;margin-top:6px}
+@media(max-width:860px){.rubro-cab{grid-template-columns:1fr;gap:24px}.rubro-ej{height:190px;--b-carta-w:170px}}
+
+.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(200px,auto);gap:12px;margin-top:36px}
+.bento .b-card{border-radius:10px;border:1px solid var(--linea-o);background:linear-gradient(180deg,rgba(244,243,240,.055),rgba(244,243,240,.015));
+  padding:20px 20px 18px;display:flex;flex-direction:column;gap:10px}
+.bento .f1{grid-column:3/5;grid-row:1}
+.bento .f2{grid-column:1/3;grid-row:2}
+.bento .f3{grid-column:1;grid-row:1}
+.bento .f4{grid-column:2;grid-row:1}
+.bento .f5{grid-column:3;grid-row:2}
+.bento .f6{grid-column:4;grid-row:2}
+.b-card .arriba{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.b-card .num{font:700 13px var(--m);color:var(--lima)}
+.b-card .var{font:400 10.5px/1 var(--m);letter-spacing:.08em;text-transform:uppercase;color:var(--dim-o);padding:6px 8px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--linea-o);white-space:nowrap}
+.b-card .var.v4{color:var(--lima);box-shadow:inset 0 0 0 1px rgba(201,247,60,.4)}
+.b-card h4{font:800 20px/1.15 var(--f);letter-spacing:-.01em;margin-top:8px}
+.b-card p{color:var(--dim-o);font-size:15px;line-height:1.45}
+.b-card .estado{align-self:flex-start;justify-self:auto;margin-top:auto}
+.bento .f1 h4,.bento .f2 h4{font-size:clamp(26px,2.6vw,36px);line-height:1;text-transform:uppercase;letter-spacing:-.025em}
+.bento .f1 p,.bento .f2 p{font-size:16.5px;max-width:46ch}
+@media(min-width:961px){.bento .f1,.bento .f2{padding:22px 26px 20px}}
+.b-card .fondo-n{position:absolute;right:14px;bottom:-26px;z-index:-1;font:700 150px/1 var(--m);letter-spacing:-.06em;color:rgba(244,243,240,.045);pointer-events:none}
+.rubros .estado.ok{background:var(--lima);color:var(--tinta)}
+.rubros .estado.paso{box-shadow:inset 0 0 0 1.5px var(--lima);color:var(--lima)}
+.rubros .estado.content{box-shadow:inset 0 0 0 1.5px var(--papel);color:var(--papel)}
+@media(max-width:960px){.bento{grid-template-columns:1fr 1fr}.bento .b-card{grid-column:auto!important;grid-row:auto!important}.bento .f1,.bento .f2{grid-column:1/-1!important}}
+@media(max-width:560px){.bento{grid-template-columns:1fr}}
+
+.rubro-pie{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:12px;margin-top:12px}
+.caja{position:relative;border:1px solid var(--linea-o);border-radius:10px;padding:20px;background:rgba(11,11,13,.72)}
+.caja > .dato{color:var(--lima)}
+.feed{display:flex;flex-direction:column}
+.feed .b-lista{margin-top:12px;flex:1 1 0;min-height:236px;overflow:hidden}
+.reco-v > .dato{color:var(--lima)}
+.b-lista-in{padding:10px 0;border-top:1px solid var(--linea-o);font-size:14.5px;line-height:1.35}
+.b-lista-pt{width:7px;height:7px;border-radius:50%;background:var(--lima);align-self:center}
+.b-lista-h{font:400 11.5px var(--m);color:var(--mute-o)}
+.burbuja{position:relative;margin-top:16px;background:var(--papel);color:var(--tinta);border-radius:14px 14px 14px 3px;padding:14px 16px;font-size:15.5px;line-height:1.45;min-height:4.75em;max-width:92%}
+.burbuja:not(.b-escribe) .b-cursor{display:none}
+.burbuja.resp{margin:10px 0 0 auto;min-height:0;max-width:78%;background:var(--lima);border-radius:14px 14px 3px 14px;padding:12px 16px 24px;transition:opacity .35s,transform .35s}
+.burbuja.resp::after{content:"✓✓";position:absolute;right:12px;bottom:7px;font:700 11px var(--m);color:rgba(11,11,13,.55)}
+.burbuja.resp.b-off{opacity:0;transform:translateY(8px)}
+.wa .quien-resp{font:400 11px var(--m);letter-spacing:.08em;text-transform:uppercase;color:var(--mute-o);text-align:right;margin-top:6px}
+.wa .nota-wa{color:var(--dim-o);font-size:14.5px;margin-top:14px}
+.reco .modo{display:inline-flex;gap:4px;padding:4px;margin-top:14px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--linea-o)}
+.reco .modo button{font:700 11.5px/1 var(--m);letter-spacing:.06em;text-transform:uppercase;padding:9px 12px;border-radius:999px;color:var(--dim-o);transition:background-color .2s,color .2s}
+.reco .modo button[aria-pressed="true"]{background:var(--papel);color:var(--tinta)}
+.reco .vnom{font:900 26px/1.05 var(--f);text-transform:uppercase;letter-spacing:-.02em;margin-top:16px}
+.reco .vprecio{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin-top:10px}
+.reco .vprecio .b-rod{font:700 clamp(30px,3vw,40px)/1 var(--m);color:var(--lima);letter-spacing:-.04em}
+.reco .vprecio .xmes,.reco .vsetup{font:400 13px/1.4 var(--m);color:var(--dim-o)}
+.reco .vporque{color:var(--dim-o);font-size:15px;line-height:1.45;margin-top:10px}
+.reco .ver{display:inline-block;margin-top:10px;font:700 13px var(--m);color:var(--lima);text-decoration:none}
+.reco .ver:hover{text-decoration:underline;text-underline-offset:4px}
+.reco .cont{margin-top:16px;padding-top:14px;border-top:1px solid var(--linea-o)}
+.reco .cont b{color:var(--papel)}
+.reco .cont p{color:var(--dim-o);font-size:15px}
+.reco{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,.8fr);gap:16px 40px;align-items:start;padding:24px}
+.reco-c{padding-top:30px}
+.reco-cta{align-self:stretch;display:flex;flex-direction:column;justify-content:flex-end;gap:12px}
+.reco-cta .chico{color:var(--dim-o);font-size:14.5px;line-height:1.45}
+.reco .btn{width:100%;justify-content:center}
+.rubro-nota{margin-top:18px;max-width:80ch}
+@media(max-width:1060px){.reco{grid-template-columns:1fr 1fr}.reco-cta{grid-column:1/-1}}
+@media(max-width:720px){.rubro-pie,.reco{grid-template-columns:1fr}.reco-c{padding-top:0}.reco{padding:20px}}
+
+/* commerce: la variante que le toca al rubro elegido */
+.plan .para-tu-rubro{position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:3;background:var(--lima);color:var(--tinta);font:700 10.5px/1.2 var(--m);letter-spacing:.08em;text-transform:uppercase;padding:5px 10px 6px;border-radius:0 0 3px 3px;white-space:nowrap;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis}
+.planes.cuatro .plan{position:relative}
+
+/* la cinta curva entre Commerce y Content */
+.curva-banda{background:var(--papel);overflow:hidden;padding-bottom:6px}
+
+/* las webs en vivo, corriendo */
+.andando{background:var(--papel);border-top:1px solid var(--linea);padding:30px 0 0}
+.andando .in{display:flex;align-items:center;gap:28px}
+.andando .dato{flex:none;color:var(--azul)}
+.andando .b-bucle,.andando .bucle{flex:1;min-width:0}
+.bucle-pista{display:flex;width:max-content}
+.bucle-pista a{display:inline-flex;align-items:center;gap:14px;margin-right:48px;font:900 clamp(26px,3.4vw,44px)/1.1 var(--f);text-transform:uppercase;letter-spacing:-.03em;text-decoration:none;color:var(--tinta);white-space:nowrap;transition:color .2s}
+.bucle-pista a::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--azul);flex:none}
+.bucle-pista a:hover{color:var(--azul)}
+@media(max-width:700px){.andando .in{flex-direction:column;align-items:stretch;gap:12px}}
+
+/* portfolio: filtro por rubro y la grilla croma */
+.filtro + .filtro{margin-top:8px}
+.marca-estado{z-index:3}
+
+/* cierre: hilos de fondo y «¿Qué tenés?» */
+.cierre{position:relative;isolation:isolate;overflow:hidden}
+.cierre > canvas.hilos{position:absolute;inset:0;width:100%;height:100%;z-index:-1;display:block;pointer-events:none}
+.que-tenes{margin-top:64px}
+.que-tenes > .dato{color:var(--lima);margin-bottom:12px}
+.que-tenes nav{border-top:1px solid var(--linea-o)}
+.b-flow-it{border-bottom:1px solid var(--linea-o);color:var(--papel)}
+.b-flow-tx{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:20px 0;font:900 clamp(28px,4.6vw,58px)/1 var(--f);text-transform:uppercase;letter-spacing:-.03em}
+.b-flow-tx small{font:400 12px/1.3 var(--m);letter-spacing:.12em;color:var(--mute-o);text-align:right;max-width:30ch}
+.b-flow-mq{background:var(--lima);color:var(--tinta)}
+.b-flow-pista .t{font:900 clamp(28px,4.6vw,58px)/1 var(--f);text-transform:uppercase;letter-spacing:-.03em;padding:0 22px;white-space:nowrap}
+.b-flow-pista i{display:block;flex:none;width:clamp(110px,13vw,190px);height:62%;border-radius:999px;background-size:cover;background-position:50% 0;box-shadow:0 0 0 2px var(--tinta)}
+@media(max-width:600px){.b-flow-tx small{display:none}}
+
+/* pie: el 0800 gigante que se estira */
+.pie{overflow:hidden}
+.gigante{display:block;width:100%;margin-top:30px;font-family:var(--f);font-weight:900;line-height:.82;color:var(--papel);text-align:center;white-space:nowrap;user-select:none;-webkit-user-select:none}
+
 /* aparición al bajar */
 .js .sube{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
 .js .sube.ya{opacity:1;transform:none}
@@ -321,6 +470,7 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
 <nav class="nav" aria-label="Principal"><div class="in">
   <a class="logo" href="#top" aria-label="0800, inicio"><b>0800</b><span>Commerce · Content</span></a>
   <ul>
+    <li><a href="#rubros">Tu rubro</a></li>
     <li><a href="#commerce">Commerce</a></li>
     <li><a href="#content">Content</a></li>
     <li><a href="#portfolio">Portfolio</a></li>
@@ -334,7 +484,9 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
   <div class="in">
     <p class="rotulo">0800 · La Plata, Buenos Aires</p>
     <h1><span class="gesto">tecnología y contenido</span><span class="bajada">para marcas que venden.</span></h1>
-    <p class="lede">Dos productos, cada uno con su precio escrito: el sistema que vende y cobra, y la producción que lo muestra todos los meses. Primero lo ves andando; después hablamos.</p>
+    <p class="lede" id="lede-hero">Dos productos, cada uno con su precio escrito: el sistema que vende y cobra, y la producción que lo muestra todos los meses. Primero lo ves andando; después hablamos.</p>
+    <p class="tengo"><a href="#rubros" id="tengo" aria-label="Elegí tu rubro y mirá lo que trae">Tengo <span id="tengo-rota" class="rota-sin-js">un comercio</span> <span class="fl" aria-hidden="true">→</span></a>
+      <small>Tocá y mirá lo que trae tu rubro</small></p>
     <div class="lineas">
       <a class="linea" href="#commerce">
         <span class="dato">Línea 01</span><span class="fl" aria-hidden="true">↘</span>
@@ -351,14 +503,87 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
     </div>
     <p class="nota dato">El fondo es gráfica en tiempo real: la dibuja tu navegador cuadro a cuadro, no es un video. Movelo con el dedo o el mouse.</p>
   </div>
+  <div class="sello" id="sello"><b>0800</b></div>
 </header>
 
-<div class="tira" aria-hidden="true"><ul>
+<div class="tira" id="tira" aria-hidden="true"><div data-fila="1"><ul class="pista">
   <li>0 % sobre tus ventas</li><li>Precios escritos</li><li>Primero la ves andando</li><li>Después hablamos</li><li>Después pagás</li><li>Tus datos son tuyos</li>
   <li>0 % sobre tus ventas</li><li>Precios escritos</li><li>Primero la ves andando</li><li>Después hablamos</li><li>Después pagás</li><li>Tus datos son tuyos</li>
-</ul></div>
+</ul></div></div>
 
 <main>
+
+<!-- ═════════════ POR RUBRO (se arma desde rubros.js) ═════════════ -->
+<section class="sec oscura rubros" id="rubros" aria-labelledby="t-rubros">
+  <canvas class="puntos" id="puntos" aria-hidden="true"></canvas>
+  <div class="in">
+  <div class="cabeza sube">
+    <div>
+      <p class="rotulo">00 · Tu rubro</p>
+      <h2 id="t-rubros">Lo que tu rubro necesita, ya andando.</h2>
+    </div>
+    <p class="lede dim">El mismo sistema habla el idioma de cada rubro: la cocina mide en minutos, la tienda en talles, el oficio en urgencias. Elegí el tuyo y mirá qué trae, en qué variante viene y en qué estado está hoy.</p>
+  </div>
+
+  <div class="rubros-tabs" id="rubros-tabs">
+    <ul role="tablist" aria-label="Rubros" id="rubros-lista"></ul>
+  </div>
+
+  <div class="rubro" id="rubro-panel" role="tabpanel" tabindex="-1">
+    <div class="rubro-cab">
+      <div>
+        <p class="dato" id="r-quien"></p>
+        <h3 class="rubro-tit" id="r-tit"></h3>
+        <p class="bajada" id="r-bajada"></p>
+      </div>
+      <div>
+        <div class="rubro-ej" id="r-ej"></div>
+        <p class="rubro-ej-pie dato" id="r-ej-pie"></p>
+      </div>
+    </div>
+
+    <div class="bento" id="r-bento"></div>
+
+    <div class="rubro-pie">
+      <div class="caja feed">
+        <p class="dato">Así se ve un día en el panel</p>
+        <div id="r-feed"></div>
+      </div>
+      <div class="caja wa">
+        <p class="dato">Lo que te llega por WhatsApp</p>
+        <div class="burbuja" id="r-msj"></div>
+        <div class="burbuja resp b-off" id="r-resp"></div>
+        <p class="nota-wa">Ya escrito, con lo que necesitás para contestar. Sin preguntas de ida y vuelta: contestás en una línea.</p>
+      </div>
+      <div class="caja reco">
+        <div class="reco-v">
+          <p class="dato">Con qué arrancar</p>
+          <div class="modo" role="group" aria-label="Variante recomendada">
+            <button type="button" aria-pressed="true" data-modo="arranque">Para arrancar</button>
+            <button type="button" aria-pressed="false" data-modo="completo">Completo</button>
+          </div>
+          <p class="vnom" id="r-vnom"></p>
+          <div class="vprecio"><span id="r-abono"></span><span class="xmes">/ mes</span></div>
+          <p class="vsetup" id="r-setup"></p>
+        </div>
+        <div class="reco-c">
+          <p class="vporque" id="r-porque"></p>
+          <a class="ver" href="#commerce" id="r-ver">Ver la variante en Commerce ↓</a>
+          <div class="cont">
+            <p>Y para mostrarlo: <b id="r-plan"></b></p>
+            <ul class="chips" id="r-piezas"></ul>
+          </div>
+        </div>
+        <div class="reco-cta">
+          <p class="chico">Te lo mostramos andando con tus productos. Recién después hablamos de plata.</p>
+          <a class="btn" href="#" id="r-wa">Quiero verlo con lo mío <span class="fl">→</span></a>
+        </div>
+      </div>
+    </div>
+    <p class="rubro-nota dato">El día del panel y la charla de WhatsApp son una simulación con datos de ejemplo. Los estados son los mismos de Commerce: andando, se enciende con tus cuentas o se arma en el montaje.</p>
+  </div>
+  </div>
+</section>
 
 <!-- ═════════════ 0800 COMMERCE ═════════════ -->
 <section class="sec" id="commerce" aria-labelledby="t-commerce"><div class="in">
@@ -432,7 +657,7 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
   <div class="subtit sube"><h3>Cuatro variantes</h3><p class="dato">Elegís hasta dónde llega</p></div>
   <div class="precio-bloque variantes oscura sube" role="group" aria-label="Variantes y precios de 0800 Commerce">
     <div class="planes cuatro">
-      <article class="plan">
+      <article class="plan" data-v="1">
         <p class="dato">Variante 01</p><h4>Landing</h4>
         <p>Para oficios y servicios: cerrajería, gas, electricidad.</p>
         <div class="abono"><b>$78.000</b><span>/ mes</span></div>
@@ -445,7 +670,7 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
         </ul>
         <a class="btn borde" href="#" data-wa="Hola 0800, quiero consultar por 0800 Commerce Landing.">Consultar Landing</a>
       </article>
-      <article class="plan">
+      <article class="plan" data-v="2">
         <p class="dato">Variante 02</p><h4>Catálogo WhatsApp</h4>
         <p>Para comercios chicos y gastronomía que cierran por WhatsApp.</p>
         <div class="abono"><b>$234.000</b><span>/ mes</span></div>
@@ -458,7 +683,7 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
         </ul>
         <a class="btn borde" href="#" data-wa="Hola 0800, quiero consultar por 0800 Commerce Catálogo WhatsApp.">Consultar Catálogo</a>
       </article>
-      <article class="plan">
+      <article class="plan" data-v="3">
         <p class="dato">Variante 03</p><h4>Tienda + Mercado Pago</h4>
         <p>Para marcas que venden a todo el país.</p>
         <div class="abono"><b>$359.000</b><span>/ mes</span></div>
@@ -472,7 +697,7 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
         </ul>
         <a class="btn borde" href="#" data-wa="Hola 0800, quiero consultar por 0800 Commerce Tienda + Mercado Pago.">Consultar Tienda</a>
       </article>
-      <article class="plan">
+      <article class="plan" data-v="4">
         <p class="dato">Variante 04</p><h4>Plataforma</h4>
         <p>Para negocios con stock y operación: el sistema entero de esta página.</p>
         <div class="abono"><b>$468.000</b><span>/ mes</span></div>
@@ -506,6 +731,8 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
     </div>
   </div>
 </div></section>
+
+<div class="curva-banda" id="curva" aria-hidden="true"></div>
 
 <!-- ═════════════ 0800 CONTENT ═════════════ -->
 <section class="sec oscura" id="content" aria-labelledby="t-content"><div class="in">
@@ -597,6 +824,18 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
   </div>
 </div></section>
 
+<div class="andando" aria-label="Webs andando hoy"><div class="in">
+  <p class="dato">Andando hoy</p>
+  <div class="bucle" id="bucle"><div class="b-bucle-pista bucle-pista">
+    <a href="https://www.10mil11.com/" target="_blank" rel="noopener">10Mil11</a>
+    <a href="https://hugosushi.online/" target="_blank" rel="noopener">Hugo Sushi</a>
+    <a href="https://lacocinadejavi.com/" target="_blank" rel="noopener">La cocina de Javi</a>
+    <a href="https://www.fixit-electricidad.com/" target="_blank" rel="noopener">FIX IT!</a>
+    <a href="https://www.dobleaa.ink/" target="_blank" rel="noopener">Doble AA Tattoo</a>
+    <a href="https://la-advisory.com/" target="_blank" rel="noopener">advisory-la</a>
+  </div></div>
+</div></div>
+
 <!-- ═════════════ PORTFOLIO ═════════════ -->
 <section class="sec" id="portfolio" aria-labelledby="t-portfolio"><div class="in">
   <div class="cabeza sube">
@@ -612,116 +851,118 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
     <button type="button" data-filtro="vivo" aria-pressed="false">En vivo <span>6</span></button>
     <button type="button" data-filtro="demo" aria-pressed="false">Demos <span>12</span></button>
   </div>
+  <div class="filtro" role="group" aria-label="Filtrar el portfolio por rubro" id="filtro-rubro" hidden></div>
 
   <ul class="obras" id="obras">
-    <li class="obra" data-estado="vivo"><a href="https://www.10mil11.com/" target="_blank" rel="noopener">
+    <li class="obra" data-estado="vivo" data-id="10mil11" data-rubro="tiendas"><a href="https://www.10mil11.com/" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/10mil11.jpg" alt="Portada de 10Mil11: lámparas de hierro y caireles" width="960" height="600" loading="lazy"><span class="marca-estado vivo">En vivo</span></div>
       <div class="txt"><h3>10Mil11 <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Lámparas hechas a mano · La Plata</p>
         <p>Catálogo con los precios de su tienda y reserva con seña desde la misma página.</p>
         <ul class="chips"><li>Catálogo</li><li>Reserva con seña</li><li>Panel del dueño</li></ul></div></a></li>
 
-    <li class="obra" data-estado="vivo"><a href="https://hugosushi.online/" target="_blank" rel="noopener">
+    <li class="obra" data-estado="vivo" data-id="hugosushi" data-rubro="gastronomia"><a href="https://hugosushi.online/" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/hugosushi.jpg" alt="Portada de Hugo Sushi: el sushi del fin del mundo" width="960" height="600" loading="lazy"><span class="marca-estado vivo">En vivo</span></div>
       <div class="txt"><h3>Hugo Sushi <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Sushi · Ushuaia</p>
         <p>La carta sale del panel: nombre, foto, porciones y precio. El pedido se arma y llega por WhatsApp.</p>
         <ul class="chips"><li>Carta desde el panel</li><li>Descuentos</li><li>Pedido a WhatsApp</li></ul></div></a></li>
 
-    <li class="obra" data-estado="vivo"><a href="https://lacocinadejavi.com/" target="_blank" rel="noopener">
+    <li class="obra" data-estado="vivo" data-id="cocinadejavi" data-rubro="gastronomia"><a href="https://lacocinadejavi.com/" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/cocinadejavi.jpg" alt="Portada de La cocina de Javi: la próxima ronda se está cocinando" width="960" height="600" loading="lazy"><span class="marca-estado vivo">En vivo</span></div>
       <div class="txt"><h3>La cocina de Javi <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Cocina de autor · La Plata</p>
         <p>La ronda del barrio: reservás tu porción, gana el plato más pedido y mientras más son, más barato para todos.</p>
         <ul class="chips"><li>Pedidos</li><li>Precio por escalones</li><li>Referidos</li></ul></div></a></li>
 
-    <li class="obra" data-estado="vivo"><a href="https://www.fixit-electricidad.com/" target="_blank" rel="noopener">
+    <li class="obra" data-estado="vivo" data-id="fixit" data-rubro="oficios"><a href="https://www.fixit-electricidad.com/" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/fixit.jpg" alt="Portada de FIX IT! electricidad" width="960" height="600" loading="lazy"><span class="marca-estado vivo">En vivo</span></div>
       <div class="txt"><h3>FIX IT! electricidad <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Electricista · La Plata</p>
         <p>Un tablero de térmicas que arma la consulta y la manda a WhatsApp, con los trabajos a la vista.</p>
         <ul class="chips"><li>Consulta guiada</li><li>WhatsApp</li><li>Trabajos</li></ul></div></a></li>
 
-    <li class="obra" data-estado="vivo"><a href="https://www.dobleaa.ink/" target="_blank" rel="noopener">
+    <li class="obra" data-estado="vivo" data-id="dobleaa" data-rubro="estudios"><a href="https://www.dobleaa.ink/" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/dobleaa.jpg" alt="Portada de Doble AA Tattoo" width="960" height="600" loading="lazy"><span class="marca-estado vivo">En vivo</span></div>
       <div class="txt"><h3>Doble AA Tattoo <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Tatuador · Mallorca</p>
         <p>Realismo en negro y gris: la consulta con foto desde la portada y los cuidados del tatuaje.</p>
         <ul class="chips"><li>Consultas con foto</li><li>Galería</li><li>Cuidados</li></ul></div></a></li>
 
-    <li class="obra" data-estado="vivo"><a href="https://la-advisory.com/" target="_blank" rel="noopener">
+    <li class="obra" data-estado="vivo" data-id="laadvisory" data-rubro="estudios"><a href="https://la-advisory.com/" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/laadvisory.jpg" alt="Portada de advisory-la: tu negocio tiene potencial" width="960" height="600" loading="lazy"><span class="marca-estado vivo">En vivo</span></div>
       <div class="txt"><h3>advisory-la <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Asesoría para pymes</p>
         <p>Asesoría administrativa para pymes y emprendedores, contada en una página sobria y directa.</p>
         <ul class="chips"><li>Servicios</li><li>WhatsApp</li></ul></div></a></li>
 
-    <li class="obra" data-estado="demo"><a href="https://demos.hg-vl.com/demo-dstroytime/?firma=0800webs" target="_blank" rel="noopener">
+    <li class="obra" data-estado="demo" data-id="dstroy" data-rubro="tiendas"><a href="https://demos.hg-vl.com/demo-dstroytime/?firma=0800webs" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/dstroy.jpg" alt="Demo de D-STROY: prendas que destacan sin gritar" width="960" height="600" loading="lazy"><span class="marca-estado demo">Demo</span></div>
       <div class="txt"><h3>D-STROY <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Streetwear</p>
         <p>Una tienda con las prendas de su catálogo, los talles y el stock leídos del panel en vivo.</p>
         <ul class="chips"><li>Talles y stock</li><li>Pedido</li><li>Día y noche</li></ul></div></a></li>
 
-    <li class="obra" data-estado="demo"><a href="https://demos.hg-vl.com/demo-naos/?firma=0800webs" target="_blank" rel="noopener">
+    <li class="obra" data-estado="demo" data-id="naos" data-rubro="gastronomia"><a href="https://demos.hg-vl.com/demo-naos/?firma=0800webs" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/naos.jpg" alt="Demo de Nao's Burgers: las verdaderas burgers" width="960" height="600" loading="lazy"><span class="marca-estado demo">Demo</span></div>
       <div class="txt"><h3>Nao's Burgers <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Hamburguesería · La Plata</p>
         <p>La carta de su placa y un armador de pedido que sale escrito por WhatsApp, sin preguntar precios.</p>
         <ul class="chips"><li>Carta</li><li>Armador de pedido</li></ul></div></a></li>
 
-    <li class="obra" data-estado="demo"><a href="https://demos.hg-vl.com/demo-depiero/?firma=0800webs" target="_blank" rel="noopener">
+    <li class="obra" data-estado="demo" data-id="depiero" data-rubro="ferreterias"><a href="https://demos.hg-vl.com/demo-depiero/?firma=0800webs" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/depiero.jpg" alt="Demo de FDP Ferretería De Piero" width="960" height="600" loading="lazy"><span class="marca-estado demo">Demo</span></div>
       <div class="txt"><h3>Ferretería De Piero <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Ferretería · La Plata</p>
         <p>La cajonera de rubros, una nota de pedido como en el mostrador y un calibre para la bulonería.</p>
         <ul class="chips"><li>Nota de pedido</li><li>Calibre</li></ul></div></a></li>
 
-    <li class="obra" data-estado="demo"><a href="https://demos.hg-vl.com/demo-byehenry/?firma=0800webs" target="_blank" rel="noopener">
+    <li class="obra" data-estado="demo" data-id="byehenry" data-rubro="gastronomia"><a href="https://demos.hg-vl.com/demo-byehenry/?firma=0800webs" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/byehenry.jpg" alt="Demo de Bye Henry: burgers con motor de Ford" width="960" height="600" loading="lazy"><span class="marca-estado demo">Demo</span></div>
       <div class="txt"><h3>Bye Henry <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Burgers, pizzas y birra · La Plata</p>
         <p>Hamburguesas con nombre de Ford, promos para grupos grandes y la carta entera a mano.</p>
         <ul class="chips"><li>Carta</li><li>Promos para grupos</li></ul></div></a></li>
 
-    <li class="obra" data-estado="demo"><a href="https://demos.hg-vl.com/demo-cortez/?firma=0800webs" target="_blank" rel="noopener">
+    <li class="obra" data-estado="demo" data-id="cortez" data-rubro="gastronomia"><a href="https://demos.hg-vl.com/demo-cortez/?firma=0800webs" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/cortez.jpg" alt="Demo de Cortez: fuego, pastas frescas y sobremesa larga" width="960" height="600" loading="lazy"><span class="marca-estado demo">Demo</span></div>
       <div class="txt"><h3>Cortez <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Restaurante · La Plata</p>
         <p>Cocina de fuego y pastas frescas, con la reserva de mesa a un toque.</p>
         <ul class="chips"><li>Carta</li><li>Reservas</li></ul></div></a></li>
 
-    <li class="obra" data-estado="demo"><a href="https://demos.hg-vl.com/demo-surgenetics/?firma=0800webs" target="_blank" rel="noopener">
+    <li class="obra" data-estado="demo" data-id="surgenetics" data-rubro="tiendas"><a href="https://demos.hg-vl.com/demo-surgenetics/?firma=0800webs" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/surgenetics.jpg" alt="Demo de Sur Genetics: la genética del sur" width="960" height="600" loading="lazy"><span class="marca-estado demo">Demo</span></div>
       <div class="txt"><h3>Sur Genetics <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Banco de semillas · Argentina</p>
         <p>Veintidós genéticas con su ficha técnica completa y una experiencia inmersiva para recorrerlas.</p>
         <ul class="chips"><li>Catálogo</li><li>Inmersiva</li></ul></div></a></li>
 
-    <li class="obra" data-estado="demo"><a href="https://demos.hg-vl.com/demo-mb17/?firma=0800webs" target="_blank" rel="noopener">
+    <li class="obra" data-estado="demo" data-id="mb17" data-rubro="artistas"><a href="https://demos.hg-vl.com/demo-mb17/?firma=0800webs" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/mb17.jpg" alt="Demo de MB17 Sports Group: números que marcan la diferencia" width="960" height="600" loading="lazy"><span class="marca-estado demo">Demo</span></div>
       <div class="txt"><h3>MB17 Sports Group <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Representación de futbolistas</p>
         <p>El plantel en cartas que se dan vuelta, con los datos de cada jugador.</p>
         <ul class="chips"><li>Plantel</li><li>Cartas animadas</li></ul></div></a></li>
 
-    <li class="obra" data-estado="demo"><a href="https://demos.hg-vl.com/demo-schoolofheels/?firma=0800webs" target="_blank" rel="noopener">
+    <li class="obra" data-estado="demo" data-id="schoolofheels" data-rubro="estudios"><a href="https://demos.hg-vl.com/demo-schoolofheels/?firma=0800webs" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/schoolofheels.jpg" alt="Demo de School of Heels Ushuaia" width="960" height="600" loading="lazy"><span class="marca-estado demo">Demo</span></div>
       <div class="txt"><h3>School of Heels <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Escuela de baile · Ushuaia</p>
         <p>Heels y street dance: clases, horarios y sus propios videos como portada.</p>
         <ul class="chips"><li>Clases</li><li>Video</li></ul></div></a></li>
 
-    <li class="obra" data-estado="demo"><a href="https://demos.hg-vl.com/demo-yarcho/?firma=0800webs" target="_blank" rel="noopener">
+    <li class="obra" data-estado="demo" data-id="yarcho" data-rubro="artistas"><a href="https://demos.hg-vl.com/demo-yarcho/?firma=0800webs" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/yarcho.jpg" alt="Demo de Juan Yarcho, fotografía" width="960" height="600" loading="lazy"><span class="marca-estado demo">Demo</span></div>
       <div class="txt"><h3>Juan Yarcho <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Fotografía · Patagonia</p>
         <p>Obra en ediciones limitadas, sin recortar, a pantalla completa.</p>
         <ul class="chips"><li>Obra</li><li>Gráfica en tiempo real</li></ul></div></a></li>
 
-    <li class="obra" data-estado="demo"><a href="https://demos.hg-vl.com/demo-malena/?firma=0800webs" target="_blank" rel="noopener">
+    <li class="obra" data-estado="demo" data-id="malena" data-rubro="artistas"><a href="https://demos.hg-vl.com/demo-malena/?firma=0800webs" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/malena.jpg" alt="Demo de Malena Narvay: le metimos techno al pop" width="960" height="600" loading="lazy"><span class="marca-estado demo">Demo</span></div>
       <div class="txt"><h3>Malena Narvay <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Artista · pop y techno</p>
         <p>Lanzamientos, fechas y su comunidad, con la estética de su show.</p>
         <ul class="chips"><li>Artista</li><li>Comunidad</li></ul></div></a></li>
 
-    <li class="obra" data-estado="demo"><a href="https://demos.hg-vl.com/demo-hospedaje/?firma=0800webs" target="_blank" rel="noopener">
+    <li class="obra" data-estado="demo" data-id="ultimofaro" data-rubro="hospedaje"><a href="https://demos.hg-vl.com/demo-hospedaje/?firma=0800webs" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/ultimofaro.jpg" alt="Demo de Último Faro: dormí en el fin del mundo" width="960" height="600" loading="lazy"><span class="marca-estado demo">Demo</span></div>
       <div class="txt"><h3>Último Faro <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Hospedaje · Ushuaia · ficticio</p>
         <p>Una hostería inventada para mostrar el rubro: disponibilidad, seña y el planificador del día.</p>
         <ul class="chips"><li>Disponibilidad</li><li>Seña</li><li>Dos idiomas</li></ul></div></a></li>
 
-    <li class="obra" data-estado="demo"><a href="https://demos.hg-vl.com/demo-ushber/web.html?firma=0800webs" target="_blank" rel="noopener">
+    <li class="obra" data-estado="demo" data-id="ushber" data-rubro="hospedaje"><a href="https://demos.hg-vl.com/demo-ushber/web.html?firma=0800webs" target="_blank" rel="noopener">
       <div class="foto"><img src="img/portfolio/ushber.jpg" alt="Demo de Ushber: tu viaje, fin del mundo" width="960" height="600" loading="lazy"><span class="marca-estado demo">Demo</span></div>
       <div class="txt"><h3>Ushber <span class="fl" aria-hidden="true">↗</span></h3><p class="dato">Viajes · Ushuaia · concepto</p>
         <p>Una app instalable para pedir viaje con el precio fijo antes de subir. Choferes y tarifas de ficción.</p>
         <ul class="chips"><li>App instalable</li><li>Mapa</li></ul></div></a></li>
   </ul>
+  <p class="aclaracion" id="obras-vacio" hidden>No hay webs de ese rubro con este filtro. Probá con «Todas».</p>
 
   <p class="aclaracion sube">Las demos no son la web oficial de esas marcas: son propuestas que les armamos con su material para que la vean andando. Las marcadas como ficticio o concepto usan datos inventados.</p>
 </div></section>
@@ -749,7 +990,9 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
 </div></section>
 
 <!-- ═════════════ CIERRE ═════════════ -->
-<section class="sec oscura cierre" id="hablemos" aria-labelledby="t-hablemos"><div class="in">
+<section class="sec oscura cierre" id="hablemos" aria-labelledby="t-hablemos">
+<canvas class="hilos" id="hilos" aria-hidden="true"></canvas>
+<div class="in">
   <p class="rotulo">Hablemos</p>
   <h2 id="t-hablemos">¿Lo vemos con lo tuyo adentro?</h2>
   <p class="lede dim">Escribinos y te lo mostramos andando con tus productos. Si no te sirve, nos lo decís y listo: no hay nada firmado.</p>
@@ -758,18 +1001,26 @@ h3{font:800 20px/1.15 var(--f);letter-spacing:-.01em}
     <a class="btn" href="#" data-wa="Hola 0800, quiero verlo andando con lo de mi marca.">Escribinos por WhatsApp <span class="fl">→</span></a>
     <a class="btn borde" href="mailto:hola@0800webs.com">hola@0800webs.com</a>
   </div>
+  <div class="que-tenes">
+    <p class="dato">¿Qué tenés? Tocá el tuyo y escribinos</p>
+    <nav aria-label="Escribinos según tu rubro" id="que-tenes"></nav>
+  </div>
 </div></section>
 
 </main>
 
 <footer class="pie"><div class="in">
   <p><b>0800</b><span class="dato">0800 Commerce · 0800 Content</span></p>
-  <p class="dato">La Plata, Buenos Aires · Precios en dólares estadounidenses</p>
+  <p class="dato">La Plata, Buenos Aires · Precios en pesos argentinos</p>
   <p><a href="mailto:hola@0800webs.com">hola@0800webs.com</a></p>
-</div></footer>
+</div>
+<div class="in"><p class="gigante" id="gigante" aria-hidden="true">0800</p></div>
+</footer>
 
 <a class="fija" id="fija" href="#" data-wa="Hola 0800, quiero consultar por Commerce o Content para mi marca.">WhatsApp →</a>
 
+<script src="bits.js?v=2"></script>
+<script src="rubros.js?v=2"></script>
 <script>
 /* ═══════════════════════════════════════════════════════════
    CONFIG · lo que se toca seguido
@@ -787,21 +1038,27 @@ document.querySelectorAll('[data-wa]').forEach(function (a) {
   a.rel = 'noopener';
 });
 
-/* filtro del portfolio */
-(function () {
-  var botones = document.querySelectorAll('.filtro button');
-  var obras = document.querySelectorAll('#obras .obra');
-  botones.forEach(function (b) {
-    b.addEventListener('click', function () {
-      var f = b.getAttribute('data-filtro');
-      botones.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-      obras.forEach(function (o) {
-        o.hidden = f !== 'todas' && o.getAttribute('data-estado') !== f;
-        o.querySelectorAll('.sube').forEach(function (e) { e.classList.add('ya'); });
-      });
-    });
+/* filtro del portfolio: por estado (en vivo / demo) y por rubro */
+var FILTRO = { estado: 'todas', rubro: 'todos' };
+function filtrarPortfolio() {
+  var hay = 0;
+  document.querySelectorAll('#obras .obra').forEach(function (o) {
+    o.hidden = (FILTRO.estado !== 'todas' && o.getAttribute('data-estado') !== FILTRO.estado) ||
+               (FILTRO.rubro !== 'todos' && o.getAttribute('data-rubro') !== FILTRO.rubro);
+    if (!o.hidden) hay++;
   });
-})();
+  document.getElementById('obras-vacio').hidden = hay > 0;
+  document.querySelectorAll('[data-filtro]').forEach(function (x) { x.setAttribute('aria-pressed', x.getAttribute('data-filtro') === FILTRO.estado ? 'true' : 'false'); });
+  document.querySelectorAll('[data-rubro-f]').forEach(function (x) { x.setAttribute('aria-pressed', x.getAttribute('data-rubro-f') === FILTRO.rubro ? 'true' : 'false'); });
+  if (window.CROMA) window.CROMA.colocar();
+}
+document.addEventListener('click', function (e) {
+  var b = e.target.closest && e.target.closest('[data-filtro],[data-rubro-f]');
+  if (!b) return;
+  if (b.hasAttribute('data-filtro')) FILTRO.estado = b.getAttribute('data-filtro');
+  else FILTRO.rubro = b.getAttribute('data-rubro-f');
+  filtrarPortfolio();
+});
 
 /* aparición al bajar, y el botón fijo cuando el hero ya pasó */
 (function () {
@@ -904,6 +1161,213 @@ document.querySelectorAll('[data-wa]').forEach(function (a) {
   new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible) arrancar(); }).observe(cv);
   document.addEventListener('visibilitychange', function () { if (!document.hidden) arrancar(); });
   arrancar();
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   POR RUBRO · arma la sección desde rubros.js y enciende los
+   bits (bits.js). Si falta alguno de los dos, la página queda
+   como estaba, sin la sección armada.
+   ═══════════════════════════════════════════════════════════ */
+(function () {
+  if (!window.BITS || !window.RUBROS) return;
+  var B = window.BITS, R = window.RUBROS, V = window.VARIANTES, P = window.PLANES;
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var wa = function (t) { return 'https://wa.me/' + CFG.WA + '?text=' + encodeURIComponent(t); };
+  var esc = function (t) { return String(t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var pesos = function (n) { return '$' + n.toLocaleString('es-AR'); };
+  var ir = function (el) { el.scrollIntoView({ behavior: B.QUIETO ? 'auto' : 'smooth', block: 'start' }); };
+  var ESTADO = { ok: ['ok', 'Andando'], cuentas: ['paso', 'Se enciende con tus cuentas'], montaje: ['paso', 'Se arma en el montaje'], content: ['content', 'Con 0800 Content'] };
+  var DESDE = { 1: 'desde Landing', 2: 'desde Catálogo', 3: 'desde Tienda', 4: 'en Plataforma' };
+
+  /* las obras del portfolio, leídas del HTML */
+  var OBRAS = {};
+  $$('#obras .obra').forEach(function (li) {
+    OBRAS[li.getAttribute('data-id')] = {
+      nombre: li.querySelector('h3').firstChild.textContent.trim(),
+      href: li.querySelector('a').href,
+      img: li.querySelector('img').getAttribute('src'),
+      estado: li.getAttribute('data-estado'),
+      rubro: li.getAttribute('data-rubro')
+    };
+  });
+  var obrasDe = function (r) { return r.obras.map(function (id) { return OBRAS[id]; }).filter(Boolean); };
+
+  /* ── las pestañas ── */
+  $('#rubros-lista').innerHTML = R.map(function (r, i) {
+    return '<li role="presentation"><button type="button" role="tab" id="tab-' + r.slug + '" aria-controls="rubro-panel" aria-selected="' + (i === 0) + '">' + esc(r.nombre) + '</button></li>';
+  }).join('');
+
+  /* ── el panel ── */
+  var ej = B.rebotar($('#r-ej'));
+  var feed = B.lista($('#r-feed'), { cada: 2100, max: 6, iniciales: 4 });
+  var msj = B.tipear($('#r-msj'), { vel: 24 });
+  var respEl = $('#r-resp'), resp = B.tipear(respEl, { vel: 30 }), turno = 0;
+  function charla(r) {
+    var t = ++turno;
+    respEl.classList.add('b-off'); resp.poner('');
+    msj.poner(r.msj, function () {
+      if (t !== turno || !r.resp) return;
+      setTimeout(function () { if (t !== turno) return; respEl.classList.remove('b-off'); resp.poner(r.resp); }, 650);
+    });
+  }
+  var abono = B.rodillo($('#r-abono'));
+  var bentoEl = $('#r-bento'), bento = null, modo = 'arranque', actual = 0;
+
+  function reanimar(el, texto, como) {
+    el.removeAttribute('data-bit'); el.classList.remove('b-split', 'b-blur', 'b-ya');
+    el.textContent = texto;
+    if (como === 'split') B.partirLetras(el, { paso: 14 }); else B.desenfocar(el, { paso: 22 });
+  }
+  function pintarBento(r) {
+    bentoEl.innerHTML = r.features.map(function (f, i) {
+      var e = ESTADO[f.e], n = '0' + (i + 1);
+      var desde = f.e === 'content' ? '0800 Content' : DESDE[f.v];
+      return '<article class="b-card f' + (i + 1) + '"><span class="b-luz" aria-hidden="true"></span><canvas class="b-est" aria-hidden="true"></canvas>' +
+        (i < 2 ? '<span class="fondo-n" aria-hidden="true">' + n + '</span>' : '') +
+        '<div class="arriba"><span class="num" aria-hidden="true">' + n + '</span><span class="var v' + f.v + '">' + desde + '</span></div>' +
+        '<h4>' + esc(f.t) + '</h4><p>' + esc(f.d) + '</p><span class="estado ' + e[0] + '">' + e[1] + '</span></article>';
+    }).join('');
+    if (bento) bento.refrescar(); else bento = B.bento(bentoEl, { radio: 300, estrellas: 16 });
+  }
+  function pintarVariante(r) {
+    var n = r[modo], v = V[n];
+    $('#r-vnom').textContent = v.nombre;
+    abono.poner(v.abono);
+    $('#r-setup').textContent = '+ ' + pesos(v.setup) + ' de setup, una sola vez';
+    $('#r-porque').textContent = r.porque[n] || '';
+    $('#r-ver').setAttribute('data-v', n);
+    /* en Commerce, la variante que le toca a este rubro brilla y dice para quién */
+    $$('.planes.cuatro .plan').forEach(function (p) {
+      var es = +p.getAttribute('data-v') === n;
+      p.querySelectorAll('.para-tu-rubro').forEach(function (x) { x.remove(); });
+      if (es) {
+        B.estrella(p, { vel: 5 });
+        var et = document.createElement('span'); et.className = 'para-tu-rubro';
+        et.textContent = r.nombre + ' · ' + (modo === 'arranque' ? 'para arrancar' : 'completo');
+        p.appendChild(et);
+      } else B.sinEstrella(p);
+    });
+  }
+  function elegir(i) {
+    actual = i;
+    var r = R[i], obras = obrasDe(r);
+    $('#rubro-panel').setAttribute('aria-labelledby', 'tab-' + r.slug);
+    $('#r-quien').textContent = r.quien;
+    reanimar($('#r-tit'), r.titular, 'split');
+    reanimar($('#r-bajada'), r.bajada, 'blur');
+    ej.poner(obras);
+    $('#r-ej-pie').innerHTML = (obras.length === 1 ? 'Una web de este rubro' : obras.length + ' webs de este rubro') +
+      ' · <button type="button" class="ver-port" style="color:inherit;text-decoration:underline;text-underline-offset:3px;font:inherit;letter-spacing:inherit;text-transform:inherit">verlas en el portfolio ↓</button>';
+    pintarBento(r);
+    feed.poner(r.feed);
+    charla(r);
+    pintarVariante(r);
+    $('#r-plan').textContent = 'plan ' + r.content.plan + ' de Content · ' + pesos(P[r.content.plan]) + ' / mes';
+    $('#r-piezas').innerHTML = r.content.piezas.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
+    var c = $('#r-wa'); c.href = wa(r.wa); c.target = '_blank'; c.rel = 'noopener';
+  }
+
+  var tabs = B.goo($('#rubros-tabs'), {
+    alElegir: function (i) { elegir(i); history.replaceState(null, '', '#' + R[i].slug); }
+  });
+  $$('.reco .modo button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      modo = b.getAttribute('data-modo');
+      $$('.reco .modo button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      pintarVariante(R[actual]);
+    });
+  });
+  $('#r-ver').addEventListener('click', function (e) {
+    var p = $('.planes.cuatro .plan[data-v="' + this.getAttribute('data-v') + '"]');
+    if (!p) return;
+    e.preventDefault();
+    p.scrollIntoView({ behavior: B.QUIETO ? 'auto' : 'smooth', block: 'center' });
+  });
+  $('#r-ej-pie').addEventListener('click', function (e) {
+    if (!e.target.closest('.ver-port')) return;
+    FILTRO.rubro = R[actual].slug; FILTRO.estado = 'todas'; filtrarPortfolio();
+    ir(document.getElementById('portfolio'));
+  });
+
+  /* un rubro por la dirección: 0800webs.com/#gastronomia abre ese rubro */
+  function desdeHash(desplazar) {
+    var slug = location.hash.slice(1), i = R.findIndex(function (r) { return r.slug === slug; });
+    if (i < 0) return false;
+    tabs.elegir(i, { avisar: false }); elegir(i);
+    if (desplazar) setTimeout(function () { ir(document.getElementById('rubros')); }, 60);
+    return true;
+  }
+  if (!desdeHash(true)) elegir(0);
+  addEventListener('hashchange', function () { desdeHash(true); });
+
+  /* ── hero: «Tengo una …» rota por los rubros y lleva al elegido ── */
+  var rota = B.rotar($('#tengo-rota'), R.map(function (r) { return r.rota; }), { cada: 2200 });
+  $('#tengo').addEventListener('click', function (e) {
+    e.preventDefault();
+    var i = rota.actual();
+    tabs.elegir(i, { avisar: false }); elegir(i);
+    history.replaceState(null, '', '#' + R[i].slug);
+    ir(document.getElementById('rubros'));
+  });
+  B.circular($('#sello'), 'PRIMERO LA VES ✳ DESPUÉS HABLAMOS ✳ DESPUÉS PAGÁS ✳ ', { vuelta: 24 });
+  B.proximidad($('#lede-hero'));
+  $$('.linea .precio').forEach(B.brilloTexto);
+  B.velocidad($('#tira'));
+
+  /* ── portfolio: filtro por rubro, inclinación y croma ── */
+  var cuenta = {};
+  Object.keys(OBRAS).forEach(function (id) { var r = OBRAS[id].rubro; cuenta[r] = (cuenta[r] || 0) + 1; });
+  var fr = $('#filtro-rubro');
+  fr.innerHTML = '<button type="button" data-rubro-f="todos" aria-pressed="true">Todos los rubros</button>' +
+    R.map(function (r) { return '<button type="button" data-rubro-f="' + r.slug + '" aria-pressed="false">' + esc(r.nombre) + ' <span>' + (cuenta[r.slug] || 0) + '</span></button>'; }).join('');
+  fr.hidden = false;
+  $$('#obras .obra').forEach(function (li) {
+    var f = li.querySelector('.foto'); f.setAttribute('data-croma', '');
+    B.inclinar(f, { amp: 8, escala: 1.02, leyenda: li.getAttribute('data-estado') === 'vivo' ? 'En vivo · abrir ↗' : 'Demo · abrir ↗', contenedor: li });
+  });
+  window.CROMA = B.croma($('#obras'), { radio: 320 });
+  B.bucle($('#bucle'), { vel: 50 });
+  B.curva($('#curva'), 'La tienda que cobra ✳ la caja que cuadra ✳ el contenido sale de lo que vendés ✳ ', { vel: 1.1, arco: 110 });
+
+  /* ── cierre: «¿Qué tenés?» → WhatsApp con el rubro ya escrito ── */
+  var qt = $('#que-tenes');
+  qt.innerHTML = R.map(function (r) {
+    var grupo = '<span class="t">' + esc(r.nombre) + '</span>' + obrasDe(r).map(function (o) { return '<i data-img="' + esc(o.img) + '"></i>'; }).join('');
+    var cuatro = grupo + grupo + grupo + grupo;
+    return '<a class="b-flow-it" href="' + esc(wa(r.wa)) + '" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp: tengo ' + esc(r.rota) + '">' +
+      '<span class="b-flow-tx" aria-hidden="true">' + esc(r.nombre) + '<small>' + esc(r.quien) + '</small></span>' +
+      '<span class="b-flow-mq" aria-hidden="true"><span class="b-flow-mq-in"><span class="b-flow-pista">' + cuatro + cuatro + '</span></span></span></a>';
+  }).join('');
+  $$('.b-flow-it', qt).forEach(function (a) {
+    a.addEventListener('pointerenter', function () {
+      $$('i[data-img]', a).forEach(function (i) { i.style.backgroundImage = 'url("' + i.getAttribute('data-img') + '")'; i.removeAttribute('data-img'); });
+    }, { once: true });
+  });
+  B.fluir(qt);
+  B.hilos($('#hilos'), { lineas: 28, amplitud: 1.1 });
+
+  /* ── texto: rótulos que se descifran, títulos que suben, bajadas que se enfocan ── */
+  $$('.rotulo').forEach(function (el) { B.descifrar(el); });
+  $$('.cabeza h2, .cierre h2').forEach(function (el) { if (el.id !== 't-como') B.partirLetras(el); });
+  $$('.cabeza .lede').forEach(function (el) { if (!el.closest('#como')) B.desenfocar(el); });
+  B.enfocar($('#t-como'));
+  B.revelarScroll($('#como .lede'));
+  B.descifrar($('.cierre .tel'), { juego: '0123456789' });
+  $$('.abono b, .setup-comun > b, .plan dd').forEach(function (el) { B.contar(el); });
+
+  /* ── tarjetas y botones ── */
+  $$('.ficha, .pasos li, .duenos > div').forEach(function (el) { B.foco(el); });
+  $$('.familia, .reglas > div, .mes li').forEach(function (el) { B.foco(el, { color: 'rgba(201,247,60,.12)' }); });
+  $$('.plan').forEach(B.reflejo);
+  $$('.cierre .acciones .btn, #r-wa, .nav .btn, .variantes-pie .btn').forEach(function (el) { B.iman(el); });
+  B.estrella($('.cierre .acciones .btn'), { fuera: true, vel: 5 });
+  B.estrella($('#r-wa'), { fuera: true, vel: 5 });
+
+  /* ── fondos y remate ── */
+  B.puntos($('#puntos'), { gap: 28 });
+  B.presion($('#gigante'));
+  B.chispas();
 })();
 </script>
 </body>
